@@ -41,16 +41,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body>
         <a
           href="#main"
-          className="sr-only z-10 rounded bg-surface px-4 py-2 text-fg focus:not-sr-only focus:fixed focus:top-4 focus:left-4"
+          className="sr-only z-50 rounded-md bg-accent px-4 py-3 text-on-accent focus:not-sr-only focus:fixed focus:top-4 focus:left-4"
         >
           Skip to content
         </a>
-        <div className="min-h-dvh lg:grid lg:grid-cols-[16rem_minmax(0,1fr)]">
+        {/* The page background is static; only the main column scrolls past the sticky
+            sidebar (document scrolling, no nested scroll container). */}
+        <div className="min-h-dvh md:grid md:grid-cols-[13.5rem_minmax(0,1fr)] lg:grid-cols-[16rem_minmax(0,1fr)] xl:grid-cols-[18rem_minmax(0,1fr)]">
           <SiteHeader />
           <main
             id="main"
             tabIndex={-1}
-            className="px-4 py-10 outline-none sm:px-8 lg:px-16 lg:py-16"
+            className="min-w-0 px-5 pt-10 pb-24 outline-none sm:px-8 md:px-10 md:pt-14 lg:px-16 lg:pt-20 xl:px-24"
           >
             {children}
           </main>

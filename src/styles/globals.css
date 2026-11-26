@@ -3,8 +3,8 @@
 
 /*
  * Tailwind's default palette is disabled: only brand tokens exist as colour
- * utilities (bg-bg, text-fg, text-fg-muted, bg-surface, border-border,
- * text-link, bg-accent, text-on-accent, border-control, …).
+ * utilities (bg-bg, bg-surface, bg-surface-2, text-fg, text-fg-muted,
+ * text-fg-subtle, border-border, border-control, bg-accent, text-on-accent, …).
  */
 @theme {
   --color-*: initial;
@@ -14,17 +14,21 @@
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
   --color-fg: var(--fg);
   --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-border: var(--border);
+  --color-control: var(--control-border);
+  --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-on-accent: var(--on-accent);
-  --color-link: var(--link);
-  --color-link-hover: var(--link-hover);
-  --color-border: var(--border);
-  --color-control: var(--control-border);
-  --color-highlight: var(--highlight);
-  --color-marker: var(--marker);
+  --color-focus: var(--focus);
+  --color-overlay: var(--overlay);
+  --color-glass-border: var(--glass-border);
   --color-transparent: transparent;
   --color-current: currentColor;
 
@@ -33,22 +37,53 @@
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 }
 
+/*
+ * Glass (brand guide §2, ADR-018): only for the sidebar, the mobile top bar and menu,
+ * and floating controls. The tint alone meets AA for text (tokens.test.ts), and
+ * tokens.css swaps it for an opaque surface where backdrop-filter is unsupported.
+ * This is the only place blur is allowed (scripts/check-brand.mjs).
+ */
+@utility glass {
+  background-color: var(--glass);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
+}
+
 @layer base {
   html {
     background-color: var(--bg);
+    /* Sticky mobile top bar: keep anchored sections clear of it. */
+    scroll-padding-top: 5rem;
+  }
+
+  @media (min-width: 48rem) {
+    html {
+      scroll-padding-top: 2rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   body {
     @apply bg-bg font-sans text-fg antialiased;
     font-size: 1.0625rem; /* ~17px */
-    line-height: 1.6;
+    line-height: 1.65;
+    /* Theme switch: a short, restrained cross-fade. */
+    transition:
+      background-color 200ms ease,
+      color 200ms ease;
   }
 
   h1,
   h2,
   h3 {
-    @apply font-serif text-fg;
-    line-height: 1.25;
+    @apply font-serif font-normal text-fg;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
     text-wrap: balance;
   }
 
@@ -56,17 +91,23 @@
     text-wrap: pretty;
   }
 
-  /* Links are recognisable without colour alone (brand guide §6). */
+  /* Monochrome: links are recognisable by their underline, not by colour (§6). */
   a {
-    @apply text-link underline decoration-1 underline-offset-[0.2em];
+    @apply text-link underline decoration-1 underline-offset-[0.22em];
+    transition: color 150ms ease;
   }
   a:hover {
     @apply text-link-hover;
   }
 
   :focus-visible {
-    outline: 2px solid var(--link);
+    outline: 2px solid var(--focus);
     outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: var(--fg);
+    color: var(--bg);
   }
 
   @media (prefers-reduced-motion: reduce) {

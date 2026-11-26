@@ -16,7 +16,7 @@ npm run build          # production build; shows which routes are static (○). 
 npm run lint           # ESLint (next + full jsx-a11y recommended)
 npm run typecheck      # next typegen && tsc --noEmit (typegen creates LayoutProps/PageProps globals)
 npm run format         # Prettier (with Tailwind class sorting)
-npm run check:brand    # fails on raw colours, Tailwind palette classes, gradients, blur outside tokens.css
+npm run check:brand    # fails on raw colours outside tokens.css, palette classes, gradients, blur outside the `glass` utility
 npm test               # Vitest unit tests (src/**/*.test.ts[x])
 npx vitest run src/lib/theme.test.ts      # one file;  add -t "name" to filter by test name
 npm run test:e2e       # Playwright + axe against `next start` on :3100; run `npm run build` first
@@ -36,7 +36,7 @@ Node 26 LTS (`.nvmrc`); `engines` requires 22.12 or newer. On Node 20, Vitest's 
 ## Non-negotiable rules
 
 - **Never invent portfolio content.** That covers achievements, roles, employers, dates, project outcomes, metrics, publications, certifications, testimonials and biography. Unfinished sections use `InDevelopment` or clearly marked placeholders. If a project's evidence section has no owner-supplied content, hide it.
-- **The brand guide is the visual source of truth.** Read `docs/brand-style-guide.md` before touching any styling. Colours exist only as tokens in `src/styles/tokens.css`, exposed as Tailwind utilities (`bg-bg`, `bg-surface`, `text-fg`, `text-fg-muted`, `text-link`, `bg-accent`, `text-on-accent`, `border-border`, `border-control`, …). Tailwind's default palette is disabled. `tokens.test.ts` enforces AA contrast, and `check:brand` enforces no raw colours, purple, gradients or blur. Never edit tokens or the guide without Sheila's approval.
+- **The brand guide is the visual source of truth.** Read `docs/brand-style-guide.md` before touching any styling. The palette is **strictly monochrome** (ADR-018): colours exist only as neutral-grey tokens in `src/styles/tokens.css`, exposed as Tailwind utilities (`bg-bg`, `bg-surface`, `bg-surface-2`, `text-fg`, `text-fg-muted`, `text-fg-subtle`, `border-border`, `border-control`, `bg-accent`, `text-on-accent`, …). Tailwind's default palette is disabled. Glass is one `glass` utility, for navigation surfaces only. `tokens.test.ts` enforces AA contrast (including text on glass) and neutral greys; `check:brand` enforces no raw colours, gradients or stray blur. Page sections that should appear in the sidebar use `<Section>` (`src/components/layout/Section.tsx`). Never edit tokens or the guide without Sheila's approval.
 - **No AI attribution:** never add `Co-Authored-By: Claude` trailers, "Generated with Claude Code" lines or any other AI attribution to commits or PRs (owner instruction).
 - **Private material:** the GitHub repository is public. Source CVs and other personal documents live in the git-ignored `private/` folder. Never commit them, and never copy contact details (phone number, address) into tracked files.
 - **Git:** the default branch is `main`. Use feature branches named `<type>/<short-description>` and Conventional Commits. Never merge into `main`, force-push it, change repository settings or permissions, or deploy to production without explicit approval. Never commit `.env*` files except `.env.example`.

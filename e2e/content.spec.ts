@@ -79,3 +79,47 @@ test("about page shows the profile biography", async ({ page }) => {
     page.getByText("[Sample] Biography placeholder. Replace in Studio."),
   ).toBeVisible();
 });
+
+test.describe("section navigation", () => {
+  test("lists the page's sections and marks the one chosen", async ({
+    page,
+    isMobile,
+  }) => {
+    await page.goto("/projects/sample-project-one");
+    if (isMobile) await page.getByRole("button", { name: "Menu" }).click();
+    const sections = page
+      .getByRole("navigation", { name: "Primary" })
+      .getByRole("list", { name: "On this page" });
+    await expect(sections.getByRole("link")).toHaveText([
+      "Context",
+      "Problem",
+      "Highlights",
+    ]);
+
+    await sections.getByRole("link", { name: "Problem" }).click();
+    await expect(page).toHaveURL(/#problem$/);
+    if (isMobile) {
+      // The menu closes and the top bar says where you are.
+      await expect(page.getByRole("banner")).toContainText("Work / Problem");
+    } else {
+      await expect(
+        sections.getByRole("link", { name: "Problem" }),
+      ).toHaveAttribute("aria-current", "location");
+    }
+  });
+
+  test("desktop sidebar stays in place while the page scrolls", async ({
+    page,
+    isMobile,
+  }) => {
+    test.skip(isMobile, "desktop only");
+    await page.setViewportSize({ width: 1280, height: 500 });
+    await page.goto("/projects/sample-project-one");
+    await page.mouse.wheel(0, 1500);
+    await expect
+      .poll(() => page.evaluate(() => window.scrollY))
+      .toBeGreaterThan(0);
+    const box = await page.getByRole("banner").boundingBox();
+    expect(Math.abs(Math.round(box?.y ?? -1))).toBe(0);
+  });
+});

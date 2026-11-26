@@ -16,20 +16,34 @@ export default async function Page() {
       <PageIntro title="Disciplines">
         <p>One body of work, organised by discipline.</p>
       </PageIntro>
-      <ul className="flex max-w-[68ch] flex-col gap-6">
-        {disciplines.map((discipline) => (
-          <li key={discipline.slug} className="border-t border-border pt-6">
-            <h2 className="text-xl">
-              <Link href={`/disciplines/${discipline.slug}`}>
+      <ol className="border-b border-border">
+        {disciplines.map((discipline, index) => (
+          <li
+            key={discipline.slug}
+            className="grid gap-x-8 gap-y-2 border-t border-border py-8 md:grid-cols-[2.5rem_minmax(0,1fr)] xl:grid-cols-[2.5rem_minmax(0,1fr)_minmax(0,1fr)]"
+          >
+            <span
+              aria-hidden="true"
+              className="font-mono text-xs text-fg-subtle md:pt-2.5"
+            >
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <h2 className="text-2xl md:text-[1.75rem]">
+              <Link
+                href={`/disciplines/${discipline.slug}`}
+                className="decoration-fg-subtle hover:decoration-current"
+              >
                 {discipline.name}
               </Link>
             </h2>
             {discipline.tagline ? (
-              <p className="mt-2 text-fg-muted">{discipline.tagline}</p>
+              <p className="text-fg-muted md:col-start-2 xl:col-start-3 xl:pt-2">
+                {discipline.tagline}
+              </p>
             ) : null}
           </li>
         ))}
-      </ul>
+      </ol>
     </>
   );
 }

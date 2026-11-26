@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { ProjectList } from "@/components/content/ProjectCard";
+import { Section } from "@/components/layout/Section";
 import { getProfile, listDisciplines, listProjects } from "@/lib/content";
 import { site } from "@/lib/site";
 
@@ -22,60 +23,47 @@ export default async function Home() {
     .slice(0, FEATURED_LIMIT);
 
   return (
-    <div className="max-w-[68ch]">
-      <h1 className="text-4xl sm:text-5xl">{profile?.fullName ?? site.name}</h1>
-      <p className="mt-6 text-xl text-fg-muted">
+    <>
+      <header className="max-w-[22ch] md:pt-6">
+        <h1 className="text-[clamp(2.75rem,1.8rem+4vw,5.25rem)] leading-[1.02] tracking-[-0.02em]">
+          {profile?.fullName ?? site.name}
+        </h1>
+      </header>
+      <p className="mt-8 max-w-[52ch] text-lg text-fg-muted md:text-xl">
         {profile?.headline ?? site.positioning}
       </p>
 
+      {featured.length > 0 ? (
+        <Section id="selected-work" title="Selected work">
+          <ProjectList projects={featured} />
+          <p className="mt-8">
+            <Link href="/projects">All work</Link>
+          </p>
+        </Section>
+      ) : null}
+
       {disciplines.length > 0 ? (
-        <section
-          aria-labelledby="disciplines-heading"
-          className="mt-14 border-t border-border pt-8"
-        >
-          <h2 id="disciplines-heading" className="text-2xl">
-            Disciplines
-          </h2>
-          <ul className="mt-4 flex flex-col gap-2">
+        <Section id="disciplines" title="Disciplines">
+          <ul className="grid gap-x-10 sm:grid-cols-2">
             {disciplines.map((discipline) => (
-              <li key={discipline.slug}>
-                <Link href={`/disciplines/${discipline.slug}`}>
+              <li key={discipline.slug} className="border-t border-border">
+                <Link
+                  href={`/disciplines/${discipline.slug}`}
+                  className="flex min-h-14 items-center text-lg decoration-fg-subtle hover:decoration-current"
+                >
                   {discipline.name}
                 </Link>
               </li>
             ))}
           </ul>
-        </section>
+        </Section>
       ) : null}
 
-      {featured.length > 0 ? (
-        <section
-          aria-labelledby="featured-heading"
-          className="mt-14 border-t border-border pt-8"
-        >
-          <h2 id="featured-heading" className="text-2xl">
-            Selected work
-          </h2>
-          <div className="mt-6">
-            <ProjectList projects={featured} />
-          </div>
-          <p className="mt-8">
-            <Link href="/projects">All work</Link>
-          </p>
-        </section>
-      ) : null}
-
-      <section
-        aria-labelledby="contact-heading"
-        className="mt-14 border-t border-border pt-8"
-      >
-        <h2 id="contact-heading" className="text-2xl">
-          Get in touch
-        </h2>
-        <p className="mt-4">
+      <Section id="get-in-touch" title="Get in touch">
+        <p>
           <Link href="/contact">Contact Sheila</Link>
         </p>
-      </section>
-    </div>
+      </Section>
+    </>
   );
 }

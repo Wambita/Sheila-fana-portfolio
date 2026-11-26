@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 import { Prose } from "@/components/content/Prose";
+import { Loading } from "@/components/layout/Loading";
+import { Section } from "@/components/layout/Section";
 import {
   getDiscipline,
   listDisciplines,
@@ -27,10 +30,26 @@ export async function generateMetadata({
   };
 }
 
-/** One template for every discipline (FR-03): the data decides what appears. */
-export default async function Page({
+/**
+ * One template for every discipline (FR-03): the data decides what appears. The back
+ * link is the instant static shell; slug-dependent content streams in behind Suspense.
+ */
+export default function Page({ params }: PageProps<"/disciplines/[slug]">) {
+  return (
+    <>
+      <p className="mb-5 font-mono text-xs">
+        <Link href="/disciplines">← All disciplines</Link>
+      </p>
+      <Suspense fallback={<Loading />}>
+        <DisciplineContent params={params} />
+      </Suspense>
+    </>
+  );
+}
+
+async function DisciplineContent({
   params,
-}: PageProps<"/disciplines/[slug]">) {
+}: Pick<PageProps<"/disciplines/[slug]">, "params">) {
   const { slug } = await params;
   const discipline = await getDiscipline(slug);
   if (!discipline) notFound();
@@ -46,58 +65,68 @@ export default async function Page({
 
   return (
     <>
-      <div className="mb-10 max-w-[68ch]">
-        <p className="mb-4 text-sm">
-          <Link href="/disciplines">All disciplines</Link>
-        </p>
-        <h1 className="text-3xl sm:text-4xl">{discipline.name}</h1>
+      <header className="max-w-[68ch]">
+        <h1 className="text-[clamp(2.25rem,1.6rem+2.6vw,3.75rem)] leading-[1.08]">
+          {discipline.name}
+        </h1>
         {discipline.tagline ? (
-          <p className="mt-4 text-lg text-fg-muted">{discipline.tagline}</p>
+          <p className="mt-5 text-lg text-fg-muted md:text-xl">
+            {discipline.tagline}
+          </p>
         ) : null}
         {discipline.intro ? (
-          <Prose text={discipline.intro} className="mt-6" />
+          <Prose text={discipline.intro} className="mt-8" />
         ) : null}
-      </div>
+      </header>
 
       {groups.length === 0 ? (
-        <p className="max-w-[68ch]">
+        <p className="mt-16 max-w-[68ch]">
           Work for this discipline will appear here once it has been reviewed.
         </p>
       ) : (
         groups.map((group) => (
-          <section
+          <Section
             key={group.heading}
-            aria-labelledby={`group-${group.heading}`}
-            className="mt-12 max-w-[68ch]"
+            id={group.heading.toLowerCase()}
+            title={group.heading}
           >
-            <h2 id={`group-${group.heading}`} className="text-2xl">
-              {group.heading}
-            </h2>
-            <ul className="mt-4 flex flex-col gap-6">
-              {group.items.map((item) => {
+            <ol className="border-b border-border">
+              {group.items.map((item, index) => {
                 const href = itemHref(item.type, item.slug);
+                const note = item.emphasisNote ?? item.summary;
                 return (
                   <li
                     key={`${item.type}:${item.slug}`}
-                    className="border-t border-border pt-4"
+                    className="grid gap-x-8 gap-y-2 border-t border-border py-6 md:grid-cols-[2.5rem_minmax(0,1fr)]"
                   >
-                    <h3 className="text-lg">
-                      {href ? (
-                        <Link href={href}>{item.title}</Link>
-                      ) : (
-                        item.title
-                      )}
-                    </h3>
-                    {(item.emphasisNote ?? item.summary) ? (
-                      <p className="mt-1">
-                        {item.emphasisNote ?? item.summary}
-                      </p>
-                    ) : null}
+                    <span
+                      aria-hidden="true"
+                      className="font-mono text-xs text-fg-subtle md:pt-1.5"
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <div className="max-w-[68ch] min-w-0">
+                      <h3 className="text-xl">
+                        {href ? (
+                          <Link
+                            href={href}
+                            className="decoration-fg-subtle hover:decoration-current"
+                          >
+                            {item.title}
+                          </Link>
+                        ) : (
+                          item.title
+                        )}
+                      </h3>
+                      {note ? (
+                        <p className="mt-2 text-fg-muted">{note}</p>
+                      ) : null}
+                    </div>
                   </li>
                 );
               })}
-            </ul>
-          </section>
+            </ol>
+          </Section>
         ))
       )}
     </>
