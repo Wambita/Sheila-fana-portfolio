@@ -3,6 +3,11 @@
 A personal portfolio showcasing software development,
 UI/UX design, cybersecurity, AI, robotics, and emerging technologies.
 
+## Status
+
+Phase 0, discovery and planning. No application code yet. See
+[docs/08-development-plan.md](./docs/08-development-plan.md) for the roadmap.
+
 ## Project Documentation
 
 See the [docs](./docs) directory for project planning,
