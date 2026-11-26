@@ -27,6 +27,9 @@ content_items               id, type (enum), slug, title, summary, body, status 
   ├─ articles               item_id, source (medium|devto), source_id, source_url UNIQUE (canonical),
   │                         published_at, excerpt, html_sanitised, source_tags text[], full_text bool,
   │                         last_synced_at
+  ├─ engagements            item_id, kind (workshop|training|event|talk|judging|mentoring|delegation|other),
+  │                         host_org, partner_orgs text[], role, started_on, ended_on, location, audience,
+  │                         reach_count int NULL, reach_label NULL, reach_confirmed bool DEFAULT false
   └─ interests              item_id
 
 item_disciplines            item_id, discipline_id, is_primary, emphasis_note, sort_order  PK(item_id, discipline_id)

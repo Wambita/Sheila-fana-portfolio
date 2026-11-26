@@ -109,3 +109,4 @@ The CV is built with `@react-pdf/renderer` in a route handler (`/cv/[slug].pdf`)
 | ADR-012 | 2026-11-26 | Header-based CSP for static pages instead of nonces (Next.js nonces require dynamic rendering); nonce CSP for the dynamic admin later                               | Proposed         |
 | ADR-013 | 2026-11-26 | Adopt the Next.js 16 Cache Components model: `use cache` + `cacheTag` in repositories, `revalidateTag`/`updateTag` for invalidation                                 | Proposed         |
 | ADR-014 | 2026-11-26 | Node 26 LTS (current Active LTS; `.nvmrc` and CI). `engines >= 22.12` because of Vitest, jsdom and Rolldown requirements; Node 20 reached end of life in April 2026 | Proposed         |
+| ADR-015 | 2026-11-26 | Community & Volunteering discipline plus a new `engagements` content type for one-off community activities; referee details never stored                            | Accepted (owner) |

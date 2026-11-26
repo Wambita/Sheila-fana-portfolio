@@ -39,15 +39,16 @@ There are no per-recruiter links. Sheila shares:
 
 Every content item shares one core (`content_items`) and has a type-specific detail record.
 
-| Content type  | Type-specific fields (indicative)                                                                                              |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| Project       | role, status, dates, repo/demo URLs, and the evidence sections: context, problem, process, decisions, implementation, outcomes |
-| Experience    | kind (`employment` \| `volunteering` \| `community`), organisation, role, location, dates                                      |
-| Publication   | authors, venue, year, DOI/URL, citation type, abstract                                                                         |
-| Education     | institution, qualification, field, dates                                                                                       |
-| Certification | issuer, issued/expiry dates, credential ID, verification URL                                                                   |
-| Article       | source (`medium` \| `devto`), source URL (canonical), published date, excerpt, sanitised HTML, tags, sync metadata             |
-| Interest      | short description, optional media                                                                                              |
+| Content type  | Type-specific fields (indicative)                                                                                                                                                                                                 |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Project       | role, status, dates, repo/demo URLs, and the evidence sections: context, problem, process, decisions, implementation, outcomes                                                                                                    |
+| Experience    | kind (`employment` \| `volunteering` \| `community`), organisation, role, location, dates                                                                                                                                         |
+| Publication   | authors, venue, year, DOI/URL, citation type, abstract                                                                                                                                                                            |
+| Education     | institution, qualification, field, dates                                                                                                                                                                                          |
+| Certification | issuer, issued/expiry dates, credential ID, verification URL                                                                                                                                                                      |
+| Article       | source (`medium` \| `devto`), source URL (canonical), published date, excerpt, sanitised HTML, tags, sync metadata                                                                                                                |
+| Engagement    | kind (`workshop` \| `training` \| `event` \| `talk` \| `judging` \| `mentoring` \| `delegation` \| `other`), host organisation, partner organisations, role, date or date range, location, audience, confirmed reach count, links |
+| Interest      | short description, optional media                                                                                                                                                                                                 |
 
 Shared fields: `slug`, `title`, `summary`, `body`, `status` (draft/published), `featured`, `sort_date`, cover media and SEO overrides.
 

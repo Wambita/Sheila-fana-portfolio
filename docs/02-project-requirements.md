@@ -14,6 +14,9 @@
 - FR-06 MUST: Publications with citation details and DOI or URL.
 - FR-07 MUST: Education and certifications, with an optional verification link.
 - FR-08 MUST: Any content item can relate to any number of disciplines, skills and other items.
+- FR-08a MUST: **Community & Volunteering** discipline (owner decision, 2026-11-26). Ongoing roles are experiences (`kind = community | volunteering`). Initiatives Sheila founded or led are projects. One-off activities (workshops, trainings, events organised, judging, talks, summit delegations, mentoring programmes) are **engagements**. Any of them can also belong to a technical discipline, for example a cybersecurity awareness session.
+- FR-08b MUST: Reach figures (for example "400+ learners") are stored as separate, owner-confirmed fields, never inferred, and shown only when confirmed.
+- FR-08c MUST: Third-party personal data from CVs, such as referees' names, emails and phone numbers, is never stored in the database or the repository. CVs say "References available on request".
 - FR-09 COULD: Site search.
 
 ### Writing (Medium and dev.to)
@@ -83,7 +86,7 @@
 | O4     | Retention          | Contact messages kept for **3 months** (tentative; easy to change)                                                                                                                               |
 | O5     | Articles           | Full text on the site for dev.to; excerpts linking to Medium                                                                                                                                     |
 | O6     | DOCX CV            | Yes. Offer a .docx export alongside the PDF                                                                                                                                                      |
-| O7     | Launch disciplines | Product & UI/UX Design, Frontend Development, Cybersecurity, Full-stack Development. Research & Innovation and Robotics & IoT start as drafts                                                    |
+| O7     | Launch disciplines | Product & UI/UX Design, Frontend Development, Cybersecurity, Full-stack Development, **Community & Volunteering** (added 2026-11-26). Research & Innovation and Robotics & IoT start as drafts   |
 
 ## 4. Open questions
 
