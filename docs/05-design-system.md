@@ -16,6 +16,12 @@ Tokens are semantic CSS variables in `src/styles/tokens.css`, exposed as Tailwin
 - AA for text on the glass tint composited over the background (so navigation stays readable even where blur is unsupported);
 - that every colour is neutral (r = g = b).
 
+### Tiles and lines (ADR-020)
+
+Content sits on tonal tiles instead of between hairlines: `--tile` (light `#F4F4F4`, dark `#111111`) and `--tile-hover` (light `#EDEDED`, dark `#1A1A1A`), with a 12–16px radius and no borders. Every text tier meets AA on both tile shades (tested). The title link of a linked tile is stretched over it (`after:absolute after:inset-0`), so the whole tile is the target while assistive tech hears one link; the "View project →" cues are `aria-hidden`. Sections are separated by space. Lines remain only where WCAG needs them: form-control borders (`--control-border`, ≥3:1). Active navigation is a filled pill plus heavier weight; the section being read has a filled dot, so neither relies on colour alone.
+
+Icons live in `src/components/icons.tsx` (inline SVG, 1.5px stroke, `aria-hidden`, always next to text): ArrowUpRight (leaves the site), ArrowRight (continues), Sun/Moon (theme), Menu/Close.
+
 ### Glass
 
 One utility, `glass` in `globals.css` (tint + `backdrop-filter: blur(16px) saturate(140%)`), used only by the sidebar, the mobile top bar and menu panel, and floating controls. Nested backdrop filters can't blur the page, so on mobile the bar and the menu panel each carry their own glass. Where `backdrop-filter` is unsupported, `tokens.css` swaps the tint for the opaque surface. `check:brand` rejects blur anywhere else.
@@ -64,8 +70,8 @@ Headings use sentence case. Lora is limited to headings and short emphasis. Body
 - **Desktop (≥1024px) and tablet (≥768px):** a persistent glass sidebar (16–18rem on desktop, 13.5rem on tablet) holds the name, primary navigation, the current page's section links and the theme toggle. It is sticky while the document scrolls, so there is no nested scroll container; the page background is static. The main column keeps a ~68ch reading measure, with wider editorial rows for lists.
 - **Mobile (<768px):** a sticky glass top bar with the name, the current page and section ("Work / Context") and a Menu button. The menu is an overlay panel with a dimmed backdrop; it closes on Escape (focus returns to the button), on backdrop click and on navigation.
 - **Section navigation:** pages wrap sections in `<Section>` (`src/components/layout/Section.tsx`), which sets an id and `data-section`. `useSectionNav` finds the visible page's sections (ignoring routes React `<Activity>` keeps hidden), marks the one being read with `aria-current="location"` and a left rule (not colour alone), and tracks scrolling with a passive, rAF-throttled listener: the active section is the last one past 30% of the viewport, or the last section at the bottom of the page. A section chosen from the nav or the URL hash stays active until the visitor scrolls (short pages can't bring it to the top). Smooth scrolling is disabled under `prefers-reduced-motion`.
-- **Gallery composition:** lists are numbered editorial rows (index in JetBrains Mono, serif title, metadata column on wide screens) separated by hairlines, not cards.
-- **Surfaces:** solid fills, 1px hairlines, a 6px radius on controls, no shadows.
+- **Gallery composition:** numbered tonal tiles (index in JetBrains Mono, serif title, metadata column on wide screens), larger for case studies, separated by space (ADR-020).
+- **Surfaces:** solid tonal fills, no hairlines, 12–16px radius on tiles and fully rounded pill buttons, no shadows.
 - **Spacing:** a 4px base scale. Touch targets are at least 44px, except desktop section links (36px, above the WCAG 2.2 AA 24px minimum).
 
 ## Theming

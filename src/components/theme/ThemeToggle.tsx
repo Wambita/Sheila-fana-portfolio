@@ -8,6 +8,8 @@ import {
   type Theme,
 } from "@/lib/theme";
 
+import { Moon, Sun } from "@/components/icons";
+
 function subscribe(onChange: () => void) {
   const observer = new MutationObserver(onChange);
   observer.observe(document.documentElement, {
@@ -58,9 +60,9 @@ export function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-pressed={theme === null ? undefined : isDark}
-      className="inline-flex min-h-11 items-center gap-2 rounded-md border border-control px-3 text-sm text-fg transition-colors hover:bg-surface-2"
+      className="inline-flex min-h-11 items-center gap-2 rounded-full bg-tile px-4 text-sm text-fg transition-colors hover:bg-tile-hover"
     >
-      <span aria-hidden="true">{isDark ? "●" : "○"}</span>
+      {isDark ? <Moon /> : <Sun />}
       Dark theme
     </button>
   );

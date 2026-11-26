@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import type { ItemSummary } from "@/lib/content/schemas";
+import { ArrowRight, ArrowUpRight } from "@/components/icons";
 import { itemHref } from "@/lib/content-links";
 import { formatDateRange, formatMonthYear } from "@/lib/format";
 
@@ -38,28 +39,29 @@ export function ItemRow({
   const when = itemWhen(item);
   const byline = [item.role, item.organisation].filter(Boolean).join(" · ");
   const note = item.emphasisNote ?? (showSummary ? item.summary : null);
+  const linked = Boolean(href ?? item.externalUrl);
+  // The title link is stretched over the tile when there is one (ADR-020).
+  const stretched =
+    "no-underline after:absolute after:inset-0 after:rounded-xl hover:text-fg";
 
   return (
-    <li className="grid gap-x-8 gap-y-1 border-t border-border py-6 md:grid-cols-[9rem_minmax(0,1fr)]">
+    <li
+      className={`group relative grid gap-x-8 gap-y-1 rounded-xl bg-tile p-6 transition-colors md:grid-cols-[9rem_minmax(0,1fr)_auto] md:p-7 ${
+        linked ? "hover:bg-tile-hover" : ""
+      }`}
+    >
       <p className="font-mono text-xs text-fg-subtle md:pt-1.5">
         {when ?? <span className="sr-only">Date not given</span>}
       </p>
       <div className="max-w-[68ch] min-w-0">
         <Heading className="text-xl">
           {href ? (
-            <Link
-              href={href}
-              className="decoration-fg-subtle hover:decoration-current"
-            >
+            <Link href={href} className={stretched}>
               {item.title}
             </Link>
           ) : item.externalUrl ? (
-            <a
-              href={item.externalUrl}
-              className="decoration-fg-subtle hover:decoration-current"
-            >
+            <a href={item.externalUrl} className={stretched}>
               {item.title}
-              <span aria-hidden="true"> ↗</span>
               <span className="sr-only"> (external site)</span>
             </a>
           ) : (
@@ -69,6 +71,15 @@ export function ItemRow({
         {byline ? <p className="mt-1 text-sm text-fg-muted">{byline}</p> : null}
         {note ? <p className="mt-2 text-fg-muted">{note}</p> : null}
       </div>
+      {linked ? (
+        <span className="hidden self-center text-fg-muted transition-colors group-hover:text-fg md:block">
+          {href ? (
+            <ArrowRight className="size-5 transition-transform group-hover:translate-x-0.5" />
+          ) : (
+            <ArrowUpRight className="size-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          )}
+        </span>
+      ) : null}
     </li>
   );
 }
@@ -83,7 +94,7 @@ export function ItemList({
   showSummary?: boolean;
 }) {
   return (
-    <ol className="border-b border-border">
+    <ol className="flex flex-col gap-3">
       {items.map((item) => (
         <ItemRow
           key={`${item.type}:${item.slug}`}

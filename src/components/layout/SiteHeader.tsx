@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
+import { CloseIcon, MenuIcon } from "@/components/icons";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { isActive, recordPages, siteNav, type NavItem } from "@/lib/navigation";
 import type { PageSection } from "@/lib/sections";
@@ -63,10 +64,10 @@ export function SiteHeader({ portfolios }: { portfolios: NavItem[] }) {
   };
 
   return (
-    <header className="sticky top-0 z-30 md:flex md:h-dvh md:flex-col md:border-r md:border-glass-border md:glass">
+    <header className="sticky top-0 z-30 md:flex md:h-dvh md:flex-col md:glass">
       {/* On mobile the bar and the menu panel carry their own glass: a backdrop filter
           nested inside another cannot blur the page behind it. */}
-      <div className="flex items-center justify-between gap-3 border-b border-glass-border px-4 py-3 max-md:glass sm:px-6 md:block md:border-b-0 md:px-6 md:pt-10 md:pb-8 lg:px-8 lg:pt-12">
+      <div className="flex items-center justify-between gap-3 px-4 py-3 max-md:glass sm:px-6 md:block md:px-6 md:pt-10 md:pb-8 lg:px-8 lg:pt-12">
         <div className="min-w-0">
           <Link
             href="/"
@@ -86,11 +87,12 @@ export function SiteHeader({ portfolios }: { portfolios: NavItem[] }) {
         <button
           ref={buttonRef}
           type="button"
-          className="min-h-11 min-w-11 shrink-0 rounded-md border border-control px-3 text-sm text-fg transition-colors hover:bg-surface-2 md:hidden"
+          className="inline-flex min-h-11 min-w-11 shrink-0 items-center gap-2 rounded-full bg-tile px-4 text-sm text-fg transition-colors hover:bg-tile-hover md:hidden"
           aria-expanded={open}
           aria-controls="site-nav"
           onClick={() => setOpen((value) => !value)}
         >
+          {open ? <CloseIcon /> : <MenuIcon />}
           Menu
         </button>
       </div>
@@ -105,7 +107,7 @@ export function SiteHeader({ portfolios }: { portfolios: NavItem[] }) {
       ) : null}
 
       <div
-        className={`${collapsed} overflow-y-auto border-glass-border max-md:absolute max-md:inset-x-0 max-md:top-full max-md:max-h-[80dvh] max-md:border-y max-md:glass md:flex md:min-h-0 md:flex-1 md:flex-col`}
+        className={`${collapsed} overflow-y-auto max-md:absolute max-md:inset-x-0 max-md:top-full max-md:max-h-[80dvh] max-md:glass md:flex md:min-h-0 md:flex-1 md:flex-col`}
       >
         <nav
           id="site-nav"
@@ -195,10 +197,10 @@ function NavGroup({
                 href={item.href}
                 aria-current={exact ? "page" : active ? "true" : undefined}
                 onNavigate={onNavigate}
-                className={`flex min-h-11 items-center border-l-2 pl-3 no-underline transition-colors md:min-h-10 ${
+                className={`flex min-h-11 items-center rounded-lg px-3 no-underline transition-colors md:min-h-10 ${
                   active
-                    ? "border-fg font-medium text-fg"
-                    : "border-transparent text-fg-muted hover:border-border hover:text-fg"
+                    ? "bg-tile font-medium text-fg"
+                    : "text-fg-muted hover:bg-tile hover:text-fg"
                 }`}
               >
                 {item.label}
@@ -228,10 +230,7 @@ function SectionLinks({
   onNavigate: (id: string) => void;
 }) {
   return (
-    <ul
-      aria-label="On this page"
-      className="mt-1 mb-2 ml-3 flex flex-col border-l border-border"
-    >
+    <ul aria-label="On this page" className="mt-1 mb-2 ml-3 flex flex-col">
       {sections.map(({ id, label }) => {
         const active = id === activeId;
         return (
@@ -240,12 +239,17 @@ function SectionLinks({
               href={`#${id}`}
               aria-current={active ? "location" : undefined}
               onClick={() => onNavigate(id)}
-              className={`-ml-px flex min-h-11 items-center border-l-2 pl-4 text-sm no-underline transition-colors md:min-h-9 ${
-                active
-                  ? "border-fg text-fg"
-                  : "border-transparent text-fg-muted hover:text-fg"
+              className={`flex min-h-11 items-center gap-2.5 rounded-lg px-3 text-sm no-underline transition-colors md:min-h-9 ${
+                active ? "font-medium text-fg" : "text-fg-muted hover:text-fg"
               }`}
             >
+              {/* Position marker: a filled dot for the section being read (not colour alone). */}
+              <span
+                aria-hidden="true"
+                className={`size-1.5 rounded-full transition-colors ${
+                  active ? "bg-fg" : "bg-fg-subtle/40"
+                }`}
+              />
               {label}
             </a>
           </li>

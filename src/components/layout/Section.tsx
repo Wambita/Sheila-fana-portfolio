@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 /**
  * A titled page section. It registers itself with the sidebar's "on this page" links
- * (data-section) and gets an anchor id. A thin rule separates sections (gallery style).
+ * (data-section) and gets an anchor id. Sections are separated by space, not rules (ADR-020).
  */
 export function Section({
   id,
@@ -23,7 +23,7 @@ export function Section({
       id={id}
       data-section={navLabel}
       aria-labelledby={headingId}
-      className={`mt-16 border-t border-border pt-8 md:mt-20 ${className}`}
+      className={`mt-20 md:mt-28 ${className}`}
     >
       <h2 id={headingId} className="text-2xl md:text-3xl">
         {title}
