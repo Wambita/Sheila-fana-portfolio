@@ -20,6 +20,7 @@ const {
   listDisciplineSkills,
   listDisciplines,
   listFeaturedExperience,
+  listItemsByType,
   listItemsForDiscipline,
   listProjects,
   listSkillOverview,
@@ -179,6 +180,19 @@ describe("content repositories against local Supabase (seed data)", () => {
     const items = await listFeaturedExperience();
     expect(items.map((i) => i.slug)).toEqual(["sample-experience"]);
     expect(items[0].organisation).toBe("[Sample] Organisation");
+  });
+
+  it("lists the full record of a type, including items in no portfolio", async () => {
+    const publications = await listItemsByType(["publication"]);
+    expect(publications.map((i) => i.slug)).toEqual([
+      "sample-unlinked-publication",
+      "sample-publication",
+    ]);
+    const inPortfolios = [
+      ...(await listItemsForDiscipline("sample-discipline-a")),
+      ...(await listItemsForDiscipline("sample-discipline-b")),
+    ].map((i) => i.slug);
+    expect(inPortfolios).not.toContain("sample-unlinked-publication");
   });
 
   it("lists nothing for a draft discipline", async () => {

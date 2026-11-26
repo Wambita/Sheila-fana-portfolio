@@ -11,24 +11,17 @@ import {
   listProjects,
   listSkillOverview,
 } from "@/lib/content";
+import { recordPages } from "@/lib/navigation";
 import { pickAcrossDisciplines } from "@/lib/portfolio";
 import { site } from "@/lib/site";
 
 const SELECTED_PROJECTS = 4;
 const KEY_EXPERIENCE = 4;
 
-const sharedPages = [
-  { href: "/about", label: "About" },
-  { href: "/experience", label: "Experience" },
-  { href: "/credentials", label: "Education" },
-  { href: "/publications", label: "Publications" },
-  { href: "/contact", label: "Contact" },
-];
-
 /**
  * The overall portfolio summary (ADR-019): who Sheila is, the disciplines she works in
  * (each a standalone portfolio), selected work across them, key skills and experience,
- * and where to go next. A snapshot, not a copy of each portfolio. Sections without
+ * and the full record. A snapshot, not a copy of each portfolio. Sections without
  * published content are hidden. The CV download appears once the CV exists (Phase 5).
  */
 export default async function Home() {
@@ -130,9 +123,12 @@ export default async function Home() {
         </Section>
       ) : null}
 
-      <Section id="explore" title="Explore">
-        <ul className="flex flex-wrap gap-x-8 gap-y-3">
-          {sharedPages.map((page) => (
+      <Section id="full-record" title="Full record">
+        <p className="max-w-[60ch] text-fg-muted">
+          Everything across disciplines, including work outside the portfolios.
+        </p>
+        <ul className="mt-5 flex flex-wrap gap-x-8 gap-y-3">
+          {recordPages.map((page) => (
             <li key={page.href}>
               <Link href={page.href}>{page.label}</Link>
             </li>

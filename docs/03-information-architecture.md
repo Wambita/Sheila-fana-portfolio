@@ -25,7 +25,9 @@
 ```
 
 **Navigation:** a persistent left sidebar on desktop and a top-bar menu on mobile (brand guide §5).
-Two groups (ADR-019): **Portfolios**, the published disciplines in their sort order (from the database), and **More**, the shared pages: About, Experience, Education (`/credentials`), Publications, Writing, All projects (`/projects`) and Contact. The current page's sections are listed under its item. `/disciplines` (an index of portfolios) still exists but isn't in the navbar; the homepage lists the portfolios.
+The navbar (ADR-019, refined 2026-11-27) is **Portfolios**, the published disciplines in their sort order (from the database), followed by **About** and **Contact**. Each portfolio already contains its own experience, publications, writing and credentials, so those are not repeated in the navbar; the current page's sections are listed under its item instead.
+
+The **full record** pages (Experience, Education at `/credentials`, Publications, Writing, All projects at `/projects`) list everything across disciplines, including work linked to no portfolio. They are reached from the footer and the homepage, not the navbar. Data is entered once: an item linked to a discipline appears in that portfolio and in the full record; an unlinked item appears only in the full record. **About** is the shared story (who Sheila is, how she works, background, interests, links) that every portfolio points to, rather than a copy in each. `/disciplines` (an index of portfolios) exists but isn't in the navbar.
 
 **Page roles:** the homepage summarises the whole portfolio; each discipline page is a focused, self-contained portfolio; shared pages hold supporting information across disciplines; project pages are the detailed case studies.
 

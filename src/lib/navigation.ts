@@ -1,19 +1,25 @@
 export type NavItem = { href: string; label: string };
 
 /**
- * Site navigation (ADR-019). The first group is the discipline portfolios, which come
- * from the database (published disciplines, in their sort order), so adding or
- * reordering a portfolio is a data change. The second group is the shared pages that
- * support every portfolio.
+ * Site navigation (ADR-019, refined 2026-11-27).
+ *
+ * - The navbar is the discipline portfolios (published disciplines, from the database)
+ *   plus About and Contact. Each portfolio already contains its own experience,
+ *   publications, writing and credentials, so those are not repeated in the navbar.
+ * - The "full record" pages list everything across disciplines, including work that
+ *   fits no portfolio. They are reached from the footer and the homepage, not the navbar.
  */
-export const sharedNav: readonly NavItem[] = [
+export const siteNav: readonly NavItem[] = [
   { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+];
+
+export const recordPages: readonly NavItem[] = [
   { href: "/experience", label: "Experience" },
   { href: "/credentials", label: "Education" },
   { href: "/publications", label: "Publications" },
   { href: "/writing", label: "Writing" },
   { href: "/projects", label: "All projects" },
-  { href: "/contact", label: "Contact" },
 ];
 
 export function portfolioNav(

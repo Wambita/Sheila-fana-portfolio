@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
-import { isActive, sharedNav, type NavItem } from "@/lib/navigation";
+import { isActive, recordPages, siteNav, type NavItem } from "@/lib/navigation";
 import type { PageSection } from "@/lib/sections";
 import { site } from "@/lib/site";
 
@@ -14,9 +14,10 @@ import { useSectionNav } from "./useSectionNav";
 /**
  * Tablet and desktop: a persistent glass sidebar that stays put while the page scrolls.
  * Mobile: a sticky glass top bar showing where you are, with a disclosure menu.
- * One <nav> landmark holds two groups: the discipline portfolios (from the database)
- * and the shared pages. The current page's sections are listed under its nav item and
- * the one being read is marked with aria-current="location".
+ * One <nav> landmark holds the discipline portfolios (from the database) and then About
+ * and Contact. Full-record pages are in the footer (ADR-019). The current page's
+ * sections are listed under its nav item (or under "On this page" for pages without
+ * one) and the one being read is marked with aria-current="location".
  */
 export function SiteHeader({ portfolios }: { portfolios: NavItem[] }) {
   const pathname = usePathname();
@@ -44,7 +45,10 @@ export function SiteHeader({ portfolios }: { portfolios: NavItem[] }) {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
-  const current = [...portfolios, ...sharedNav].find((item) =>
+  const navItems = [...portfolios, ...siteNav];
+  const inNav = navItems.some((item) => isActive(item.href, pathname));
+  // For the mobile "where you are" label, full-record pages count too.
+  const current = [...navItems, ...recordPages].find((item) =>
     isActive(item.href, pathname),
   );
   const activeSection = sections.find((s) => s.id === activeId);
@@ -117,13 +121,14 @@ export function SiteHeader({ portfolios }: { portfolios: NavItem[] }) {
             />
           ) : null}
           <NavGroup
-            id="nav-shared"
-            title={portfolios.length > 0 ? "More" : "Pages"}
-            items={sharedNav}
+            id="nav-site"
+            title="Pages"
+            hideTitle
+            items={siteNav}
             {...groupProps}
           />
-          {!current && sections.length > 0 ? (
-            // Home has no nav item of its own: list its sections separately.
+          {!inNav && sections.length > 0 ? (
+            // Pages without a nav item (home, full record): list their sections here.
             <div>
               <p
                 aria-hidden="true"
@@ -151,6 +156,7 @@ export function SiteHeader({ portfolios }: { portfolios: NavItem[] }) {
 function NavGroup({
   id,
   title,
+  hideTitle = false,
   items,
   pathname,
   sections,
@@ -160,6 +166,8 @@ function NavGroup({
 }: {
   id: string;
   title: string;
+  /** Name the list for screen readers only (a caption would just repeat an item). */
+  hideTitle?: boolean;
   items: readonly NavItem[];
   pathname: string | null;
   sections: PageSection[];
@@ -169,7 +177,12 @@ function NavGroup({
 }) {
   return (
     <div>
-      <p id={id} className="mb-1 pl-3 font-mono text-xs text-fg-subtle">
+      <p
+        id={id}
+        className={
+          hideTitle ? "sr-only" : "mb-1 pl-3 font-mono text-xs text-fg-subtle"
+        }
+      >
         {title}
       </p>
       <ul aria-labelledby={id} className="flex flex-col gap-0.5">

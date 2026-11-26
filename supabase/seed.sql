@@ -63,7 +63,10 @@ insert into public.content_items (id, type, slug, title, summary, status, featur
   ('30000000-0000-0000-0000-000000000007', 'certification', 'sample-certification',
    '[Sample] Certification', null, 'published', false, '2000-06-01'),
   ('30000000-0000-0000-0000-000000000008', 'article', 'sample-article', '[Sample] Article',
-   '[Sample] Summary placeholder.', 'published', false, '2000-07-01');
+   '[Sample] Summary placeholder.', 'published', false, '2000-07-01'),
+  -- Linked to no portfolio: appears only in the full record (Publications page).
+  ('30000000-0000-0000-0000-000000000009', 'publication', 'sample-unlinked-publication',
+   '[Sample] Unlinked publication', null, 'published', false, '2000-08-01');
 
 insert into public.projects (item_id, role, started_on, ended_on, context, problem) values
   ('30000000-0000-0000-0000-000000000001', '[Sample] Role', '2000-01-01', '2000-06-01',
@@ -78,7 +81,8 @@ insert into public.engagements (item_id, kind, host_org, role, started_on) value
   ('30000000-0000-0000-0000-000000000005', 'workshop', '[Sample] Host', '[Sample] Facilitator', '2000-04-01');
 
 insert into public.publications (item_id, venue, year, url) values
-  ('30000000-0000-0000-0000-000000000006', '[Sample] Venue', 2000, 'https://example.com/sample-publication');
+  ('30000000-0000-0000-0000-000000000006', '[Sample] Venue', 2000, 'https://example.com/sample-publication'),
+  ('30000000-0000-0000-0000-000000000009', '[Sample] Other venue', 2000, null);
 
 insert into public.certifications (item_id, issuer, issued_on) values
   ('30000000-0000-0000-0000-000000000007', '[Sample] Issuer', '2000-06-01');

@@ -133,7 +133,7 @@ test.describe("section navigation", () => {
 });
 
 test.describe("discipline portfolios (ADR-019)", () => {
-  test("the navbar lists the published portfolios and the shared pages", async ({
+  test("the navbar is the portfolios plus About and Contact", async ({
     page,
     isMobile,
   }) => {
@@ -144,16 +144,61 @@ test.describe("discipline portfolios (ADR-019)", () => {
       nav.getByRole("list", { name: "Portfolios" }).getByRole("link"),
     ).toHaveText(["[Sample] Discipline A", "[Sample] Discipline B"]);
     await expect(
-      nav.getByRole("list", { name: "More" }).getByRole("link"),
+      nav.getByRole("list", { name: "Pages" }).getByRole("link"),
+    ).toHaveText(["About", "Contact"]);
+    // Full-record pages are not in the navbar...
+    await expect(nav.getByRole("link", { name: "Publications" })).toHaveCount(
+      0,
+    );
+    // ...but in the footer.
+    await expect(
+      page.getByRole("navigation", { name: "Full record" }).getByRole("link"),
     ).toHaveText([
-      "About",
       "Experience",
       "Education",
       "Publications",
       "Writing",
       "All projects",
-      "Contact",
     ]);
+  });
+
+  test("the full record holds work that fits no portfolio", async ({
+    page,
+  }) => {
+    await page.goto("/publications");
+    const main = page.getByRole("main");
+    await expect(main.getByText("[Sample] Unlinked publication")).toBeVisible();
+    await expect(
+      main.getByRole("link", {
+        name: "[Sample] Publication (external site)",
+      }),
+    ).toBeVisible();
+
+    for (const slug of ["sample-discipline-a", "sample-discipline-b"]) {
+      await page.goto(`/disciplines/${slug}`);
+      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+      await expect(
+        page.getByRole("main").getByText("[Sample] Unlinked publication"),
+      ).toHaveCount(0);
+    }
+  });
+
+  test("full-record pages group everything across disciplines", async ({
+    page,
+  }) => {
+    await page.goto("/experience");
+    const main = page.getByRole("main");
+    await expect(main.getByRole("heading", { level: 2 })).toHaveText([
+      "Roles",
+      "Workshops, talks and engagements",
+    ]);
+    await expect(main.getByText("[Sample] Experience")).toBeVisible();
+    await expect(main.getByText("[Sample] Engagement")).toBeVisible();
+
+    await page.goto("/credentials");
+    await expect(
+      page.getByRole("main").getByText("[Sample] Certification"),
+    ).toBeVisible();
   });
 
   test("each portfolio follows its own section order", async ({ page }) => {
@@ -215,7 +260,7 @@ test.describe("discipline portfolios (ADR-019)", () => {
       "Selected work",
       "Skills",
       "Key experience",
-      "Explore",
+      "Full record",
     ]);
     await expect(
       main.getByText(

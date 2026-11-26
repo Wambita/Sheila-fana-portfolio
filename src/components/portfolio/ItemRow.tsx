@@ -30,7 +30,7 @@ export function ItemRow({
   showSummary = true,
 }: {
   item: ItemSummary;
-  headingLevel?: "h3" | "h4";
+  headingLevel?: "h2" | "h3" | "h4";
   showSummary?: boolean;
 }) {
   const Heading = headingLevel;
@@ -79,7 +79,7 @@ export function ItemList({
   showSummary,
 }: {
   items: ItemSummary[];
-  headingLevel?: "h3" | "h4";
+  headingLevel?: "h2" | "h3" | "h4";
   showSummary?: boolean;
 }) {
   return (

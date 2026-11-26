@@ -4,7 +4,7 @@ export {
   listDisciplines,
   listItemsForDiscipline,
 } from "./disciplines";
-export { listFeaturedExperience } from "./items";
+export { listFeaturedExperience, listItemsByType } from "./items";
 export { getProfile } from "./profile";
 export { getProject, listProjects } from "./projects";
 export { listDisciplineSkills, listSkillOverview } from "./skills";

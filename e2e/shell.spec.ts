@@ -82,8 +82,8 @@ test.describe("navigation", () => {
     await expect(menu).toBeFocused();
 
     await menu.click();
-    await nav.getByRole("link", { name: "Writing" }).click();
-    await expect(page).toHaveURL(/\/writing$/);
+    await nav.getByRole("link", { name: "Contact" }).click();
+    await expect(page).toHaveURL(/\/contact$/);
     await expect(menu).toHaveAttribute("aria-expanded", "false");
   });
 
