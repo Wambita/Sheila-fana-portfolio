@@ -72,7 +72,7 @@
 
 | #      | Topic              | Decision                                                                                                                                                                                         |
 | ------ | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Q1     | Owner              | Sheila Fana is the owner and content approver                                                                                                                                                    |
+| Q1     | Owner              | Wambita Sheila Fana is the owner and content approver                                                                                                                                            |
 | Q2     | Hosting            | Free tier. Recommendation in doc 06 §Hosting                                                                                                                                                     |
 | Q3     | Domain             | None for now. Use the free `*.vercel.app` subdomain                                                                                                                                              |
 | Q4/5/6 | Recruiter links    | No per-recruiter link generation. Stable page URLs plus reusable focus views                                                                                                                     |
@@ -89,6 +89,9 @@
 | O5     | Articles           | Full text on the site for dev.to; excerpts linking to Medium                                                                                                                                     |
 | O6     | DOCX CV            | Yes. Offer a .docx export alongside the PDF                                                                                                                                                      |
 | O7     | Launch disciplines | Product & UI/UX Design, Frontend Development, Cybersecurity, Full-stack Development, **Community & Volunteering** (added 2026-11-26). Research & Innovation and Robotics & IoT start as drafts   |
+
+| — | Name | **Wambita Sheila Fana** everywhere (site, CVs, metadata), 2026-11-26 |
+| — | Location | Nairobi |
 
 ## 4. Open questions
 

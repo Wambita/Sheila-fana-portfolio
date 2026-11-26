@@ -1,4 +1,4 @@
-# Sheila Fana | Personal Portfolio
+# Wambita Sheila Fana | Personal Portfolio
 
 A personal portfolio showcasing software development,
 UI/UX design, cybersecurity, AI, robotics, and emerging technologies.

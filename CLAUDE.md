@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-This is Sheila Fana's personal portfolio. Sheila is the owner and approves all content. The project is in **Phase 1: foundations**. The app shell exists, but no data layer or real content yet. The plan lives in `docs/` (start with `docs/00-project-overview.md`; the roadmap is in `docs/08-development-plan.md`). Decisions marked **Proposed** are not settled yet.
+This is Wambita Sheila Fana's personal portfolio. Sheila is the owner and approves all content. The project is in **Phase 1: foundations**. The app shell exists, but no data layer or real content yet. The plan lives in `docs/` (start with `docs/00-project-overview.md`; the roadmap is in `docs/08-development-plan.md`). Decisions marked **Proposed** are not settled yet.
 
 ## Commands
 

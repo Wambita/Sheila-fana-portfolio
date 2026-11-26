@@ -5,11 +5,11 @@
 
 ## Purpose
 
-This is the Sheila Fana Personal Portfolio Platform. It is a personal, research-oriented portfolio that presents work across several professional disciplines. Recruiters, collaborators and other audiences can each see a tailored, shareable view of the same body of work.
+This is the Wambita Sheila Fana Personal Portfolio Platform. It is a personal, research-oriented portfolio that presents work across several professional disciplines. Recruiters, collaborators and other audiences can each see a tailored, shareable view of the same body of work.
 
 ## Owner
 
-Sheila Fana is the owner and approves all content.
+Wambita Sheila Fana is the owner and approves all content.
 
 ## Disciplines
 
