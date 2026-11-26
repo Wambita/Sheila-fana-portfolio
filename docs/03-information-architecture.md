@@ -30,6 +30,7 @@ Primary items: **Work**, **Disciplines**, **Experience**, **Writing**, **About**
 ## Sharing model
 
 There are no per-recruiter links. Sheila shares:
+
 1. **A discipline page**, for example `/disciplines/cybersecurity`, which is already tailored by data.
 2. **A focus view**, for example `/for/frontend-roles`, created once and reused. It holds an intro note, a hand-picked ordered selection of items and a link to its CV variant.
 3. **A CV link**, for example `/cv/cybersecurity.pdf`.
@@ -38,24 +39,25 @@ There are no per-recruiter links. Sheila shares:
 
 Every content item shares one core (`content_items`) and has a type-specific detail record.
 
-| Content type | Type-specific fields (indicative) |
-|---|---|
-| Project | role, status, dates, repo/demo URLs, and the evidence sections: context, problem, process, decisions, implementation, outcomes |
-| Experience | kind (`employment` \| `volunteering` \| `community`), organisation, role, location, dates |
-| Publication | authors, venue, year, DOI/URL, citation type, abstract |
-| Education | institution, qualification, field, dates |
-| Certification | issuer, issued/expiry dates, credential ID, verification URL |
-| Article | source (`medium` \| `devto`), source URL (canonical), published date, excerpt, sanitised HTML, tags, sync metadata |
-| Interest | short description, optional media |
+| Content type  | Type-specific fields (indicative)                                                                                              |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Project       | role, status, dates, repo/demo URLs, and the evidence sections: context, problem, process, decisions, implementation, outcomes |
+| Experience    | kind (`employment` \| `volunteering` \| `community`), organisation, role, location, dates                                      |
+| Publication   | authors, venue, year, DOI/URL, citation type, abstract                                                                         |
+| Education     | institution, qualification, field, dates                                                                                       |
+| Certification | issuer, issued/expiry dates, credential ID, verification URL                                                                   |
+| Article       | source (`medium` \| `devto`), source URL (canonical), published date, excerpt, sanitised HTML, tags, sync metadata             |
+| Interest      | short description, optional media                                                                                              |
 
 Shared fields: `slug`, `title`, `summary`, `body`, `status` (draft/published), `featured`, `sort_date`, cover media and SEO overrides.
 
 **Taxonomies:** Discipline (addable, ordered, publishable) and Skill (grouped).
 
 **Relationships** (all many-to-many):
+
 - item ↔ discipline, with `is_primary` and an emphasis note per discipline
 - item ↔ skill
-- item ↔ item, typed (for example, an article *about* a project, or a publication *derived from* a project)
+- item ↔ item, typed (for example, an article _about_ a project, or a publication _derived from_ a project)
 - focus view → ordered items, with annotations
 - CV variant → ordered sections → ordered items
 

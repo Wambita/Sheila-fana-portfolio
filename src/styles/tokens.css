@@ -1,0 +1,61 @@
+/*
+ * Brand design tokens — the ONLY file allowed to contain raw colour values.
+ * Source of truth: docs/brand-style-guide.md (including approved contrast
+ * adjustments A1–A4, 2026-11-26). Contrast is verified by
+ * src/lib/color/tokens.test.ts; do not change values without owner approval.
+ */
+
+:root {
+  --bg: #f5f3ed; /* Warm Paper */
+  --surface: #ffffff; /* Pure White */
+  --fg: #202d2b; /* Primary text */
+  --fg-muted: #62716e; /* Muted on Paper (A1) */
+  --accent: #47796f; /* Research Teal — fills */
+  --accent-hover: #35645b;
+  --on-accent: #ffffff;
+  --link: #45756c; /* Teal on Paper (A2) */
+  --link-hover: #35645b;
+  --border: #e2e4dd; /* Border Light — dividers only */
+  --control-border: #62716e; /* form controls, >= 3:1 (A3) */
+  --highlight: #a9bdb2; /* Soft Sage */
+  --marker: #b98259; /* Muted Copper — rare markers, never text */
+  color-scheme: light;
+}
+
+/* Dark theme: explicit choice … */
+:root.dark {
+  --bg: #172426; /* Ink */
+  --surface: #243638; /* Deep Slate */
+  --fg: #f2f1ea;
+  --fg-muted: #a8b7b2; /* Dark Muted */
+  --accent: #a9bdb2; /* Soft Sage as accent */
+  --accent-hover: #c0d0c7;
+  --on-accent: #172426;
+  --link: #a9bdb2;
+  --link-hover: #c0d0c7;
+  --border: #354648; /* Border Dark */
+  --control-border: #a8b7b2;
+  --highlight: #354648;
+  --marker: #b98259;
+  color-scheme: dark;
+}
+
+/* … or system preference when no choice has been made (also covers no-JS). */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --bg: #172426;
+    --surface: #243638;
+    --fg: #f2f1ea;
+    --fg-muted: #a8b7b2;
+    --accent: #a9bdb2;
+    --accent-hover: #c0d0c7;
+    --on-accent: #172426;
+    --link: #a9bdb2;
+    --link-hover: #c0d0c7;
+    --border: #354648;
+    --control-border: #a8b7b2;
+    --highlight: #354648;
+    --marker: #b98259;
+    color-scheme: dark;
+  }
+}
