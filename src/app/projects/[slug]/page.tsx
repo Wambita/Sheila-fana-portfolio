@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 import { Prose } from "@/components/content/Prose";
+import { Loading } from "@/components/layout/Loading";
 import { getProject, listProjects, type EvidenceSection } from "@/lib/content";
 import { formatDateRange } from "@/lib/format";
 import { placeholderParam } from "@/lib/static-params";
@@ -32,7 +34,26 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({ params }: PageProps<"/projects/[slug]">) {
+/**
+ * The static shell (back link) renders instantly on navigation; slug-dependent content
+ * streams in behind Suspense (Partial Prefetching). Prerendered slugs are fully static.
+ */
+export default function Page({ params }: PageProps<"/projects/[slug]">) {
+  return (
+    <article className="max-w-[68ch]">
+      <p className="mb-4 text-sm">
+        <Link href="/projects">All work</Link>
+      </p>
+      <Suspense fallback={<Loading />}>
+        <ProjectContent params={params} />
+      </Suspense>
+    </article>
+  );
+}
+
+async function ProjectContent({
+  params,
+}: Pick<PageProps<"/projects/[slug]">, "params">) {
   const project = await getProject((await params).slug);
   if (!project) notFound();
 
@@ -48,10 +69,7 @@ export default async function Page({ params }: PageProps<"/projects/[slug]">) {
   ].filter((fact): fact is { term: string; value: string } => !!fact.value);
 
   return (
-    <article className="max-w-[68ch]">
-      <p className="mb-4 text-sm">
-        <Link href="/projects">All work</Link>
-      </p>
+    <>
       <h1 className="text-3xl sm:text-4xl">{project.title}</h1>
       {project.summary ? (
         <p className="mt-4 text-lg text-fg-muted">{project.summary}</p>
@@ -122,6 +140,6 @@ export default async function Page({ params }: PageProps<"/projects/[slug]">) {
           </ul>
         </section>
       ) : null}
-    </article>
+    </>
   );
 }

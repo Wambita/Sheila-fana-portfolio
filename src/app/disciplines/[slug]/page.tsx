@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 import { Prose } from "@/components/content/Prose";
+import { Loading } from "@/components/layout/Loading";
 import {
   getDiscipline,
   listDisciplines,
@@ -27,10 +29,26 @@ export async function generateMetadata({
   };
 }
 
-/** One template for every discipline (FR-03): the data decides what appears. */
-export default async function Page({
+/**
+ * One template for every discipline (FR-03): the data decides what appears. The back
+ * link is the instant static shell; slug-dependent content streams in behind Suspense.
+ */
+export default function Page({ params }: PageProps<"/disciplines/[slug]">) {
+  return (
+    <>
+      <p className="mb-4 text-sm">
+        <Link href="/disciplines">All disciplines</Link>
+      </p>
+      <Suspense fallback={<Loading />}>
+        <DisciplineContent params={params} />
+      </Suspense>
+    </>
+  );
+}
+
+async function DisciplineContent({
   params,
-}: PageProps<"/disciplines/[slug]">) {
+}: Pick<PageProps<"/disciplines/[slug]">, "params">) {
   const { slug } = await params;
   const discipline = await getDiscipline(slug);
   if (!discipline) notFound();
@@ -47,9 +65,6 @@ export default async function Page({
   return (
     <>
       <div className="mb-10 max-w-[68ch]">
-        <p className="mb-4 text-sm">
-          <Link href="/disciplines">All disciplines</Link>
-        </p>
         <h1 className="text-3xl sm:text-4xl">{discipline.name}</h1>
         {discipline.tagline ? (
           <p className="mt-4 text-lg text-fg-muted">{discipline.tagline}</p>
