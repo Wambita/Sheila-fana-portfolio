@@ -14,6 +14,9 @@
 - FR-06 MUST: Publications with citation details and DOI or URL.
 - FR-07 MUST: Education and certifications, with an optional verification link.
 - FR-08 MUST: Any content item can relate to any number of disciplines, skills and other items.
+- FR-08a MUST: **Community & Volunteering** discipline (owner decision, 2026-11-26). Ongoing roles are experiences (`kind = community | volunteering`). Initiatives Sheila founded or led are projects. One-off activities (workshops, trainings, events organised, judging, talks, summit delegations, mentoring programmes) are **engagements**. Any of them can also belong to a technical discipline, for example a cybersecurity awareness session.
+- FR-08b MUST: Reach figures (for example "400+ learners") are stored as separate, owner-confirmed fields, never inferred, and shown only when confirmed.
+- FR-08c MUST: Third-party personal data from CVs, such as referees' names, emails and phone numbers, is never stored in the database or the repository. CVs say "References available on request".
 - FR-09 COULD: Site search.
 
 ### Writing (Medium and dev.to)
@@ -33,7 +36,9 @@
 ### CV
 
 - FR-14 MUST: An ATS-safe CV, generated from the same content, available as a web page (`/cv`), a downloadable text-based PDF, and a .docx file.
-- FR-15 SHOULD: A CV variant per focus view or discipline (for example a cybersecurity CV), with the same layout and different selection and ordering.
+- FR-15 MUST: CV variants (owner decision, 2026-11-26): **UI/UX Design**, **Frontend Development**, **Full-stack Development**, **Cybersecurity** (new; built from existing security training, certifications and projects) and **Community & Mentorship**. All share one layout and differ in selection, ordering, section placement, title framing and chosen bullets (doc 07 §Framing).
+- FR-15a MUST: A role can be framed differently per CV (title, section, bullets), but dates, organisation and facts are always taken from the master record.
+- FR-15b MUST: Only owner-confirmed figures appear on CVs or the site. Unconfirmed metrics from earlier CVs are dropped, and the claim is described without the number.
 - FR-16 MUST: The CV follows the ATS rules in doc 06 §CV, and CI checks that the PDF's text extracts in the right reading order.
 
 ### Contact
@@ -67,7 +72,7 @@
 
 | #      | Topic              | Decision                                                                                                                                                                                         |
 | ------ | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Q1     | Owner              | Sheila Fana is the owner and content approver                                                                                                                                                    |
+| Q1     | Owner              | Wambita Sheila Fana is the owner and content approver                                                                                                                                            |
 | Q2     | Hosting            | Free tier. Recommendation in doc 06 §Hosting                                                                                                                                                     |
 | Q3     | Domain             | None for now. Use the free `*.vercel.app` subdomain                                                                                                                                              |
 | Q4/5/6 | Recruiter links    | No per-recruiter link generation. Stable page URLs plus reusable focus views                                                                                                                     |
@@ -83,7 +88,10 @@
 | O4     | Retention          | Contact messages kept for **3 months** (tentative; easy to change)                                                                                                                               |
 | O5     | Articles           | Full text on the site for dev.to; excerpts linking to Medium                                                                                                                                     |
 | O6     | DOCX CV            | Yes. Offer a .docx export alongside the PDF                                                                                                                                                      |
-| O7     | Launch disciplines | Product & UI/UX Design, Frontend Development, Cybersecurity, Full-stack Development. Research & Innovation and Robotics & IoT start as drafts                                                    |
+| O7     | Launch disciplines | Product & UI/UX Design, Frontend Development, Cybersecurity, Full-stack Development, **Community & Volunteering** (added 2026-11-26). Research & Innovation and Robotics & IoT start as drafts   |
+
+| — | Name | **Wambita Sheila Fana** everywhere (site, CVs, metadata), 2026-11-26 |
+| — | Location | Nairobi |
 
 ## 4. Open questions
 

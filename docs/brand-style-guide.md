@@ -1,18 +1,18 @@
-# Sheila Fana — Brand & Visual Style Guide
+# Wambita Sheila Fana — Brand & Visual Style Guide
 
 **Status:** Approved visual source of truth (supplied by the owner, 2026-11-26)
 **Brand idea:** The Researcher
 **Brand principle:** One platform. Multiple disciplines. One coherent professional identity.
 
-This document is the authoritative visual reference for the Sheila Fana portfolio. All design, frontend and content implementation must follow it. Do not introduce a competing visual direction, trendy AI aesthetic or unapproved colour system.
+This document is the authoritative visual reference for the Wambita Sheila Fana portfolio. All design, frontend and content implementation must follow it. Do not introduce a competing visual direction, trendy AI aesthetic or unapproved colour system.
 
-> **Change log:** 2026-11-26. The owner approved accessibility adjustments A1–A4 (contrast fixes for text on Warm Paper and for form-control borders). See [05-design-system.md](./05-design-system.md#accessibility-findings-on-the-approved-palette) for the measurements.
+> **Change log:** 2026-11-26: the owner set the brand name to her full name, **Wambita Sheila Fana**, used consistently on the site and CVs. Also on 2026-11-26, the owner approved accessibility adjustments A1–A4 (contrast fixes for text on Warm Paper and for form-control borders). See [05-design-system.md](./05-design-system.md#accessibility-findings-on-the-approved-palette) for the measurements.
 
 ## 1. Brand direction
 
 | Attribute | Direction |
 |---|---|
-| Brand name | Sheila Fana |
+| Brand name | Wambita Sheila Fana |
 | Brand idea | The Researcher |
 | Positioning | A multidisciplinary technologist working across design, software, cybersecurity, research and emerging technologies. |
 | Personality | Curious, thoughtful, credible, inventive, precise and quietly confident. |
@@ -168,7 +168,7 @@ Prefer genuine, relevant material over generic technology stock imagery.
 
 ## 8. Discipline identity
 
-All disciplines belong to the same Sheila Fana brand. They must share the same typography, navigation, spacing, component language and core palette.
+All disciplines belong to the same Wambita Sheila Fana brand. They must share the same typography, navigation, spacing, component language and core palette.
 
 Suggested discipline labels:
 

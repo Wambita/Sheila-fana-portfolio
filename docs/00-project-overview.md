@@ -5,15 +5,15 @@
 
 ## Purpose
 
-This is the Sheila Fana Personal Portfolio Platform. It is a personal, research-oriented portfolio that presents work across several professional disciplines. Recruiters, collaborators and other audiences can each see a tailored, shareable view of the same body of work.
+This is the Wambita Sheila Fana Personal Portfolio Platform. It is a personal, research-oriented portfolio that presents work across several professional disciplines. Recruiters, collaborators and other audiences can each see a tailored, shareable view of the same body of work.
 
 ## Owner
 
-Sheila Fana is the owner and approves all content.
+Wambita Sheila Fana is the owner and approves all content.
 
 ## Disciplines
 
-Disciplines are addable through data. The initial labels come from the brand guide: Product and UI/UX Design, Frontend Engineering, Full-stack Development, Cybersecurity, Research and Innovation, Robotics and IoT. Each is published only when it has enough genuine work behind it. **At launch:** Product & UI/UX Design, Frontend Development, Cybersecurity, Full-stack Development.
+Disciplines are addable through data. The initial labels come from the brand guide: Product and UI/UX Design, Frontend Engineering, Full-stack Development, Cybersecurity, Research and Innovation, Robotics and IoT. Each is published only when it has enough genuine work behind it. **At launch:** Product & UI/UX Design, Frontend Development, Cybersecurity, Full-stack Development, Community & Volunteering.
 
 ## Scope summary
 

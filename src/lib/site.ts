@@ -3,7 +3,7 @@
  * Profile content moves to the database in Phase 2.
  */
 export const site = {
-  name: "Sheila Fana",
+  name: "Wambita Sheila Fana",
   positioning:
     "A multidisciplinary technologist working across design, software, cybersecurity, research and emerging technologies.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
