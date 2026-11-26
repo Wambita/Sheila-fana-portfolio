@@ -17,7 +17,7 @@ export default async function Page() {
     <>
       <PageIntro title="Work">
         <p>
-          Projects across all portfolios, each with its context, role and
+          Projects across all disciplines, each with its context, role and
           evidence.
         </p>
       </PageIntro>

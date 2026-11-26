@@ -40,7 +40,7 @@ export function ProjectFilters({ projects }: { projects: ProjectSummary[] }) {
   }
 
   const fields = [
-    { key: "portfolio", label: "Portfolio", list: options.portfolios },
+    { key: "discipline", label: "Discipline", list: options.disciplines },
     { key: "technology", label: "Technology", list: options.technologies },
     { key: "year", label: "Year", list: options.years },
   ] as const;
@@ -81,7 +81,7 @@ export function ProjectFilters({ projects }: { projects: ProjectSummary[] }) {
         {active ? (
           <button
             type="button"
-            onClick={() => update({ portfolio: "", technology: "", year: "" })}
+            onClick={() => update({ discipline: "", technology: "", year: "" })}
             className="min-h-11 px-1 text-sm text-link underline underline-offset-[0.22em] hover:text-link-hover"
           >
             Clear filters

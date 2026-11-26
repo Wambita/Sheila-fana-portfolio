@@ -17,9 +17,9 @@ import { useSectionNav } from "./useSectionNav";
  * Mobile: a sticky glass top bar showing where you are, with a disclosure menu.
  *
  * Two levels (ADR-022), stacked in one <nav> landmark:
- * - Main navigation: the portfolios by name, then About and Contact.
+ * - Main navigation: the disciplines (each holds a portfolio), then About and Contact.
  * - Portfolio navigation: on a portfolio page the sidebar zooms into that portfolio,
- *   with a back button, its name and its own sections. Back zooms out to the main
+ *   with an "All disciplines" back button, its name and its own sections. Back zooms out to the main
  *   navigation without leaving the page.
  * The hidden level is `inert`, so keyboard and screen-reader users only meet the
  * visible one. The section being read is marked with aria-current="location".
@@ -27,7 +27,7 @@ import { useSectionNav } from "./useSectionNav";
 export function SiteHeader({ portfolios }: { portfolios: NavItem[] }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  // The page on which the visitor chose "back to main navigation". Moving to another
+  // The page on which the visitor chose "All disciplines". Moving to another
   // page clears it, so each portfolio opens in its own navigation (no effect needed).
   const [mainOn, setMainOn] = useState<string | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -149,24 +149,35 @@ export function SiteHeader({ portfolios }: { portfolios: NavItem[] }) {
             className={`${level} ${mainState} flex flex-col gap-6`}
           >
             {portfolios.length > 0 ? (
-              <ul aria-label="Portfolios" className="flex flex-col gap-0.5">
-                {portfolios.map((item) => (
-                  <li key={item.href}>
-                    <NavLink
-                      item={item}
-                      pathname={pathname}
-                      onNavigate={() => setOpen(false)}
-                      // Choosing the current portfolio again re-opens its navigation.
-                      onClick={() => {
-                        if (isActive(item.href, pathname)) {
-                          focusAfterSwitch.current = "portfolio";
-                          setMainOn(null);
-                        }
-                      }}
-                    />
-                  </li>
-                ))}
-              </ul>
+              <div>
+                <p
+                  id="nav-disciplines"
+                  className="mb-1 pl-3 font-mono text-xs text-fg-subtle"
+                >
+                  Disciplines
+                </p>
+                <ul
+                  aria-labelledby="nav-disciplines"
+                  className="flex flex-col gap-0.5"
+                >
+                  {portfolios.map((item) => (
+                    <li key={item.href}>
+                      <NavLink
+                        item={item}
+                        pathname={pathname}
+                        onNavigate={() => setOpen(false)}
+                        // Choosing the current portfolio again re-opens its navigation.
+                        onClick={() => {
+                          if (isActive(item.href, pathname)) {
+                            focusAfterSwitch.current = "portfolio";
+                            setMainOn(null);
+                          }
+                        }}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ) : null}
             <ul aria-label="Pages" className="flex flex-col gap-0.5">
               {siteNav.map((item) => (
@@ -220,9 +231,12 @@ export function SiteHeader({ portfolios }: { portfolios: NavItem[] }) {
                 className="group -ml-1 inline-flex min-h-11 items-center gap-2 self-start rounded-lg px-2 text-sm text-fg-muted transition-colors hover:bg-tile hover:text-fg md:min-h-9"
               >
                 <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-0.5" />
-                Main menu
+                All disciplines
               </button>
-              <p className="mt-5 px-1 font-serif text-2xl leading-tight text-fg">
+              <p className="mt-6 px-1 font-mono text-xs text-fg-subtle">
+                Portfolio
+              </p>
+              <p className="mt-1 px-1 font-serif text-2xl leading-tight text-fg">
                 {portfolio.label}
               </p>
               {sections.length > 0 ? (
@@ -281,10 +295,10 @@ function NavLink({
       aria-current={exact ? "page" : active ? "true" : undefined}
       onNavigate={onNavigate}
       onClick={onClick}
-      className={`flex min-h-11 items-center rounded-lg px-3 no-underline transition-colors md:min-h-10 ${
+      className={`flex min-h-11 items-center rounded-lg px-3 no-underline transition-[color,background-color,font-size] duration-200 md:min-h-10 ${
         active
-          ? "bg-tile font-medium text-fg"
-          : "text-fg-muted hover:bg-tile hover:text-fg"
+          ? "bg-tile text-lg font-medium text-fg"
+          : "text-fg-subtle hover:bg-tile hover:text-fg"
       }`}
     >
       {item.label}
@@ -319,12 +333,12 @@ function SectionLinks({
               href={`#${id}`}
               aria-current={active ? "location" : undefined}
               onClick={() => onNavigate(id)}
-              className={`flex min-h-11 items-center gap-2.5 rounded-lg px-3 no-underline transition-colors ${
+              className={`flex min-h-11 items-center gap-2.5 rounded-lg px-3 no-underline transition-[color,background-color,font-size] duration-200 ${
                 prominent ? "md:min-h-10" : "text-sm md:min-h-9"
               } ${
                 active
-                  ? `font-medium text-fg ${prominent ? "bg-tile" : ""}`
-                  : `text-fg-muted hover:text-fg ${prominent ? "hover:bg-tile" : ""}`
+                  ? `font-medium text-fg ${prominent ? "bg-tile text-lg" : ""}`
+                  : `text-fg-subtle hover:text-fg ${prominent ? "hover:bg-tile" : ""}`
               }`}
             >
               {/* Position marker: a filled dot for the section being read (not colour alone). */}

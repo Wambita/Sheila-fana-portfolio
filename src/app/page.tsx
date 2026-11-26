@@ -53,7 +53,7 @@ export default async function Home() {
       ) : null}
 
       {disciplines.length > 0 ? (
-        <Section id="portfolios" title="Portfolios">
+        <Section id="disciplines" title="Disciplines">
           <PortfolioList disciplines={disciplines} />
         </Section>
       ) : null}
@@ -107,7 +107,7 @@ export default async function Home() {
 
       <Section id="full-record" title="Full record">
         <p className="max-w-[60ch] text-fg-muted">
-          Everything across all portfolios, including work that sits outside
+          Everything across all disciplines, including work that sits outside
           them.
         </p>
         <ul className="mt-5 flex flex-wrap gap-x-8 gap-y-3">

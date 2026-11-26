@@ -95,7 +95,7 @@ async function ProjectContent({
           ))}
           {project.disciplines.length > 0 ? (
             <div>
-              <dt className="font-mono text-xs text-fg-subtle">Portfolios</dt>
+              <dt className="font-mono text-xs text-fg-subtle">Disciplines</dt>
               <dd className="mt-1.5">
                 {project.disciplines.map((d, index) => (
                   <span key={d.slug}>

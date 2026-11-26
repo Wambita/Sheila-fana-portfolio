@@ -141,7 +141,7 @@ test.describe("discipline portfolios (ADR-019)", () => {
     if (isMobile) await page.getByRole("button", { name: "Menu" }).click();
     const nav = page.getByRole("navigation", { name: "Primary" });
     await expect(
-      nav.getByRole("list", { name: "Portfolios" }).getByRole("link"),
+      nav.getByRole("list", { name: "Disciplines" }).getByRole("link"),
     ).toHaveText(["[Sample] Discipline A", "[Sample] Discipline B"]);
     await expect(
       nav.getByRole("list", { name: "Pages" }).getByRole("link"),
@@ -256,7 +256,7 @@ test.describe("discipline portfolios (ADR-019)", () => {
     expect(
       await main.getByRole("heading", { level: 2 }).allInnerTexts(),
     ).toEqual([
-      "Portfolios",
+      "Disciplines",
       "Selected work",
       "Skills",
       "Key experience",
@@ -277,7 +277,7 @@ test.describe("discipline portfolios (ADR-019)", () => {
 });
 
 test.describe("portfolio navigation (ADR-022)", () => {
-  test("a portfolio opens its own navigation; Main menu goes back", async ({
+  test("a portfolio opens its own navigation; All disciplines goes back", async ({
     page,
     isMobile,
   }) => {
@@ -304,20 +304,24 @@ test.describe("portfolio navigation (ADR-022)", () => {
     ).toHaveCount(0);
 
     // Back to level 1, focus moves to the current portfolio.
-    await nav.getByRole("button", { name: "Main menu" }).click();
+    await nav.getByRole("button", { name: "All disciplines" }).click();
     const current = nav.getByRole("link", { name: "[Sample] Discipline A" });
     await expect(current).toBeFocused();
     await expect(current).toHaveAttribute("aria-current", "page");
     await expect(
       nav.getByRole("link", { name: "[Sample] Discipline B" }),
     ).toBeVisible();
-    await expect(nav.getByRole("button", { name: "Main menu" })).toHaveCount(0);
+    await expect(
+      nav.getByRole("button", { name: "All disciplines" }),
+    ).toHaveCount(0);
 
     // Choosing the current portfolio again re-opens its navigation (on mobile the
     // menu closes, as for any navigation, and shows it when reopened).
     await current.click();
     if (isMobile) await page.getByRole("button", { name: "Menu" }).click();
-    await expect(nav.getByRole("button", { name: "Main menu" })).toBeVisible();
+    await expect(
+      nav.getByRole("button", { name: "All disciplines" }),
+    ).toBeVisible();
   });
 
   test("moving to another portfolio opens that portfolio's navigation", async ({

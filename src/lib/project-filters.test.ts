@@ -60,7 +60,7 @@ describe("projectYears", () => {
 describe("filterOptions", () => {
   it("offers only values the projects have", () => {
     expect(filterOptions([a, b, c])).toEqual({
-      portfolios: [
+      disciplines: [
         { value: "design", label: "Design" },
         { value: "security", label: "Security" },
       ],
@@ -85,10 +85,10 @@ describe("filterProjects", () => {
       filterProjects([a, b, c], { ...emptyFilters, ...filters }).map(
         (p) => p.slug,
       );
-    expect(slugs({ portfolio: "design" })).toEqual(["a"]);
+    expect(slugs({ discipline: "design" })).toEqual(["a"]);
     expect(slugs({ technology: "python" })).toEqual(["b"]);
     expect(slugs({ year: "2024" })).toEqual(["a"]);
-    expect(slugs({ portfolio: "design", year: "2026" })).toEqual([]);
+    expect(slugs({ discipline: "design", year: "2026" })).toEqual([]);
   });
 });
 
@@ -97,10 +97,10 @@ describe("URL round trip", () => {
   it("reads valid values and ignores unknown ones", () => {
     expect(
       filtersFromParams(
-        new URLSearchParams("portfolio=design&technology=nope&year=2026"),
+        new URLSearchParams("discipline=design&technology=nope&year=2026"),
         options,
       ),
-    ).toEqual({ portfolio: "design", technology: "", year: "2026" });
+    ).toEqual({ discipline: "design", technology: "", year: "2026" });
   });
   it("writes only set filters", () => {
     expect(filtersToQuery({ ...emptyFilters, year: "2024" })).toBe(

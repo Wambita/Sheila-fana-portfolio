@@ -1,15 +1,15 @@
 import type { ProjectSummary } from "@/lib/content/schemas";
 import { yearOf } from "@/lib/format";
 
-/** Project filters (FR-04): portfolio, technology and year. Empty string means "all". */
+/** Project filters (FR-04): discipline, technology and year. Empty string means "all". */
 export type ProjectFilterState = {
-  portfolio: string;
+  discipline: string;
   technology: string;
   year: string;
 };
 
 export const emptyFilters: ProjectFilterState = {
-  portfolio: "",
+  discipline: "",
   technology: "",
   year: "",
 };
@@ -31,7 +31,7 @@ export function projectYears(project: ProjectSummary): number[] {
 
 /** Options built from the projects themselves, so a filter never offers an empty result. */
 export function filterOptions(projects: ProjectSummary[]): {
-  portfolios: Option[];
+  disciplines: Option[];
   technologies: Option[];
   years: Option[];
 } {
@@ -45,7 +45,7 @@ export function filterOptions(projects: ProjectSummary[]): {
   }
   const byLabel = (a: Option, b: Option) => a.label.localeCompare(b.label);
   return {
-    portfolios: [...disciplines]
+    disciplines: [...disciplines]
       .map(([value, label]) => ({ value, label }))
       .sort(byLabel),
     technologies: [...technologies]
@@ -63,8 +63,8 @@ export function filterProjects(
 ): ProjectSummary[] {
   return projects.filter(
     (project) =>
-      (!filters.portfolio ||
-        project.disciplines.some((d) => d.slug === filters.portfolio)) &&
+      (!filters.discipline ||
+        project.disciplines.some((d) => d.slug === filters.discipline)) &&
       (!filters.technology ||
         project.skills.some((s) => s.slug === filters.technology)) &&
       (!filters.year || projectYears(project).includes(Number(filters.year))),
@@ -81,7 +81,7 @@ export function filtersFromParams(
     return list.some((o) => o.value === value) ? value : "";
   };
   return {
-    portfolio: pick("portfolio", options.portfolios),
+    discipline: pick("discipline", options.disciplines),
     technology: pick("technology", options.technologies),
     year: pick("year", options.years),
   };

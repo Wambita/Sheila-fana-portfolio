@@ -79,7 +79,7 @@ async function PortfolioContent({
 
       {blocks.length === 0 ? (
         <p className="mt-16 max-w-[68ch]">
-          Work for this portfolio will appear here once it has been reviewed.
+          Work for this discipline will appear here once it has been reviewed.
         </p>
       ) : (
         <PortfolioBlocks blocks={blocks} />

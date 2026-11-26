@@ -70,7 +70,7 @@ export function ProjectCard({
           ) : null}
           {project.disciplines.length > 0 ? (
             <div>
-              <dt className="sr-only">Portfolios</dt>
+              <dt className="sr-only">Disciplines</dt>
               <dd className="text-fg-muted">
                 {project.disciplines.map((d) => d.name).join(", ")}
               </dd>
