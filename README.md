@@ -1,12 +1,24 @@
-﻿# Sheila Fana | Personal Portfolio
+# Sheila Fana | Personal Portfolio
 
 A personal portfolio showcasing software development,
 UI/UX design, cybersecurity, AI, robotics, and emerging technologies.
 
 ## Status
 
-Phase 0, discovery and planning. No application code yet. See
-[docs/08-development-plan.md](./docs/08-development-plan.md) for the roadmap.
+Phase 1, foundations. See [docs/08-development-plan.md](./docs/08-development-plan.md)
+for the roadmap and [docs/brand-style-guide.md](./docs/brand-style-guide.md) for the brand.
+
+## Getting started
+
+Requires Node 24 LTS (see `.nvmrc`).
+
+```bash
+npm install
+cp .env.example .env.local
+npm run dev        # http://localhost:3000
+npm run check      # lint, typecheck, format, brand guard, unit tests
+npm run build && npm run test:e2e   # end-to-end + accessibility tests
+```
 
 ## Project Documentation
 
