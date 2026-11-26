@@ -27,17 +27,9 @@ jobs:
       - run: npm run format:check
       - run: npm run check:brand
       - run: npm test
-      - run: npm run build
-      - run: npx playwright install --with-deps chromium
-      - run: npm run test:e2e
-      - uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: playwright-report
-          path: playwright-report
-          retention-days: 7
 
-  # Migrations, RLS and repositories against a throwaway local Supabase stack (doc 09).
+  # Everything that needs data: migrations, RLS, repositories, then the production build
+  # and e2e against a throwaway local Supabase stack with the fake seed data (doc 09).
   database:
     runs-on: ubuntu-latest
     steps:
@@ -67,3 +59,13 @@ jobs:
             --override-name auth.anon_key=NEXT_PUBLIC_SUPABASE_ANON_KEY \
             | grep '^NEXT_PUBLIC_SUPABASE_' > .env.local
           npm run test:integration
+      # Pages read Supabase at build time, so the build and e2e run here.
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 7

@@ -13,8 +13,14 @@ if (!process.env.NEXT_PUBLIC_SUPABASE_URL && existsSync(".env.local")) {
   process.loadEnvFile(".env.local");
 }
 
-const { getDiscipline, getProfile, getProject, listDisciplines, listProjects } =
-  await import("./index");
+const {
+  getDiscipline,
+  getProfile,
+  getProject,
+  listDisciplines,
+  listItemsForDiscipline,
+  listProjects,
+} = await import("./index");
 
 describe("content repositories against local Supabase (seed data)", () => {
   it("lists only published projects, featured first", async () => {
@@ -58,6 +64,33 @@ describe("content repositories against local Supabase (seed data)", () => {
       "sample-discipline-b",
     ]);
     await expect(getDiscipline("sample-draft-discipline")).resolves.toBeNull();
+  });
+
+  it("lists published items of every type for a discipline, featured first", async () => {
+    const items = await listItemsForDiscipline("sample-discipline-a");
+    expect(items.map((i) => `${i.type}:${i.slug}`)).toEqual([
+      "project:sample-project-one",
+      "experience:sample-experience",
+    ]);
+    const other = await listItemsForDiscipline("sample-discipline-b");
+    expect(other.map((i) => i.slug)).toEqual([
+      "sample-project-one",
+      "sample-project-two",
+    ]);
+  });
+
+  it("lists nothing for a draft discipline", async () => {
+    await expect(
+      listItemsForDiscipline("sample-draft-discipline"),
+    ).resolves.toEqual([]);
+  });
+
+  it("includes technologies on project summaries", async () => {
+    const [first] = await listProjects();
+    expect(first.skills.map((s) => s.slug)).toEqual([
+      "sample-skill-one",
+      "sample-skill-two",
+    ]);
   });
 
   it("loads the profile", async () => {

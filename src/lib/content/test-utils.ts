@@ -10,7 +10,7 @@ export function fakeQuery(result: {
 }) {
   const calls: Array<[string, ...unknown[]]> = [];
   const builder: Record<string, unknown> = {};
-  for (const method of ["from", "select", "eq", "order"]) {
+  for (const method of ["from", "select", "eq", "neq", "order"]) {
     builder[method] = vi.fn((...args: unknown[]) => {
       calls.push([method, ...args]);
       return builder;

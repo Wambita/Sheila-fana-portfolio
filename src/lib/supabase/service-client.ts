@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import type { Database } from "./database.types";
 import { getPublicSupabaseEnv } from "./env";
+import { uncachedFetch } from "./public-client";
 
 /**
  * Service-role client. It bypasses RLS, so it is restricted to server-only modules
@@ -27,5 +28,6 @@ export function createServiceClient(): SupabaseClient<Database> {
       autoRefreshToken: false,
       detectSessionInUrl: false,
     },
+    global: { fetch: uncachedFetch },
   });
 }
