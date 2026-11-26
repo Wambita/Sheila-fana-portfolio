@@ -14,8 +14,13 @@ select is_empty(
 );
 
 -- ---------------------------------------------------------------------------
--- Fixtures (inserted as the owner, which bypasses RLS)
+-- Fixtures (inserted as the owner, which bypasses RLS). Start from empty tables so
+-- seed.sql rows don't affect the results; the final rollback restores them.
 -- ---------------------------------------------------------------------------
+truncate public.content_items, public.disciplines, public.skills, public.media_assets,
+  public.profile, public.cv_variants, public.focus_views, public.contact_messages,
+  public.sync_runs, public.rate_limits cascade;
+
 insert into public.media_assets (id, storage_path, alt_text) values
   ('00000000-0000-0000-0000-0000000000a1', 'test/published-cover.png', 'Test image A'),
   ('00000000-0000-0000-0000-0000000000a2', 'test/draft-cover.png', 'Test image B'),

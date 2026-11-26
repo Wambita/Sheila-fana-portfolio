@@ -22,11 +22,11 @@ Colour tokens are also unit-tested: `src/lib/color/tokens.test.ts` asserts every
 ### Running tests locally
 
 - `npm test` runs the unit tests (needs Node 22.12 or newer). Run a single file with `npx vitest run src/lib/theme.test.ts`, or filter by name with `-t "resolveTheme"`.
-- `npx supabase test db` runs the pgTAP tests in `supabase/tests/database/` against the local stack (`npx supabase start` first; Docker Desktop must be running). `rls.test.sql` checks that every `public` table has RLS and what anon and authenticated users can and can't see or change. `constraints.test.sql` covers the integrity rules in doc 07. `npx supabase db lint --level warning` runs Supabase's schema linter. The database tests aren't in CI yet.
+- `npx supabase test db` runs the pgTAP tests in `supabase/tests/database/` against the local stack (`npx supabase start` first; Docker Desktop must be running). `rls.test.sql` checks that every `public` table has RLS and what anon and authenticated users can and can't see or change. `constraints.test.sql` covers the integrity rules in doc 07. `npx supabase db lint --level warning` runs Supabase's schema linter. Each test file truncates the tables it uses inside its transaction, so results don't depend on the seed data; the rollback restores it.
 - `npm run test:integration` runs `src/**/*.integration.test.ts`: the real repositories against the local stack and the obviously fake rows in `supabase/seed.sql` (run `npx supabase db reset` after changing the seed). They read the local keys from `.env.local` and are excluded from `npm test`, which uses a fake query builder (`src/lib/content/test-utils.ts`) instead.
 - `npm run build && npm run test:e2e` runs the end-to-end tests. Run one spec with `npx playwright test e2e/shell.spec.ts --project=desktop`. If Playwright's browser download is blocked, set `PLAYWRIGHT_CHANNEL=msedge` to use the installed Edge.
 
-CI runs on GitHub Actions for every PR. A PR is merge-ready only when all checks are green.
+CI runs on GitHub Actions for every PR, in two parallel jobs. `check` runs lint, typecheck, format, brand, unit tests, the build and e2e. `database` starts a throwaway Supabase stack (CLI pinned in `ci.yml`; keep it in step with the local CLI), then runs `db lint` (warnings fail), the pgTAP tests, a check that `database.types.ts` matches the schema, and the repository integration tests. A PR is merge-ready only when all checks are green.
 
 ## Accessibility standard: WCAG 2.2 AA
 
