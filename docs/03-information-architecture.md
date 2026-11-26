@@ -25,7 +25,7 @@
 ```
 
 **Navigation:** a persistent left sidebar on desktop and a top-bar menu on mobile (brand guide §5).
-The navbar (ADR-019, refined 2026-11-27) is **Portfolios**, the published disciplines in their sort order (from the database), followed by **About** and **Contact**. Each portfolio already contains its own experience, publications, writing and credentials, so those are not repeated in the navbar; the current page's sections are listed under its item instead.
+The navbar has two levels (ADR-022). **Main navigation:** the published portfolios by name, in their sort order (no caption), then **About** and **Contact**. **Portfolio navigation:** on a portfolio page the sidebar zooms into that portfolio: a "Main menu" back button, the portfolio's name, its own sections (in its chosen order) and small About and Contact links. "Main menu" zooms back out without leaving the page; opening another portfolio opens its navigation. Each portfolio already contains its own experience, publications, writing and credentials, so they are not repeated in the main navigation.
 
 The **full record** pages (Experience, Education at `/credentials`, Publications, Writing, All projects at `/projects`) list everything across disciplines, including work linked to no portfolio. They are reached from the footer and the homepage, not the navbar. Data is entered once: an item linked to a discipline appears in that portfolio and in the full record; an unlinked item appears only in the full record. **About** is the shared story (who Sheila is, how she works, background, interests, links) that every portfolio points to, rather than a copy in each. There is no separate portfolio index: the homepage and the navbar list them.
 

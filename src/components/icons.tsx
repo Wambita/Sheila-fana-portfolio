@@ -2,7 +2,7 @@ import type { SVGProps } from "react";
 
 /**
  * A small set of functional line icons (ADR-020). Each one marks an action or a
- * destination (external link, read more, theme, menu); none are decorative (brand
+ * destination (external link, continue, back, theme, menu); none are decorative (brand
  * guide §2). Always paired with a text label, so they are hidden from assistive tech.
  */
 type IconProps = Omit<SVGProps<SVGSVGElement>, "children">;
@@ -35,6 +35,15 @@ export function ArrowUpRight(props: IconProps) {
   return (
     <Icon {...props}>
       <path d="M7 17 17 7M8 7h9v9" />
+    </Icon>
+  );
+}
+
+/** Goes back up a level (portfolio navigation → main navigation). */
+export function ArrowLeft(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M19 12H5M11 6l-6 6 6 6" />
     </Icon>
   );
 }

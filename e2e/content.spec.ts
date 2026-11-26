@@ -275,3 +275,68 @@ test.describe("discipline portfolios (ADR-019)", () => {
     ).toBeVisible();
   });
 });
+
+test.describe("portfolio navigation (ADR-022)", () => {
+  test("a portfolio opens its own navigation; Main menu goes back", async ({
+    page,
+    isMobile,
+  }) => {
+    await page.goto("/portfolio/sample-discipline-a");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    if (isMobile) await page.getByRole("button", { name: "Menu" }).click();
+    const nav = page.getByRole("navigation", { name: "Primary" });
+
+    // Level 2: this portfolio's sections, other portfolios out of reach.
+    await expect(
+      nav
+        .getByRole("list", { name: "[Sample] Discipline A: sections" })
+        .getByRole("link"),
+    ).toHaveText([
+      "Capabilities",
+      "Case studies",
+      "Skills",
+      "Experience",
+      "Publications",
+      "Writing",
+    ]);
+    await expect(
+      nav.getByRole("link", { name: "[Sample] Discipline B" }),
+    ).toHaveCount(0);
+
+    // Back to level 1, focus moves to the current portfolio.
+    await nav.getByRole("button", { name: "Main menu" }).click();
+    const current = nav.getByRole("link", { name: "[Sample] Discipline A" });
+    await expect(current).toBeFocused();
+    await expect(current).toHaveAttribute("aria-current", "page");
+    await expect(
+      nav.getByRole("link", { name: "[Sample] Discipline B" }),
+    ).toBeVisible();
+    await expect(nav.getByRole("button", { name: "Main menu" })).toHaveCount(0);
+
+    // Choosing the current portfolio again re-opens its navigation (on mobile the
+    // menu closes, as for any navigation, and shows it when reopened).
+    await current.click();
+    if (isMobile) await page.getByRole("button", { name: "Menu" }).click();
+    await expect(nav.getByRole("button", { name: "Main menu" })).toBeVisible();
+  });
+
+  test("moving to another portfolio opens that portfolio's navigation", async ({
+    page,
+    isMobile,
+  }) => {
+    await page.goto("/");
+    if (isMobile) await page.getByRole("button", { name: "Menu" }).click();
+    await page
+      .getByRole("navigation", { name: "Primary" })
+      .getByRole("link", { name: "[Sample] Discipline B" })
+      .click();
+    await expect(page).toHaveURL(/\/portfolio\/sample-discipline-b$/);
+    if (isMobile) await page.getByRole("button", { name: "Menu" }).click();
+    await expect(
+      page
+        .getByRole("navigation", { name: "Primary" })
+        .getByRole("list", { name: "[Sample] Discipline B: sections" })
+        .getByRole("link"),
+    ).toHaveText(["Skills", "Credentials", "Experience", "Projects"]);
+  });
+});
