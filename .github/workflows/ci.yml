@@ -36,3 +36,34 @@ jobs:
           name: playwright-report
           path: playwright-report
           retention-days: 7
+
+  # Migrations, RLS and repositories against a throwaway local Supabase stack (doc 09).
+  database:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 3.4.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      # Postgres, PostgREST, Kong and Auth (needed for `status` to print the keys).
+      # Applies the migrations and seed.sql.
+      - run: supabase start -x realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
+      - run: supabase db lint --level warning --fail-on warning
+      - run: supabase test db
+      - name: Generated types are up to date (run `npm run db:types`)
+        run: |
+          supabase gen types typescript --local \
+            | npx prettier --stdin-filepath src/lib/supabase/database.types.ts \
+            | diff - src/lib/supabase/database.types.ts
+      - name: Repository integration tests
+        run: |
+          supabase status -o env \
+            --override-name api.url=NEXT_PUBLIC_SUPABASE_URL \
+            --override-name auth.anon_key=NEXT_PUBLIC_SUPABASE_ANON_KEY \
+            | grep '^NEXT_PUBLIC_SUPABASE_' > .env.local
+          npm run test:integration

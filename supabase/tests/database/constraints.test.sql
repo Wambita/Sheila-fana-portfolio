@@ -6,6 +6,10 @@ create extension if not exists pgtap with schema extensions;
 
 select plan(17);
 
+-- Start from empty tables so seed.sql rows don't affect the results; rollback restores them.
+truncate public.content_items, public.disciplines, public.skills, public.media_assets,
+  public.profile, public.cv_variants, public.focus_views cascade;
+
 insert into public.content_items (id, type, slug, title) values
   ('00000000-0000-0000-0000-000000000001', 'project', 'test-project', 'Test project'),
   ('00000000-0000-0000-0000-000000000002', 'experience', 'test-experience', 'Test experience'),
