@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 import { Prose } from "@/components/content/Prose";
 import { Loading } from "@/components/layout/Loading";
-import { Section } from "@/components/layout/Section";
+import { PortfolioBlocks } from "@/components/portfolio/PortfolioBlocks";
 import {
   getDiscipline,
+  listDisciplineSkills,
   listDisciplines,
   listItemsForDiscipline,
 } from "@/lib/content";
-import { itemHref, typeGroups } from "@/lib/content-links";
+import { buildPortfolio } from "@/lib/portfolio";
 import { placeholderParam } from "@/lib/static-params";
 
 export async function generateStaticParams() {
@@ -31,15 +31,16 @@ export async function generateMetadata({
 }
 
 /**
- * One template for every discipline (FR-03): the data decides what appears. The back
- * link is the instant static shell; slug-dependent content streams in behind Suspense.
+ * A standalone, shareable portfolio for one discipline (ADR-019). One template for every
+ * discipline (FR-03), but each discipline's data decides which sections appear and in
+ * what order, so the page can follow the nature of the field. The back link is the
+ * instant static shell; slug-dependent content streams in behind Suspense.
  */
 export default function Page({ params }: PageProps<"/disciplines/[slug]">) {
   return (
     <>
-      <p className="mb-5 font-mono text-xs">
-        <Link href="/disciplines">← All disciplines</Link>
-      </p>
+      {/* No link away from the portfolio: a shared link should stand on its own. */}
+      <p className="mb-5 font-mono text-xs text-fg-subtle">Portfolio</p>
       <Suspense fallback={<Loading />}>
         <DisciplineContent params={params} />
       </Suspense>
@@ -51,17 +52,14 @@ async function DisciplineContent({
   params,
 }: Pick<PageProps<"/disciplines/[slug]">, "params">) {
   const { slug } = await params;
-  const discipline = await getDiscipline(slug);
+  const [discipline, items, skills] = await Promise.all([
+    getDiscipline(slug),
+    listItemsForDiscipline(slug),
+    listDisciplineSkills(slug),
+  ]);
   if (!discipline) notFound();
 
-  const items = await listItemsForDiscipline(slug);
-  const groups = typeGroups
-    .map((group) => ({
-      ...group,
-      items: items.filter((item) => group.types.includes(item.type)),
-    }))
-    // Empty groups are hidden (doc 03).
-    .filter((group) => group.items.length > 0);
+  const blocks = buildPortfolio(discipline, items, skills);
 
   return (
     <>
@@ -79,55 +77,12 @@ async function DisciplineContent({
         ) : null}
       </header>
 
-      {groups.length === 0 ? (
+      {blocks.length === 0 ? (
         <p className="mt-16 max-w-[68ch]">
           Work for this discipline will appear here once it has been reviewed.
         </p>
       ) : (
-        groups.map((group) => (
-          <Section
-            key={group.heading}
-            id={group.heading.toLowerCase()}
-            title={group.heading}
-          >
-            <ol className="border-b border-border">
-              {group.items.map((item, index) => {
-                const href = itemHref(item.type, item.slug);
-                const note = item.emphasisNote ?? item.summary;
-                return (
-                  <li
-                    key={`${item.type}:${item.slug}`}
-                    className="grid gap-x-8 gap-y-2 border-t border-border py-6 md:grid-cols-[2.5rem_minmax(0,1fr)]"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="font-mono text-xs text-fg-subtle md:pt-1.5"
-                    >
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <div className="max-w-[68ch] min-w-0">
-                      <h3 className="text-xl">
-                        {href ? (
-                          <Link
-                            href={href}
-                            className="decoration-fg-subtle hover:decoration-current"
-                          >
-                            {item.title}
-                          </Link>
-                        ) : (
-                          item.title
-                        )}
-                      </h3>
-                      {note ? (
-                        <p className="mt-2 text-fg-muted">{note}</p>
-                      ) : null}
-                    </div>
-                  </li>
-                );
-              })}
-            </ol>
-          </Section>
-        ))
+        <PortfolioBlocks blocks={blocks} />
       )}
     </>
   );

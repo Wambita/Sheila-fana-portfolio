@@ -17,9 +17,12 @@ const {
   getDiscipline,
   getProfile,
   getProject,
+  listDisciplineSkills,
   listDisciplines,
+  listFeaturedExperience,
   listItemsForDiscipline,
   listProjects,
+  listSkillOverview,
 } = await import("./index");
 
 describe("content repositories against local Supabase (seed data)", () => {
@@ -69,14 +72,113 @@ describe("content repositories against local Supabase (seed data)", () => {
   it("lists published items of every type for a discipline, featured first", async () => {
     const items = await listItemsForDiscipline("sample-discipline-a");
     expect(items.map((i) => `${i.type}:${i.slug}`)).toEqual([
-      "project:sample-project-one",
       "experience:sample-experience",
+      "project:sample-project-one",
+      "article:sample-article",
+      "publication:sample-publication",
     ]);
     const other = await listItemsForDiscipline("sample-discipline-b");
     expect(other.map((i) => i.slug)).toEqual([
       "sample-project-one",
+      "sample-certification",
+      "sample-engagement",
       "sample-project-two",
     ]);
+  });
+
+  it("carries the details each portfolio section needs", async () => {
+    const items = await listItemsForDiscipline("sample-discipline-a");
+    const bySlug = Object.fromEntries(items.map((i) => [i.slug, i]));
+    // A case study in A, a plain project in B.
+    expect(bySlug["sample-project-one"]).toMatchObject({
+      featuredHere: true,
+      role: "[Sample] Role",
+      startedOn: "2000-01-01",
+    });
+    expect(bySlug["sample-experience"]).toMatchObject({
+      role: "[Sample] Role",
+      organisation: "[Sample] Organisation",
+    });
+    expect(bySlug["sample-publication"]).toMatchObject({
+      organisation: "[Sample] Venue",
+      year: 2000,
+      externalUrl: "https://example.com/sample-publication",
+    });
+    expect(bySlug["sample-article"]).toMatchObject({
+      organisation: "dev.to",
+      startedOn: "2000-07-01",
+      externalUrl: "https://example.com/sample-article",
+    });
+    const b = await listItemsForDiscipline("sample-discipline-b");
+    expect(b.find((i) => i.slug === "sample-project-one")?.featuredHere).toBe(
+      false,
+    );
+    expect(b.find((i) => i.slug === "sample-certification")).toMatchObject({
+      organisation: "[Sample] Issuer",
+      startedOn: "2000-06-01",
+    });
+  });
+
+  it("loads each portfolio's own section order and capabilities", async () => {
+    const [a, b] = await listDisciplines();
+    expect(a.capabilities).toEqual([
+      "[Sample] Capability one",
+      "[Sample] Capability two",
+    ]);
+    expect(b.sections).toEqual([
+      "skills",
+      "credentials",
+      "experience",
+      "projects",
+    ]);
+  });
+
+  it("lists a portfolio's skills in priority order with their kind", async () => {
+    await expect(listDisciplineSkills("sample-discipline-b")).resolves.toEqual([
+      {
+        slug: "sample-skill-three",
+        name: "[Sample] Skill three",
+        kind: "competency",
+      },
+      {
+        slug: "sample-skill-one",
+        name: "[Sample] Skill one",
+        kind: "technical",
+      },
+    ]);
+    await expect(
+      listDisciplineSkills("sample-draft-discipline"),
+    ).resolves.toEqual([]);
+  });
+
+  it("builds the homepage skill overview from highlighted skills only", async () => {
+    const overview = await listSkillOverview();
+    expect(overview).toEqual([
+      {
+        slug: "sample-category-a",
+        name: "[Sample] Category A",
+        discipline: {
+          slug: "sample-discipline-a",
+          name: "[Sample] Discipline A",
+        },
+        skills: [{ slug: "sample-skill-one", name: "[Sample] Skill one" }],
+      },
+      {
+        slug: "sample-category-b",
+        name: "[Sample] Category B",
+        discipline: {
+          slug: "sample-discipline-b",
+          name: "[Sample] Discipline B",
+        },
+        skills: [{ slug: "sample-skill-three", name: "[Sample] Skill three" }],
+      },
+    ]);
+  });
+
+  it("lists featured experience for the homepage", async () => {
+    const items = await listFeaturedExperience();
+    expect(items.map((i) => i.slug)).toEqual(["sample-experience"]);
+    expect(items[0].organisation).toBe("[Sample] Organisation");
   });
 
   it("lists nothing for a draft discipline", async () => {

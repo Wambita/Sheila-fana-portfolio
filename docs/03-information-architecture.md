@@ -8,7 +8,7 @@
 /                           Home (recruiter-useful first screen)
 /about                      About + personal interests
 /disciplines                Discipline index (published disciplines only)
-/disciplines/[slug]         Discipline page (single data-driven template; shareable)
+/disciplines/[slug]         Discipline portfolio (standalone and shareable; one template, per-discipline section order)
 /projects                   Projects index (filterable)
 /projects/[slug]            Project detail (evidence structure)
 /experience                 Employment, volunteering, community impact
@@ -25,7 +25,9 @@
 ```
 
 **Navigation:** a persistent left sidebar on desktop and a top-bar menu on mobile (brand guide §5).
-Primary items: **Work**, **Disciplines**, **Experience**, **Writing**, **About**, **Contact**. Publications and Credentials are reached from About and Experience, and from the footer. The final order will be validated with Sheila in Phase 3.
+Two groups (ADR-019): **Portfolios**, the published disciplines in their sort order (from the database), and **More**, the shared pages: About, Experience, Education (`/credentials`), Publications, Writing, All projects (`/projects`) and Contact. The current page's sections are listed under its item. `/disciplines` (an index of portfolios) still exists but isn't in the navbar; the homepage lists the portfolios.
+
+**Page roles:** the homepage summarises the whole portfolio; each discipline page is a focused, self-contained portfolio; shared pages hold supporting information across disciplines; project pages are the detailed case studies.
 
 ## Sharing model
 
@@ -64,4 +66,4 @@ Shared fields: `slug`, `title`, `summary`, `body`, `status` (draft/published), `
 
 ## How a discipline page is assembled
 
-The discipline record supplies the intro. The page lists the published items linked to it, grouped by type (projects, experience, writing, publications, credentials) and ordered by `featured`, then date. Empty groups are hidden.
+The discipline record supplies the name, tagline, intro and capabilities, and its `sections` list decides which portfolio sections appear and in what order (for example skills and credentials first for a security portfolio, case studies first for design). Each section shows only published items linked to the discipline: case studies (projects featured for this discipline), other projects, the discipline's skills grouped by kind, experience (roles and engagements, newest first), publications, writing, and education and credentials. Empty sections are hidden. Items without a page of their own link to their canonical source (publication, credential verification, original article). The page has no link away from the portfolio, so a shared link stands on its own.
