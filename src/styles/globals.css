@@ -1,0 +1,82 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+/*
+ * Tailwind's default palette is disabled: only brand tokens exist as colour
+ * utilities (bg-bg, text-fg, text-fg-muted, bg-surface, border-border,
+ * text-link, bg-accent, text-on-accent, border-control, …).
+ */
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-on-accent: var(--on-accent);
+  --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
+  --color-border: var(--border);
+  --color-control: var(--control-border);
+  --color-highlight: var(--highlight);
+  --color-marker: var(--marker);
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --font-serif: var(--font-lora), Georgia, serif;
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    background-color: var(--bg);
+  }
+
+  body {
+    @apply bg-bg font-sans text-fg antialiased;
+    font-size: 1.0625rem; /* ~17px */
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-serif text-fg;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Links are recognisable without colour alone (brand guide §6). */
+  a {
+    @apply text-link underline decoration-1 underline-offset-[0.2em];
+  }
+  a:hover {
+    @apply text-link-hover;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--link);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

@@ -7,20 +7,20 @@
 
 Tokens are semantic CSS variables in `src/styles/tokens.css`, exposed through Tailwind v4 `@theme`. Components use the semantic names only. Raw hex values and Tailwind's default palette (including any purple, violet or indigo) are not allowed in components. The default palette will be disabled.
 
-| Token | Light | Dark | Brand guide role |
-|---|---|---|---|
-| `--color-bg` | `#F5F3ED` | `#172426` | Page background |
-| `--color-surface` | `#FFFFFF` | `#243638` | Surface / card |
-| `--color-fg` | `#202D2B` | `#F2F1EA` | Primary text |
-| `--color-fg-muted` | `#62716E` (on paper; `#687875` allowed on white) | `#A8B7B2` | Secondary text |
-| `--color-accent` | `#47796F` | `#A9BDB2` | Accent fills (buttons with white / ink text) |
-| `--color-link` | `#45756C` | `#A9BDB2` | Accent text and links |
-| `--color-control-border` | `#62716E` | `#A8B7B2` | Form-control borders (≥3:1) |
-| `--color-on-accent` | `#FFFFFF` | `#172426` | Text on accent buttons |
-| `--color-accent-hover` | `#35645B` | `#C0D0C7` | Accent hover |
-| `--color-border` | `#E2E4DD` | `#354648` | Border (decorative dividers) |
-| `--color-highlight` | `#A9BDB2` (Soft Sage) | — | Subtle highlight |
-| `--color-marker` | `#B98259` (Muted Copper) | `#B98259` | Rare editorial markers only |
+| Token                    | Light                                            | Dark      | Brand guide role                             |
+| ------------------------ | ------------------------------------------------ | --------- | -------------------------------------------- |
+| `--color-bg`             | `#F5F3ED`                                        | `#172426` | Page background                              |
+| `--color-surface`        | `#FFFFFF`                                        | `#243638` | Surface / card                               |
+| `--color-fg`             | `#202D2B`                                        | `#F2F1EA` | Primary text                                 |
+| `--color-fg-muted`       | `#62716E` (on paper; `#687875` allowed on white) | `#A8B7B2` | Secondary text                               |
+| `--color-accent`         | `#47796F`                                        | `#A9BDB2` | Accent fills (buttons with white / ink text) |
+| `--color-link`           | `#45756C`                                        | `#A9BDB2` | Accent text and links                        |
+| `--color-control-border` | `#62716E`                                        | `#A8B7B2` | Form-control borders (≥3:1)                  |
+| `--color-on-accent`      | `#FFFFFF`                                        | `#172426` | Text on accent buttons                       |
+| `--color-accent-hover`   | `#35645B`                                        | `#C0D0C7` | Accent hover                                 |
+| `--color-border`         | `#E2E4DD`                                        | `#354648` | Border (decorative dividers)                 |
+| `--color-highlight`      | `#A9BDB2` (Soft Sage)                            | —         | Subtle highlight                             |
+| `--color-marker`         | `#B98259` (Muted Copper)                         | `#B98259` | Rare editorial markers only                  |
 
 Values reflect adjustments A1–A4, approved by the owner on 2026-11-26.
 
@@ -28,21 +28,22 @@ Values reflect adjustments A1–A4, approved by the owner on 2026-11-26.
 
 I measured these WCAG 2.x contrast ratios in Phase 0. AA requires 4.5:1 for normal text, 3:1 for large text, and 3:1 for UI component boundaries such as input borders and focus rings (SC 1.4.11).
 
-| Pair | Ratio | Result |
-|---|---|---|
-| Primary text on paper / white (light) | 12.86 / 14.27 | ✅ |
-| Primary text on ink / slate (dark) | 14.08 / 11.17 | ✅ |
-| **Body Muted `#687875` on Warm Paper** | **4.18** | ❌ fails for normal text (passes on white: 4.63) |
-| **Research Teal `#47796F` text on Warm Paper** | **4.47** | ❌ just fails for normal text (passes on white: 4.96) |
-| White text on Research Teal button | 4.96 | ✅ |
-| Paper text on Research Teal button | 4.47 | ❌ so use white button text |
-| Accent hover `#35645B` on paper | 6.06 | ✅ |
-| Dark muted / dark accent on ink or slate | 6.07–8.06 | ✅ |
-| Ink text on Soft Sage button (dark) | 8.06 | ✅ |
-| Copper on paper | 2.96 | Decorative markers only, never text |
-| Border Light on paper / Border Dark on ink | 1.16 / 1.61 | OK for decorative dividers. **Not enough for input borders** |
+| Pair                                           | Ratio         | Result                                                       |
+| ---------------------------------------------- | ------------- | ------------------------------------------------------------ |
+| Primary text on paper / white (light)          | 12.86 / 14.27 | ✅                                                           |
+| Primary text on ink / slate (dark)             | 14.08 / 11.17 | ✅                                                           |
+| **Body Muted `#687875` on Warm Paper**         | **4.18**      | ❌ fails for normal text (passes on white: 4.63)             |
+| **Research Teal `#47796F` text on Warm Paper** | **4.47**      | ❌ just fails for normal text (passes on white: 4.96)        |
+| White text on Research Teal button             | 4.96          | ✅                                                           |
+| Paper text on Research Teal button             | 4.47          | ❌ so use white button text                                  |
+| Accent hover `#35645B` on paper                | 6.06          | ✅                                                           |
+| Dark muted / dark accent on ink or slate       | 6.07–8.06     | ✅                                                           |
+| Ink text on Soft Sage button (dark)            | 8.06          | ✅                                                           |
+| Copper on paper                                | 2.96          | Decorative markers only, never text                          |
+| Border Light on paper / Border Dark on ink     | 1.16 / 1.61   | OK for decorative dividers. **Not enough for input borders** |
 
 **Adjustments: approved by the owner on 2026-11-26 and applied to the brand guide.**
+
 - **A1:** For secondary text on Warm Paper, use `#62716E` (4.61:1). It is visually almost identical to Body Muted. Alternatively, keep `#687875` only on white surfaces.
 - **A2:** For teal links and text on Warm Paper, use `#45756C` (4.71:1), or reuse the approved Accent Hover `#35645B` (6.06:1) as the resting link colour on paper. Teal buttons are unaffected: they use white text.
 - **A3:** For form-control borders, use the secondary-text colour (light 4.6:1 at A1, dark `#A8B7B2`) instead of the Border tokens. This meets the 3:1 requirement for UI components. Border tokens stay for dividers only.
@@ -50,11 +51,11 @@ I measured these WCAG 2.x contrast ratios in Phase 0. AA requires 4.5:1 for norm
 
 ## Typography
 
-| Role | Font | Loading |
-|---|---|---|
-| Headings | Lora | `next/font/google`, self-hosted, `display: swap` |
-| Body / UI | DM Sans | same |
-| Code / technical metadata | JetBrains Mono | same, subset |
+| Role                      | Font           | Loading                                          |
+| ------------------------- | -------------- | ------------------------------------------------ |
+| Headings                  | Lora           | `next/font/google`, self-hosted, `display: swap` |
+| Body / UI                 | DM Sans        | same                                             |
+| Code / technical metadata | JetBrains Mono | same, subset                                     |
 
 Headings use sentence case. Lora is limited to headings and short emphasis. Body text is about 17px with a line-height of 1.6 and a maximum line length of about 68ch. The type scale is fluid with `clamp()`, at a ratio of about 1.2 (restrained, with no oversized hero).
 
