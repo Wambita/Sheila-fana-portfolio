@@ -12,7 +12,7 @@ Updated at the end of each phase.
 - Brand style guide added as the visual source of truth.
 - `master` renamed to `main`.
 
-**Learned:** the approved palette has two pairs that fall slightly below AA contrast on Warm Paper (Body Muted at 4.18:1 and Research Teal text at 4.47:1). The proposed fixes A1–A4 in doc 05 are awaiting Sheila's approval.
+**Learned:** the approved palette has two pairs that fall slightly below AA contrast on Warm Paper (Body Muted at 4.18:1 and Research Teal text at 4.47:1). Sheila approved the proposed fixes, A1–A4 in doc 05.
 
 **Resolved:** all Phase 0 questions were answered (doc 02 §3), and contrast fixes A1–A4 were approved and applied to the brand guide.
 
