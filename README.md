@@ -10,7 +10,7 @@ for the roadmap and [docs/brand-style-guide.md](./docs/brand-style-guide.md) for
 
 ## Getting started
 
-Requires Node 24 LTS (see `.nvmrc`).
+Requires Node 26 LTS (see `.nvmrc`).
 
 ```bash
 npm install

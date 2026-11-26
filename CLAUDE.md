@@ -24,12 +24,14 @@ npx playwright test e2e/shell.spec.ts --project=desktop   # one spec / one viewp
 npm run check          # lint + typecheck + format:check + brand + unit tests
 ```
 
-Node 24 LTS (`.nvmrc`); `engines` requires 22.12 or newer. On Node 20, Vitest's native binding isn't installed and unit tests can't run. If Playwright's browser download fails, set `PLAYWRIGHT_CHANNEL=msedge` to use the installed Edge. The Supabase CLI isn't installed, so use `npx supabase`. Local Supabase requires Docker.
+Node 26 LTS (`.nvmrc`); `engines` requires 22.12 or newer. On Node 20, Vitest's native binding isn't installed and unit tests can't run. If Playwright's browser download fails, set `PLAYWRIGHT_CHANNEL=msedge` to use the installed Edge. The Supabase CLI isn't installed, so use `npx supabase`. Local Supabase requires Docker.
 
 ## Non-negotiable rules
 
 - **Never invent portfolio content.** That covers achievements, roles, employers, dates, project outcomes, metrics, publications, certifications, testimonials and biography. Unfinished sections use `InDevelopment` or clearly marked placeholders. If a project's evidence section has no owner-supplied content, hide it.
 - **The brand guide is the visual source of truth.** Read `docs/brand-style-guide.md` before touching any styling. Colours exist only as tokens in `src/styles/tokens.css`, exposed as Tailwind utilities (`bg-bg`, `bg-surface`, `text-fg`, `text-fg-muted`, `text-link`, `bg-accent`, `text-on-accent`, `border-border`, `border-control`, …). Tailwind's default palette is disabled. `tokens.test.ts` enforces AA contrast, and `check:brand` enforces no raw colours, purple, gradients or blur. Never edit tokens or the guide without Sheila's approval.
+- **No AI attribution:** never add `Co-Authored-By: Claude` trailers, "Generated with Claude Code" lines or any other AI attribution to commits or PRs (owner instruction).
+- **Private material:** the GitHub repository is public. Source CVs and other personal documents live in the git-ignored `private/` folder. Never commit them, and never copy contact details (phone number, address) into tracked files.
 - **Git:** the default branch is `main`. Use feature branches named `<type>/<short-description>` and Conventional Commits. Never merge into `main`, force-push it, change repository settings or permissions, or deploy to production without explicit approval. Never commit `.env*` files except `.env.example`.
 - **Docs move with the code.** Update the relevant `docs/` file in the same branch: schema changes go in doc 07, architecture in doc 06 (and its ADR log), requirements in doc 02, testing in doc 09.
 
