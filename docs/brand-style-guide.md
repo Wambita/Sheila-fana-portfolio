@@ -6,7 +6,7 @@
 
 This document is the authoritative visual reference for the Sheila Fana portfolio. All design, frontend and content implementation must follow it. Do not introduce a competing visual direction, trendy AI aesthetic or unapproved colour system.
 
-> **Pending owner decision:** contrast findings and proposed adjustments are recorded in [05-design-system.md §Accessibility findings](./05-design-system.md#accessibility-findings-on-the-approved-palette). This guide is unchanged until the owner approves them.
+> **Change log:** 2026-11-26. The owner approved accessibility adjustments A1–A4 (contrast fixes for text on Warm Paper and for form-control borders). See [05-design-system.md](./05-design-system.md#accessibility-findings-on-the-approved-palette) for the measurements.
 
 ## 1. Brand direction
 
@@ -57,6 +57,8 @@ Use a restrained palette built around deep ink, warm paper and botanical teal. T
 | Dark Muted | `#A8B7B2` | Secondary text | Captions, metadata and supporting text in dark theme. |
 | Border Light | `#E2E4DD` | Borders | Dividers and subtle boundaries in light theme. |
 | Border Dark | `#354648` | Borders | Dividers and subtle boundaries in dark theme. |
+| Muted on Paper | `#62716E` | Secondary text (AA) | Secondary text placed directly on Warm Paper (4.61:1). *Added 2026-11-26 for accessibility.* |
+| Teal on Paper | `#45756C` | Accent text (AA) | Links and teal text placed directly on Warm Paper (4.71:1). *Added 2026-11-26 for accessibility.* |
 
 ### Theme mapping
 
@@ -65,10 +67,13 @@ Use a restrained palette built around deep ink, warm paper and botanical teal. T
 | Page background | `#F5F3ED` | `#172426` |
 | Surface / card | `#FFFFFF` | `#243638` |
 | Primary text | `#202D2B` | `#F2F1EA` |
-| Secondary text | `#687875` | `#A8B7B2` |
-| Primary accent | `#47796F` | `#A9BDB2` |
+| Secondary text | `#62716E` on paper · `#687875` on white | `#A8B7B2` |
+| Primary accent (fills, buttons with white text) | `#47796F` | `#A9BDB2` |
+| Accent text / links | `#45756C` on paper · `#47796F` on white | `#A9BDB2` |
 | Accent hover | `#35645B` | `#C0D0C7` |
-| Border | `#E2E4DD` | `#354648` |
+| Border (dividers) | `#E2E4DD` | `#354648` |
+| Form-control border (≥3:1) | `#62716E` | `#A8B7B2` |
+| Focus ring | 2px solid `#45756C`, 2px offset | 2px solid `#A9BDB2`, 2px offset |
 
 ### Colour rules
 

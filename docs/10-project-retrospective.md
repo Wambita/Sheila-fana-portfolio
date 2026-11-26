@@ -14,4 +14,6 @@ Updated at the end of each phase.
 
 **Learned:** the approved palette has two pairs that fall slightly below AA contrast on Warm Paper (Body Muted at 4.18:1 and Research Teal text at 4.47:1). The proposed fixes A1–A4 in doc 05 are awaiting Sheila's approval.
 
-**Pending:** the open questions in doc 02 §4, and the GitHub default-branch switch to `main` (done by the owner in GitHub settings).
+**Resolved:** all Phase 0 questions were answered (doc 02 §3), and contrast fixes A1–A4 were approved and applied to the brand guide.
+
+**Pending:** the GitHub default-branch switch to `main` (done by the owner in GitHub settings).

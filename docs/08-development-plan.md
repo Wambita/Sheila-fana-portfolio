@@ -11,7 +11,7 @@
 | **2 — Data layer** | Content model live locally | Local Supabase; migrations; RLS + pgTAP; clearly fake seed data; generated types; repository layer | RLS and repository tests pass |
 | **3 — Public pages, writing, contact** | Browsable portfolio | Home, About, Disciplines template, Projects, Experience, Publications, Credentials; article sync and `/writing`; contact form + Resend + Turnstile; privacy page; 404/error | e2e journeys pass; a11y clean; sync is idempotent |
 | **4 — Focus views** | Reusable sharing | `/for/[slug]` | Journey J1 passes |
-| **5 — CV** | ATS-safe CV | `/cv`, `/cv/[slug]`, PDF route; PDF text-extraction test | The PDF parses in the correct order |
+| **5 — CV** | ATS-safe CV | `/cv`, `/cv/[slug]`, PDF and .docx routes; text-extraction tests | The PDF parses in the correct order |
 | **6 — Hardening & content** | Launch-ready | SEO, CSP tuning, performance; Sheila loads real content through Supabase Studio | Sheila signs off the content |
 | **7 — Launch** | Production | Hosted Supabase project; Vercel production on `*.vercel.app`; cron enabled | **Explicit owner approval** |
 | **8 — Admin dashboard** | Self-service editing | Auth + MFA, content CRUD, view and CV builders, media, contact inbox, audit log | Security review; admin e2e tests |
