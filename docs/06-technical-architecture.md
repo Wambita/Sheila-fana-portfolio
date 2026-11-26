@@ -6,7 +6,7 @@
 
 | Choice                | Verdict | Notes                                                                                                                                                                                                                                                             |
 | --------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Next.js (App Router)  | ✅      | Static generation plus on-demand revalidation. Route handlers for the PDF CV, OG images and sync. Version 16.4, with Cache Components and Partial Prefetching enabled. Requires Node 22.12 or newer for the toolchain; the project targets Node 24 LTS (ADR-014). |
+| Next.js (App Router)  | ✅      | Static generation plus on-demand revalidation. Route handlers for the PDF CV, OG images and sync. Version 16.4, with Cache Components and Partial Prefetching enabled. Requires Node 22.12 or newer for the toolchain; the project targets Node 26 LTS (ADR-014). |
 | TypeScript (strict)   | ✅      | Shared domain types, with Zod at the data boundary.                                                                                                                                                                                                               |
 | Tailwind CSS v4       | ✅      | `@theme` tokens from doc 05. The default palette is disabled.                                                                                                                                                                                                     |
 | Supabase + PostgreSQL | ✅      | The relational model suits reusable relationships. RLS, Auth for Phase 8, and Storage for media.                                                                                                                                                                  |
@@ -93,19 +93,19 @@ The CV is built with `@react-pdf/renderer` in a route handler (`/cv/[slug].pdf`)
 
 ## Decision log
 
-| ID      | Date       | Decision                                                                                                                                        | Status           |
-| ------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
-| ADR-001 | 2026-11-26 | Next.js + TS + Tailwind v4 + Supabase                                                                                                           | Proposed         |
-| ADR-002 | 2026-11-26 | Content in Postgres with a `content_items` supertable                                                                                           | Proposed         |
-| ADR-003 | 2026-11-26 | Static generation plus on-demand revalidation                                                                                                   | Proposed         |
-| ADR-004 | 2026-11-26 | ~~Token-based recruiter links~~ replaced by stable URLs and reusable focus views (owner decision)                                               | Accepted         |
-| ADR-005 | 2026-11-26 | Repository-layer boundary; no Supabase calls from the UI                                                                                        | Proposed         |
-| ADR-006 | 2026-11-26 | Hosting: Vercel Hobby + Supabase Free + Resend + Turnstile; no custom domain yet                                                                | Proposed         |
-| ADR-007 | 2026-11-26 | Articles synced daily from the dev.to API and Medium RSS into Postgres, shown with a canonical link to the source                               | Proposed         |
-| ADR-008 | 2026-11-26 | ATS-safe, text-based PDF CV generated from content data                                                                                         | Accepted (owner) |
-| ADR-009 | 2026-11-26 | Brand style guide is the visual source of truth                                                                                                 | Accepted (owner) |
-| ADR-010 | 2026-11-26 | Default branch renamed `master` → `main`                                                                                                        | Accepted (owner) |
-| ADR-011 | 2026-11-26 | Palette contrast adjustments A1–A4                                                                                                              | Accepted (owner) |
-| ADR-012 | 2026-11-26 | Header-based CSP for static pages instead of nonces (Next.js nonces require dynamic rendering); nonce CSP for the dynamic admin later           | Proposed         |
-| ADR-013 | 2026-11-26 | Adopt the Next.js 16 Cache Components model: `use cache` + `cacheTag` in repositories, `revalidateTag`/`updateTag` for invalidation             | Proposed         |
-| ADR-014 | 2026-11-26 | Node 24 LTS (CI and `.nvmrc`); `engines >= 22.12` because of Vitest, jsdom and Rolldown requirements; Node 20 reached end of life in April 2026 | Proposed         |
+| ID      | Date       | Decision                                                                                                                                                            | Status           |
+| ------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| ADR-001 | 2026-11-26 | Next.js + TS + Tailwind v4 + Supabase                                                                                                                               | Proposed         |
+| ADR-002 | 2026-11-26 | Content in Postgres with a `content_items` supertable                                                                                                               | Proposed         |
+| ADR-003 | 2026-11-26 | Static generation plus on-demand revalidation                                                                                                                       | Proposed         |
+| ADR-004 | 2026-11-26 | ~~Token-based recruiter links~~ replaced by stable URLs and reusable focus views (owner decision)                                                                   | Accepted         |
+| ADR-005 | 2026-11-26 | Repository-layer boundary; no Supabase calls from the UI                                                                                                            | Proposed         |
+| ADR-006 | 2026-11-26 | Hosting: Vercel Hobby + Supabase Free + Resend + Turnstile; no custom domain yet                                                                                    | Proposed         |
+| ADR-007 | 2026-11-26 | Articles synced daily from the dev.to API and Medium RSS into Postgres, shown with a canonical link to the source                                                   | Proposed         |
+| ADR-008 | 2026-11-26 | ATS-safe, text-based PDF CV generated from content data                                                                                                             | Accepted (owner) |
+| ADR-009 | 2026-11-26 | Brand style guide is the visual source of truth                                                                                                                     | Accepted (owner) |
+| ADR-010 | 2026-11-26 | Default branch renamed `master` → `main`                                                                                                                            | Accepted (owner) |
+| ADR-011 | 2026-11-26 | Palette contrast adjustments A1–A4                                                                                                                                  | Accepted (owner) |
+| ADR-012 | 2026-11-26 | Header-based CSP for static pages instead of nonces (Next.js nonces require dynamic rendering); nonce CSP for the dynamic admin later                               | Proposed         |
+| ADR-013 | 2026-11-26 | Adopt the Next.js 16 Cache Components model: `use cache` + `cacheTag` in repositories, `revalidateTag`/`updateTag` for invalidation                                 | Proposed         |
+| ADR-014 | 2026-11-26 | Node 26 LTS (current Active LTS; `.nvmrc` and CI). `engines >= 22.12` because of Vitest, jsdom and Rolldown requirements; Node 20 reached end of life in April 2026 | Proposed         |
