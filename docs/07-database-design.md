@@ -36,12 +36,16 @@ item_disciplines            item_id, discipline_id, is_primary, emphasis_note, s
 item_skills                 item_id, skill_id                                               PK(item_id, skill_id)
 item_relations              from_item_id, to_item_id, relation (enum), CHECK(from <> to)
 item_media                  item_id, media_id, caption, sort_order
+item_highlights             id, item_id, text, sort_order, status        -- bullet points, owner wording
+highlight_disciplines       highlight_id, discipline_id                   -- which disciplines a bullet supports
 
 focus_views                 id, slug UNIQUE, title, intro, discipline_id NULL, cv_variant_id NULL, status
 focus_view_items            view_id, item_id, sort_order, annotation
 cv_variants                 id, slug UNIQUE, title, summary_override, is_default, status
-cv_sections                 id, cv_variant_id, heading, content_type, sort_order
-cv_section_items            section_id, item_id, sort_order, summary_override
+cv_sections                 id, cv_variant_id, heading, sort_order        -- any heading; not tied to a content type
+cv_section_items            section_id, item_id, sort_order, title_override, organisation_label_override,
+                            summary_override
+cv_item_highlights          section_item_id, highlight_id, sort_order     -- which bullets this CV shows
 
 contact_messages            id, name, email, subject, message, ip_hash, created_at, handled_at
 rate_limits                 key, window_start, count
@@ -52,6 +56,16 @@ audit_log (Phase 8)         id, actor, action, table_name, row_id, diff jsonb, a
 ```
 
 Disciplines have no colour field, because the brand guide requires one shared identity.
+
+## Framing one item differently per CV
+
+One real role is stored **once**. Example: Zone01 Kisumu, 04/2024 – 04/2026, which was both apprenticeship training and hands-on project work. Each CV variant decides:
+
+- **which section it sits in** (for example "Professional experience" on the frontend CV, "Technical training" on the cybersecurity CV), because `cv_sections` aren't tied to a content type;
+- **the title shown** (`title_override`, for example "Frontend Developer" or "Apprentice Software Developer"). Overrides must come from titles the owner has approved for that item;
+- **which bullets appear**, chosen from the item's own `item_highlights`. A CV can never show text that isn't in the master record.
+
+Dates and organisation always come from the master record, so every CV agrees on the facts.
 
 ## Integrity rules
 

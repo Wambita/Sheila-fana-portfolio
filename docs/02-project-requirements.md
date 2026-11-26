@@ -36,7 +36,9 @@
 ### CV
 
 - FR-14 MUST: An ATS-safe CV, generated from the same content, available as a web page (`/cv`), a downloadable text-based PDF, and a .docx file.
-- FR-15 SHOULD: A CV variant per focus view or discipline (for example a cybersecurity CV), with the same layout and different selection and ordering.
+- FR-15 MUST: CV variants (owner decision, 2026-11-26): **UI/UX Design**, **Frontend Development**, **Full-stack Development**, **Cybersecurity** (new; built from existing security training, certifications and projects) and **Community & Mentorship**. All share one layout and differ in selection, ordering, section placement, title framing and chosen bullets (doc 07 §Framing).
+- FR-15a MUST: A role can be framed differently per CV (title, section, bullets), but dates, organisation and facts are always taken from the master record.
+- FR-15b MUST: Only owner-confirmed figures appear on CVs or the site. Unconfirmed metrics from earlier CVs are dropped, and the claim is described without the number.
 - FR-16 MUST: The CV follows the ATS rules in doc 06 §CV, and CI checks that the PDF's text extracts in the right reading order.
 
 ### Contact
