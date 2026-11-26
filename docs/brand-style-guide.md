@@ -6,7 +6,9 @@
 
 This document is the authoritative visual reference for the Wambita Sheila Fana portfolio. All design, frontend and content implementation must follow it. Do not introduce a competing visual direction, trendy AI aesthetic or unapproved colour system.
 
-> **Change log:** 2026-11-26 (later): the owner approved a **strict monochrome colour system** and **restrained glass** for navigation surfaces, replacing the Warm Paper / Ink / Research Teal palette and the blanket no-glassmorphism rule (ADR-018). §2, §3, §6, §11 and §12 are updated; the earlier palette and adjustments A1–A4 are kept in doc 05 for history.
+> **Change log:** 2026-11-27: the owner approved the positioning "Full-stack developer working at the intersection of design, code and security, building user-centred, secure systems." (full-stack as the primary identity; see doc 02 O7).
+>
+> 2026-11-26 (later): the owner approved a **strict monochrome colour system** and **restrained glass** for navigation surfaces, replacing the Warm Paper / Ink / Research Teal palette and the blanket no-glassmorphism rule (ADR-018). §2, §3, §6, §11 and §12 are updated; the earlier palette and adjustments A1–A4 are kept in doc 05 for history.
 >
 > 2026-11-26: the owner set the brand name to her full name, **Wambita Sheila Fana**, used consistently on the site and CVs. Also on 2026-11-26, the owner approved accessibility adjustments A1–A4 (contrast fixes for text on Warm Paper and for form-control borders). See [05-design-system.md](./05-design-system.md#accessibility-findings-on-the-approved-palette) for the measurements.
 
@@ -16,7 +18,7 @@ This document is the authoritative visual reference for the Wambita Sheila Fana 
 |---|---|
 | Brand name | Wambita Sheila Fana |
 | Brand idea | The Researcher |
-| Positioning | A multidisciplinary technologist working across design, software, cybersecurity, research and emerging technologies. |
+| Positioning | Full-stack developer working at the intersection of design, code and security, building user-centred, secure systems. (owner-approved 2026-11-27; the live wording is `profile.headline`, editable in Studio) |
 | Personality | Curious, thoughtful, credible, inventive, precise and quietly confident. |
 | Visual character | A minimalist, editorial digital gallery: monochrome, considered typography, generous negative space, thin dividers, structured layouts and subtle technical details. |
 | Primary audience | Recruiters, hiring managers, collaborators, research teams and potential clients. |
@@ -212,4 +214,4 @@ Claude Code and any other AI or human contributor must:
 
 ## 12. Short design brief
 
-A thoughtful, editorial portfolio for a multidisciplinary technologist. The identity is strictly monochrome—white and near-black with carefully differentiated greys—supported by Lora and DM Sans typography, thin dividers and restrained glass on navigation. It should feel credible, curious, precise and quietly distinctive—more gallery and research journal than generic tech template. It must not look like an AI website. Use solid colours, restrained details, clear layouts and genuine work. The experience must remain accessible, responsive, fast and easy for recruiters to navigate.
+A thoughtful, editorial portfolio for a full-stack developer working across design, code and security, with focused portfolios per discipline. The identity is strictly monochrome—white and near-black with carefully differentiated greys—supported by Lora and DM Sans typography, thin dividers and restrained glass on navigation. It should feel credible, curious, precise and quietly distinctive—more gallery and research journal than generic tech template. It must not look like an AI website. Use solid colours, restrained details, clear layouts and genuine work. The experience must remain accessible, responsive, fast and easy for recruiters to navigate.
