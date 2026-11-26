@@ -6,7 +6,9 @@
 
 This document is the authoritative visual reference for the Wambita Sheila Fana portfolio. All design, frontend and content implementation must follow it. Do not introduce a competing visual direction, trendy AI aesthetic or unapproved colour system.
 
-> **Change log:** 2026-11-26: the owner set the brand name to her full name, **Wambita Sheila Fana**, used consistently on the site and CVs. Also on 2026-11-26, the owner approved accessibility adjustments A1–A4 (contrast fixes for text on Warm Paper and for form-control borders). See [05-design-system.md](./05-design-system.md#accessibility-findings-on-the-approved-palette) for the measurements.
+> **Change log:** 2026-11-26 (later): the owner approved a **strict monochrome colour system** and **restrained glass** for navigation surfaces, replacing the Warm Paper / Ink / Research Teal palette and the blanket no-glassmorphism rule (ADR-018). §2, §3, §6, §11 and §12 are updated; the earlier palette and adjustments A1–A4 are kept in doc 05 for history.
+>
+> 2026-11-26: the owner set the brand name to her full name, **Wambita Sheila Fana**, used consistently on the site and CVs. Also on 2026-11-26, the owner approved accessibility adjustments A1–A4 (contrast fixes for text on Warm Paper and for form-control borders). See [05-design-system.md](./05-design-system.md#accessibility-findings-on-the-approved-palette) for the measurements.
 
 ## 1. Brand direction
 
@@ -16,7 +18,7 @@ This document is the authoritative visual reference for the Wambita Sheila Fana 
 | Brand idea | The Researcher |
 | Positioning | A multidisciplinary technologist working across design, software, cybersecurity, research and emerging technologies. |
 | Personality | Curious, thoughtful, credible, inventive, precise and quietly confident. |
-| Visual character | Editorial and research-oriented: considered typography, generous whitespace, structured layouts and subtle technical details. |
+| Visual character | A minimalist, editorial digital gallery: monochrome, considered typography, generous negative space, thin dividers, structured layouts and subtle technical details. |
 | Primary audience | Recruiters, hiring managers, collaborators, research teams and potential clients. |
 
 The portfolio should feel like a carefully edited body of work—not a generic technology landing page, AI-generated template or collection of unrelated personal websites. It should communicate range while making each discipline easy to understand.
@@ -30,7 +32,7 @@ These rules take priority over generic design trends, generated design suggestio
 - **No exaggerated gradients.** Do not use oversized, multicolour, radial, mesh, aurora or glowing gradients. Prefer solid colours and restrained tonal variation.
 - **No generic AI decorations.** Do not add sparkles, stars, magic-wand motifs, glowing orbs, floating blobs, neural-network patterns, circuit-board wallpaper, abstract AI swirls or decorative "intelligence" icons.
 - **No AI-style tag overload.** Avoid rows of unnecessary pills, badges, chips, floating labels and keyword clouds. Use tags only when they communicate useful information, such as project technologies or content categories.
-- **No glassmorphism as a default.** Avoid translucent floating panels, blurred backdrops and glowing glass cards.
+- **Glass only where it earns its place.** Restrained glass (neutral tint, backdrop blur, hairline neutral border) is allowed for the sidebar, the mobile top bar and menu, and floating controls such as the theme switcher. Never on content cards or page sections, never coloured or glowing, and always readable without the blur (an opaque fallback is required).
 - **No excessive animation.** Do not use constant floating, pulsing, shimmer, parallax or scroll-triggered spectacle. Motion must be subtle, purposeful and optional.
 - **No generic tech stock imagery.** Avoid anonymous people in offices, random code screens, robot-head illustrations and unrelated futuristic imagery.
 - **No fake product metrics or decorative dashboards.** Charts and numbers must represent real information and have a clear purpose.
@@ -40,51 +42,36 @@ If a design choice makes the site look like a stereotypical AI website, do not i
 
 ## 3. Colour system
 
-Use a restrained palette built around deep ink, warm paper and botanical teal. Teal is the primary brand accent. Muted copper is a rare supporting accent.
+A strict black-and-white system. Dark and light themes are semantic inversions of each other: the same tokens, the same hierarchy, opposite ends of the grey scale. There is no accent colour. Emphasis comes from contrast, weight, size, spacing and underlines.
 
-### Core palette
+### Tokens
 
-| Token | Hex | Role | Usage |
+| Token | Light | Dark | Role |
 |---|---|---|---|
-| Ink | `#172426` | Primary dark | Dark theme background, strong headings and dark surfaces. |
-| Deep Slate | `#243638` | Secondary dark | Cards, panels, navigation and layered surfaces. |
-| Warm Paper | `#F5F3ED` | Primary light | Light theme background and calm page surfaces. |
-| Pure White | `#FFFFFF` | Light surface | Cards, forms and elevated content. |
-| Research Teal | `#47796F` | Primary accent | Links, active navigation, buttons, selected states and key highlights. |
-| Soft Sage | `#A9BDB2` | Supporting accent | Subtle highlights and secondary emphasis. |
-| Muted Copper | `#B98259` | Rare secondary accent | Occasional small markers or editorial details only. |
-| Body Muted | `#687875` | Secondary text | Captions, metadata and supporting text in light theme. |
-| Dark Muted | `#A8B7B2` | Secondary text | Captions, metadata and supporting text in dark theme. |
-| Border Light | `#E2E4DD` | Borders | Dividers and subtle boundaries in light theme. |
-| Border Dark | `#354648` | Borders | Dividers and subtle boundaries in dark theme. |
-| Muted on Paper | `#62716E` | Secondary text (AA) | Secondary text placed directly on Warm Paper (4.61:1). *Added 2026-11-26 for accessibility.* |
-| Teal on Paper | `#45756C` | Accent text (AA) | Links and teal text placed directly on Warm Paper (4.71:1). *Added 2026-11-26 for accessibility.* |
+| `--bg` | `#FFFFFF` | `#050505` | Page background |
+| `--surface` | `#FAFAFA` | `#0D0D0D` | Sections, form fields |
+| `--surface-2` | `#F1F1F1` | `#151515` | Secondary surface, hover fills |
+| `--surface-3` | `#FFFFFF` | `#1C1C1C` | Elevated surface |
+| `--fg` | `#111111` | `#FFFFFF` | Primary text, headings, links |
+| `--fg-muted` | `#666666` | `#A3A3A3` | Secondary text |
+| `--fg-subtle` | `#6B6B6B` | `#8A8A8A` | Muted metadata |
+| `--border` | `#E5E5E5` | `#292929` | Hairline dividers only |
+| `--control-border` | `#767676` | `#6B6B6B` | Form controls and outlined buttons (≥3:1) |
+| `--accent` / `--on-accent` | `#111111` / `#FFFFFF` | `#FFFFFF` / `#050505` | Primary button: an inverted fill |
+| `--focus` | `#111111` | `#FFFFFF` | Focus ring |
+| `--glass` | white at 72% | `#0D0D0D` at 72% | Glass tint (navigation surfaces only) |
+| `--overlay` | black at 32% | black at 60% | Backdrop behind the mobile menu |
 
-### Theme mapping
-
-| Semantic role | Light theme | Dark theme |
-|---|---|---|
-| Page background | `#F5F3ED` | `#172426` |
-| Surface / card | `#FFFFFF` | `#243638` |
-| Primary text | `#202D2B` | `#F2F1EA` |
-| Secondary text | `#62716E` on paper · `#687875` on white | `#A8B7B2` |
-| Primary accent (fills, buttons with white text) | `#47796F` | `#A9BDB2` |
-| Accent text / links | `#45756C` on paper · `#47796F` on white | `#A9BDB2` |
-| Accent hover | `#35645B` | `#C0D0C7` |
-| Border (dividers) | `#E2E4DD` | `#354648` |
-| Form-control border (≥3:1) | `#62716E` | `#A8B7B2` |
-| Focus ring | 2px solid `#45756C`, 2px offset | 2px solid `#A9BDB2`, 2px offset |
+The brief's suggested muted greys (`#888888` light, `#737373` dark) were darkened/lightened to `#6B6B6B` and `#8A8A8A` because they fail WCAG AA for normal text (3.5:1 and 4.3:1).
 
 ### Colour rules
 
-- Keep the interface predominantly neutral. Colour should guide attention, not decorate every section.
-- Use Research Teal for meaningful interactions and active states.
-- Use Muted Copper sparingly. It is not a second primary accent.
-- Do not assign a different colour to every discipline. The entire portfolio must retain one recognisable identity.
-- Prefer solid fills and subtle tonal differences over gradients.
-- Never rely on colour alone to communicate status or selection.
-- Do not add new accent colours without approval.
-- Verify text, controls and focus states against WCAG 2.2 AA contrast requirements. Do not assume a colour combination is accessible because it looks readable.
+- Monochrome only. Every token is a neutral grey (enforced by `tokens.test.ts`). Do not add accent, discipline or decorative colours.
+- Feedback states (form errors, success) may use an accessible semantic colour sparingly, added as a token with owner approval, and never as the only signal.
+- Links are underlined; colour never distinguishes them on its own.
+- Hairline `--border` is for dividers. Controls use `--control-border`, which meets 3:1.
+- Components use tokens only; raw colours exist only in `src/styles/tokens.css` (enforced by `check:brand`).
+- Verify text, controls, focus and text on glass against WCAG 2.2 AA in both themes.
 
 ## 4. Typography
 
@@ -115,6 +102,8 @@ Typography rules:
 - Use clear page introductions and concise summaries.
 - Present projects as evidence: context, problem, role, process, decisions, implementation and verified outcomes.
 - Keep navigation and important actions predictable across all discipline pages.
+- Desktop and tablet: the sidebar stays in place while the page scrolls and lists the current page's sections, marking the one being read. The page background is static. Mobile: a sticky top bar shows the current page and section, with a menu; normal page scrolling, no nested scroll areas.
+- Present work as a gallery of editorial rows and modules with thin dividers, not identical cards.
 - Prefer simple rectangular or softly rounded surfaces.
 - Avoid excessive nested cards, floating panels and decorative containers.
 - Prioritise clarity, scanning and fast access to relevant work.
@@ -123,7 +112,7 @@ Typography rules:
 
 ### Buttons and links
 
-- Primary buttons use Research Teal with a clear text label.
+- Primary buttons use the inverted fill (`--accent`: black on light, white on dark) with a clear text label.
 - Secondary actions use an outline or quiet text-link treatment.
 - Links must be recognisable without relying only on colour.
 - Provide visible keyboard focus indicators.
@@ -214,7 +203,7 @@ Claude Code and any other AI or human contributor must:
 - Read this file before creating or changing visual components, styling, themes, layouts or design tokens.
 - Follow the palette, typography, layout and non-negotiable rules in this document.
 - Treat generated designs, starter templates, UI libraries and default component themes as subordinate to this guide.
-- Never introduce purple, violet, AI-style gradients, glowing effects, sparkles, excessive tags or generic AI visual motifs.
+- Never introduce colour accents, purple, violet, AI-style gradients, glowing effects, sparkles, excessive tags or generic AI visual motifs. Glass stays limited to the surfaces listed in §2.
 - Avoid silently changing the brand palette, fonts or visual direction.
 - If a change is needed for accessibility, usability or technical reasons, explain the issue and propose a specific alternative before changing the source-of-truth direction.
 - Update this document only when the owner explicitly approves a brand or visual-system change.
@@ -223,4 +212,4 @@ Claude Code and any other AI or human contributor must:
 
 ## 12. Short design brief
 
-A thoughtful, editorial portfolio for a multidisciplinary technologist. The identity combines warm paper, deep ink and research teal, supported by Lora and DM Sans typography. It should feel credible, curious, precise and quietly distinctive—more research journal than generic tech template. It must not look like an AI website. Use solid colours, restrained details, clear layouts and genuine work. The experience must remain accessible, responsive, fast and easy for recruiters to navigate.
+A thoughtful, editorial portfolio for a multidisciplinary technologist. The identity is strictly monochrome—white and near-black with carefully differentiated greys—supported by Lora and DM Sans typography, thin dividers and restrained glass on navigation. It should feel credible, curious, precise and quietly distinctive—more gallery and research journal than generic tech template. It must not look like an AI website. Use solid colours, restrained details, clear layouts and genuine work. The experience must remain accessible, responsive, fast and easy for recruiters to navigate.

@@ -71,7 +71,9 @@ test.describe("navigation", () => {
     const nav = page.getByRole("navigation", { name: "Primary" });
 
     await expect(menu).toHaveAttribute("aria-expanded", "false");
-    await expect(nav.getByRole("link", { name: "Work" })).toBeHidden();
+    await expect(
+      nav.getByRole("link", { name: "Work", exact: true }),
+    ).toBeHidden();
 
     await menu.click();
     await expect(menu).toHaveAttribute("aria-expanded", "true");
@@ -92,7 +94,7 @@ test.describe("navigation", () => {
     await expect(
       page
         .getByRole("navigation", { name: "Primary" })
-        .getByRole("link", { name: "Work" }),
+        .getByRole("link", { name: "Work", exact: true }),
     ).toBeVisible();
   });
 });

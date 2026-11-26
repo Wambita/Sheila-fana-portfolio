@@ -5,26 +5,26 @@
 
 ## Tokens
 
-Tokens are semantic CSS variables in `src/styles/tokens.css`, exposed through Tailwind v4 `@theme`. Components use the semantic names only. Raw hex values and Tailwind's default palette (including any purple, violet or indigo) are not allowed in components. The default palette will be disabled.
+Tokens are semantic CSS variables in `src/styles/tokens.css`, exposed as Tailwind v4 utilities through `@theme` in `globals.css` (`bg-bg`, `bg-surface`, `bg-surface-2`, `text-fg`, `text-fg-muted`, `text-fg-subtle`, `border-border`, `border-control`, `bg-accent`, `text-on-accent`, `border-glass-border`, `bg-overlay`, …). Components use the semantic names only. Tailwind's default palette is disabled.
 
-| Token                    | Light                                            | Dark      | Brand guide role                             |
-| ------------------------ | ------------------------------------------------ | --------- | -------------------------------------------- |
-| `--color-bg`             | `#F5F3ED`                                        | `#172426` | Page background                              |
-| `--color-surface`        | `#FFFFFF`                                        | `#243638` | Surface / card                               |
-| `--color-fg`             | `#202D2B`                                        | `#F2F1EA` | Primary text                                 |
-| `--color-fg-muted`       | `#62716E` (on paper; `#687875` allowed on white) | `#A8B7B2` | Secondary text                               |
-| `--color-accent`         | `#47796F`                                        | `#A9BDB2` | Accent fills (buttons with white / ink text) |
-| `--color-link`           | `#45756C`                                        | `#A9BDB2` | Accent text and links                        |
-| `--color-control-border` | `#62716E`                                        | `#A8B7B2` | Form-control borders (≥3:1)                  |
-| `--color-on-accent`      | `#FFFFFF`                                        | `#172426` | Text on accent buttons                       |
-| `--color-accent-hover`   | `#35645B`                                        | `#C0D0C7` | Accent hover                                 |
-| `--color-border`         | `#E2E4DD`                                        | `#354648` | Border (decorative dividers)                 |
-| `--color-highlight`      | `#A9BDB2` (Soft Sage)                            | —         | Subtle highlight                             |
-| `--color-marker`         | `#B98259` (Muted Copper)                         | `#B98259` | Rare editorial markers only                  |
+**Monochrome system (owner-approved 2026-11-26, ADR-018).** Values and roles are listed in [brand-style-guide.md §3](./brand-style-guide.md#3-colour-system). Dark and light are semantic inversions; every token is a neutral grey.
 
-Values reflect adjustments A1–A4, approved by the owner on 2026-11-26.
+`src/lib/color/tokens.test.ts` checks, in both themes and for the system-preference dark block:
 
-## Accessibility findings on the approved palette
+- AA 4.5:1 for `fg`, `fg-muted` and `fg-subtle` on every surface, links and link hover, and text on the primary button;
+- 3:1 for control borders and the focus ring;
+- AA for text on the glass tint composited over the background (so navigation stays readable even where blur is unsupported);
+- that every colour is neutral (r = g = b).
+
+### Glass
+
+One utility, `glass` in `globals.css` (tint + `backdrop-filter: blur(16px) saturate(140%)`), used only by the sidebar, the mobile top bar and menu panel, and floating controls. Nested backdrop filters can't blur the page, so on mobile the bar and the menu panel each carry their own glass. Where `backdrop-filter` is unsupported, `tokens.css` swaps the tint for the opaque surface. `check:brand` rejects blur anywhere else.
+
+## Previous palette (superseded)
+
+The Warm Paper / Ink / Research Teal palette and adjustments A1–A4 below were in use until ADR-018 and are kept for history.
+
+### Accessibility findings on the previous palette
 
 I measured these WCAG 2.x contrast ratios in Phase 0. AA requires 4.5:1 for normal text, 3:1 for large text, and 3:1 for UI component boundaries such as input borders and focus rings (SC 1.4.11).
 
@@ -61,14 +61,16 @@ Headings use sentence case. Lora is limited to headings and short emphasis. Body
 
 ## Layout
 
-- **Desktop (≥1024px):** a persistent left sidebar holds the name, primary navigation, theme toggle and contact link. The main content column sits to the right, with a reading measure of about 68ch and an optional metadata margin.
-- **Tablet and mobile:** a top bar with a disclosure menu. The menu is a native button and a `<nav>`, with focus management.
-- **Surfaces:** solid fills, 1px borders, a radius of 4–6px (softly rounded), and no shadows by default.
-- **Spacing:** a 4px base scale.
+- **Desktop (≥1024px) and tablet (≥768px):** a persistent glass sidebar (16–18rem on desktop, 13.5rem on tablet) holds the name, primary navigation, the current page's section links and the theme toggle. It is sticky while the document scrolls, so there is no nested scroll container; the page background is static. The main column keeps a ~68ch reading measure, with wider editorial rows for lists.
+- **Mobile (<768px):** a sticky glass top bar with the name, the current page and section ("Work / Context") and a Menu button. The menu is an overlay panel with a dimmed backdrop; it closes on Escape (focus returns to the button), on backdrop click and on navigation.
+- **Section navigation:** pages wrap sections in `<Section>` (`src/components/layout/Section.tsx`), which sets an id and `data-section`. `useSectionNav` finds the visible page's sections (ignoring routes React `<Activity>` keeps hidden), marks the one being read with `aria-current="location"` and a left rule (not colour alone), and tracks scrolling with a passive, rAF-throttled listener: the active section is the last one past 30% of the viewport, or the last section at the bottom of the page. A section chosen from the nav or the URL hash stays active until the visitor scrolls (short pages can't bring it to the top). Smooth scrolling is disabled under `prefers-reduced-motion`.
+- **Gallery composition:** lists are numbered editorial rows (index in JetBrains Mono, serif title, metadata column on wide screens) separated by hairlines, not cards.
+- **Surfaces:** solid fills, 1px hairlines, a 6px radius on controls, no shadows.
+- **Spacing:** a 4px base scale. Touch targets are at least 44px, except desktop section links (36px, above the WCAG 2.2 AA 24px minimum).
 
 ## Theming
 
-`next-themes` uses the `class` strategy with an inline script to prevent a flash of the wrong theme. The default is `system`, with a manual toggle that persists the choice.
+A `light` or `dark` class on `<html>`, set before first paint by an inline script (`src/lib/theme.ts`); with no stored choice the system preference applies (also without JavaScript). `ThemeToggle` stores an explicit choice in localStorage. Colours cross-fade over 200ms when the theme changes (instant with reduced motion).
 
 ## Core components (initial inventory)
 
@@ -78,6 +80,6 @@ Project detail pages follow the brand's evidence structure: context, problem, ro
 
 ## Guardrails
 
-- Enforced with lint where possible: a Tailwind config with no default colour palette, and a stylelint/grep check in CI that rejects hex values outside `tokens.css`.
-- Disciplines share one identity: no discipline-specific colours.
+- Enforced in CI: Tailwind's default palette is disabled; `check:brand` rejects raw colours outside `tokens.css`, palette classes, gradients, and blur outside the `glass` utility; `tokens.test.ts` rejects non-neutral colours and contrast failures.
+- Disciplines share one identity: no discipline-specific colours (and no colours at all beyond the greys).
 - Portrait: until one is supplied, use a typography-led introduction with no placeholder image.

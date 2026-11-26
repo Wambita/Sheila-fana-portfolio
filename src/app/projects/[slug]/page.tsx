@@ -5,6 +5,7 @@ import { Suspense } from "react";
 
 import { Prose } from "@/components/content/Prose";
 import { Loading } from "@/components/layout/Loading";
+import { Section } from "@/components/layout/Section";
 import { getProject, listProjects, type EvidenceSection } from "@/lib/content";
 import { formatDateRange } from "@/lib/format";
 import { placeholderParam } from "@/lib/static-params";
@@ -40,9 +41,9 @@ export async function generateMetadata({
  */
 export default function Page({ params }: PageProps<"/projects/[slug]">) {
   return (
-    <article className="max-w-[68ch]">
-      <p className="mb-4 text-sm">
-        <Link href="/projects">All work</Link>
+    <article>
+      <p className="mb-5 font-mono text-xs">
+        <Link href="/projects">← All work</Link>
       </p>
       <Suspense fallback={<Loading />}>
         <ProjectContent params={params} />
@@ -70,76 +71,86 @@ async function ProjectContent({
 
   return (
     <>
-      <h1 className="text-3xl sm:text-4xl">{project.title}</h1>
-      {project.summary ? (
-        <p className="mt-4 text-lg text-fg-muted">{project.summary}</p>
-      ) : null}
+      <header className="max-w-[68ch]">
+        <h1 className="text-[clamp(2.25rem,1.6rem+2.6vw,3.75rem)] leading-[1.08]">
+          {project.title}
+        </h1>
+        {project.summary ? (
+          <p className="mt-5 text-lg text-fg-muted md:text-xl">
+            {project.summary}
+          </p>
+        ) : null}
+      </header>
 
-      {facts.length > 0 ? (
-        <dl className="mt-8 grid grid-cols-[max-content_1fr] gap-x-6 gap-y-2 border-t border-border pt-6 text-sm">
+      {/* Key facts: a quiet index, spreading into columns on wider screens. */}
+      {facts.length > 0 || project.disciplines.length > 0 ? (
+        <dl className="mt-12 grid gap-x-10 gap-y-6 border-t border-border pt-6 text-sm sm:grid-cols-2 xl:grid-cols-4">
           {facts.map(({ term, value }) => (
-            <div key={term} className="contents">
-              <dt className="text-fg-muted">{term}</dt>
-              <dd>{value}</dd>
+            <div key={term}>
+              <dt className="font-mono text-xs text-fg-subtle">{term}</dt>
+              <dd className="mt-1.5">{value}</dd>
             </div>
           ))}
+          {project.disciplines.length > 0 ? (
+            <div>
+              <dt className="font-mono text-xs text-fg-subtle">Disciplines</dt>
+              <dd className="mt-1.5">
+                {project.disciplines.map((d, index) => (
+                  <span key={d.slug}>
+                    {index > 0 ? ", " : null}
+                    <Link href={`/disciplines/${d.slug}`}>{d.name}</Link>
+                  </span>
+                ))}
+              </dd>
+            </div>
+          ) : null}
         </dl>
       ) : null}
 
-      {project.disciplines.length > 0 ? (
-        <p className="mt-4 text-sm">
-          <span className="text-fg-muted">Disciplines: </span>
-          {project.disciplines.map((d, index) => (
-            <span key={d.slug}>
-              {index > 0 ? ", " : null}
-              <Link href={`/disciplines/${d.slug}`}>{d.name}</Link>
-            </span>
-          ))}
-        </p>
-      ) : null}
-
       {project.repoUrl || project.demoUrl ? (
-        <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+        <ul className="mt-8 flex flex-wrap gap-3 text-sm">
           {project.repoUrl ? (
             <li>
-              <a href={project.repoUrl}>Source code</a>
+              <a
+                href={project.repoUrl}
+                className="inline-flex min-h-11 items-center rounded-md border border-control px-4 no-underline hover:bg-surface-2 hover:text-fg"
+              >
+                Source code
+              </a>
             </li>
           ) : null}
           {project.demoUrl ? (
             <li>
-              <a href={project.demoUrl}>Live demo</a>
+              <a
+                href={project.demoUrl}
+                className="inline-flex min-h-11 items-center rounded-md bg-accent px-4 text-on-accent no-underline hover:bg-accent-hover hover:text-on-accent"
+              >
+                Live demo
+              </a>
             </li>
           ) : null}
         </ul>
       ) : null}
 
-      {project.body ? <Prose text={project.body} className="mt-10" /> : null}
+      <div className="max-w-[68ch]">
+        {project.body ? <Prose text={project.body} className="mt-12" /> : null}
 
-      {project.evidence.map(({ section, text }) => (
-        <section
-          key={section}
-          aria-labelledby={`${section}-heading`}
-          className="mt-10"
-        >
-          <h2 id={`${section}-heading`} className="text-2xl">
-            {evidenceHeadings[section]}
-          </h2>
-          <Prose text={text} className="mt-3" />
-        </section>
-      ))}
+        {project.evidence.map(({ section, text }) => (
+          <Section key={section} id={section} title={evidenceHeadings[section]}>
+            <Prose text={text} />
+          </Section>
+        ))}
 
-      {project.highlights.length > 0 ? (
-        <section aria-labelledby="highlights-heading" className="mt-10">
-          <h2 id="highlights-heading" className="text-2xl">
-            Highlights
-          </h2>
-          <ul className="mt-3 flex list-disc flex-col gap-2 pl-5">
-            {project.highlights.map((text, index) => (
-              <li key={index}>{text}</li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+        {project.highlights.length > 0 ? (
+          <Section id="highlights" title="Highlights">
+            <ul className="flex list-disc flex-col gap-2 pl-5 marker:text-fg-subtle">
+              {project.highlights.map((text, index) => (
+                <li key={index}>{text}</li>
+              ))}
+            </ul>
+          </Section>
+        ) : null}
+      </div>
     </>
   );
 }

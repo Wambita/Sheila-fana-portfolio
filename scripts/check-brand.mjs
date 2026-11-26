@@ -2,7 +2,8 @@
 /**
  * Brand guard (docs/brand-style-guide.md §2–3, doc 09 "Brand" check).
  * Fails when source files outside src/styles/tokens.css contain raw colours,
- * Tailwind default-palette classes, gradients, or glass/blur effects.
+ * Tailwind default-palette classes or gradients, or when blur is used anywhere but
+ * the single `glass` utility in globals.css (ADR-018).
  */
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, sep } from "node:path";
@@ -11,6 +12,9 @@ const ROOT = process.cwd();
 const SCAN_DIRS = ["src"];
 const EXTENSIONS = /\.(tsx?|jsx?|css|mdx?)$/;
 const ALLOWED = new Set([join("src", "styles", "tokens.css")]);
+// Glass is restricted to one reviewed utility (`glass` in globals.css, ADR-018);
+// components use that class instead of their own blur.
+const BLUR_ALLOWED = new Set([join("src", "styles", "globals.css")]);
 
 const PALETTE =
   "slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose";
@@ -33,7 +37,8 @@ const RULES = [
     re: /\b(?:bg-(?:linear|radial|conic|gradient)-|(?:linear|radial|conic)-gradient\()/g,
   },
   {
-    name: "glass/blur effect (brand guide §2)",
+    name: "glass/blur effect (use the `glass` utility, brand guide §2)",
+    skip: (file) => BLUR_ALLOWED.has(file),
     re: /\b(?:backdrop-blur|backdrop-filter|blur-(?:sm|md|lg|xl|2xl|3xl))\b/g,
   },
 ];
@@ -59,6 +64,7 @@ for (const file of files) {
     .split(/\r?\n/)
     .forEach((line, i) => {
       for (const rule of RULES) {
+        if (rule.skip?.(file)) continue;
         for (const match of line.matchAll(rule.re)) {
           violations.push(
             `${file.split(sep).join("/")}:${i + 1}  ${rule.name}: ${match[0]}`,

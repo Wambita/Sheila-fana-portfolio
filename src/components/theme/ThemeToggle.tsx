@@ -58,7 +58,7 @@ export function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-pressed={theme === null ? undefined : isDark}
-      className="inline-flex min-h-11 items-center gap-2 rounded border border-control px-3 text-sm text-fg hover:bg-surface"
+      className="inline-flex min-h-11 items-center gap-2 rounded-md border border-control px-3 text-sm text-fg transition-colors hover:bg-surface-2"
     >
       <span aria-hidden="true">{isDark ? "●" : "○"}</span>
       Dark theme

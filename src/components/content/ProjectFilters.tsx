@@ -50,20 +50,23 @@ export function ProjectFilters({ projects }: { projects: ProjectSummary[] }) {
       <form
         role="search"
         aria-label="Filter projects"
-        className="mb-8 flex flex-wrap items-end gap-4"
+        className="mb-10 flex flex-wrap items-end gap-x-4 gap-y-3"
         onSubmit={(event) => event.preventDefault()}
       >
         {fields.map(({ key, label, list }) =>
           list.length > 1 ? (
             <div key={key} className="flex flex-col gap-1">
-              <label htmlFor={`${id}-${key}`} className="text-sm">
+              <label
+                htmlFor={`${id}-${key}`}
+                className="font-mono text-xs text-fg-muted"
+              >
                 {label}
               </label>
               <select
                 id={`${id}-${key}`}
                 value={filters[key]}
                 onChange={(event) => update({ [key]: event.target.value })}
-                className="min-h-11 rounded border border-control bg-surface px-3 text-fg"
+                className="min-h-11 min-w-44 rounded-md border border-control bg-surface px-3 text-fg transition-colors hover:bg-surface-2"
               >
                 <option value="">All</option>
                 {list.map((option) => (
@@ -79,7 +82,7 @@ export function ProjectFilters({ projects }: { projects: ProjectSummary[] }) {
           <button
             type="button"
             onClick={() => update({ discipline: "", technology: "", year: "" })}
-            className="min-h-11 px-1 text-link underline underline-offset-[0.2em] hover:text-link-hover"
+            className="min-h-11 px-1 text-sm text-link underline underline-offset-[0.22em] hover:text-link-hover"
           >
             Clear filters
           </button>

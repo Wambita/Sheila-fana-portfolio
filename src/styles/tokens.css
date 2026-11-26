@@ -1,61 +1,99 @@
 /*
  * Brand design tokens — the ONLY file allowed to contain raw colour values.
- * Source of truth: docs/brand-style-guide.md (including approved contrast
- * adjustments A1–A4, 2026-11-26). Contrast is verified by
- * src/lib/color/tokens.test.ts; do not change values without owner approval.
+ * Source of truth: docs/brand-style-guide.md (monochrome system, owner-approved
+ * 2026-11-26, ADR-018). Dark and light are semantic inversions of each other.
+ * src/lib/color/tokens.test.ts verifies AA contrast (including text on glass) and
+ * that every colour is a neutral grey. Do not change values without owner approval.
  */
 
 :root {
-  --bg: #f5f3ed; /* Warm Paper */
-  --surface: #ffffff; /* Pure White */
-  --fg: #202d2b; /* Primary text */
-  --fg-muted: #62716e; /* Muted on Paper (A1) */
-  --accent: #47796f; /* Research Teal — fills */
-  --accent-hover: #35645b;
+  /* Backgrounds and surfaces */
+  --bg: #ffffff; /* page background */
+  --surface: #fafafa; /* sections, form fields */
+  --surface-2: #f1f1f1; /* secondary surface, hover fills */
+  --surface-3: #ffffff; /* elevated surface */
+
+  /* Text */
+  --fg: #111111; /* primary text */
+  --fg-muted: #666666; /* secondary text */
+  --fg-subtle: #6b6b6b; /* muted metadata (brief suggested #888888: 3.5:1, fails AA) */
+
+  /* Lines */
+  --border: #e5e5e5; /* hairline dividers only */
+  --control-border: #767676; /* form controls and outlined buttons, >= 3:1 */
+
+  /* Interaction: monochrome, so links rely on underline, fills on inversion */
+  --link: #111111;
+  --link-hover: #666666;
+  --accent: #111111; /* primary button fill */
+  --accent-hover: #333333;
   --on-accent: #ffffff;
-  --link: #45756c; /* Teal on Paper (A2) */
-  --link-hover: #35645b;
-  --border: #e2e4dd; /* Border Light — dividers only */
-  --control-border: #62716e; /* form controls, >= 3:1 (A3) */
-  --highlight: #a9bdb2; /* Soft Sage */
-  --marker: #b98259; /* Muted Copper — rare markers, never text */
+  --focus: #111111;
+
+  /* Glass and overlays (sidebar, top bar, menus, floating controls) */
+  --glass: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(17, 17, 17, 0.08);
+  --overlay: rgba(0, 0, 0, 0.32);
+
   color-scheme: light;
 }
 
 /* Dark theme: explicit choice … */
 :root.dark {
-  --bg: #172426; /* Ink */
-  --surface: #243638; /* Deep Slate */
-  --fg: #f2f1ea;
-  --fg-muted: #a8b7b2; /* Dark Muted */
-  --accent: #a9bdb2; /* Soft Sage as accent */
-  --accent-hover: #c0d0c7;
-  --on-accent: #172426;
-  --link: #a9bdb2;
-  --link-hover: #c0d0c7;
-  --border: #354648; /* Border Dark */
-  --control-border: #a8b7b2;
-  --highlight: #354648;
-  --marker: #b98259;
+  --bg: #050505;
+  --surface: #0d0d0d;
+  --surface-2: #151515;
+  --surface-3: #1c1c1c;
+  --fg: #ffffff;
+  --fg-muted: #a3a3a3;
+  --fg-subtle: #8a8a8a; /* brief suggested #737373: 4.3:1, fails AA */
+  --border: #292929;
+  --control-border: #6b6b6b;
+  --link: #ffffff;
+  --link-hover: #a3a3a3;
+  --accent: #ffffff;
+  --accent-hover: #d4d4d4;
+  --on-accent: #050505;
+  --focus: #ffffff;
+  --glass: rgba(13, 13, 13, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --overlay: rgba(0, 0, 0, 0.6);
   color-scheme: dark;
 }
 
 /* … or system preference when no choice has been made (also covers no-JS). */
 @media (prefers-color-scheme: dark) {
   :root:not(.light) {
-    --bg: #172426;
-    --surface: #243638;
-    --fg: #f2f1ea;
-    --fg-muted: #a8b7b2;
-    --accent: #a9bdb2;
-    --accent-hover: #c0d0c7;
-    --on-accent: #172426;
-    --link: #a9bdb2;
-    --link-hover: #c0d0c7;
-    --border: #354648;
-    --control-border: #a8b7b2;
-    --highlight: #354648;
-    --marker: #b98259;
+    --bg: #050505;
+    --surface: #0d0d0d;
+    --surface-2: #151515;
+    --surface-3: #1c1c1c;
+    --fg: #ffffff;
+    --fg-muted: #a3a3a3;
+    --fg-subtle: #8a8a8a;
+    --border: #292929;
+    --control-border: #6b6b6b;
+    --link: #ffffff;
+    --link-hover: #a3a3a3;
+    --accent: #ffffff;
+    --accent-hover: #d4d4d4;
+    --on-accent: #050505;
+    --focus: #ffffff;
+    --glass: rgba(13, 13, 13, 0.72);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --overlay: rgba(0, 0, 0, 0.6);
     color-scheme: dark;
+  }
+}
+
+/* No backdrop-filter support: glass becomes an opaque surface so text stays readable. */
+@supports not (
+  (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+) {
+  /* Listed explicitly so this wins over the dark-theme selectors above. */
+  :root,
+  :root.dark,
+  :root:not(.light) {
+    --glass: var(--surface);
   }
 }
