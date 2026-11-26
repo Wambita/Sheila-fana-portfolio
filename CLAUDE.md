@@ -6,13 +6,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-This is Wambita Sheila Fana's personal portfolio. Sheila is the owner and approves all content. The project is in **Phase 1: foundations**. The app shell exists, but no data layer or real content yet. The plan lives in `docs/` (start with `docs/00-project-overview.md`; the roadmap is in `docs/08-development-plan.md`). Decisions marked **Proposed** are not settled yet.
+This is Wambita Sheila Fana's personal portfolio. Sheila is the owner and approves all content. The project is in **Phase 3: public pages**. The data layer (Supabase schema, RLS, repositories) is in place, with obviously fake seed data locally and no real content yet. The plan lives in `docs/` (start with `docs/00-project-overview.md`; the roadmap is in `docs/08-development-plan.md`). Decisions marked **Proposed** are not settled yet.
 
 ## Commands
 
 ```bash
 npm run dev            # dev server (Turbopack)
-npm run build          # production build; shows which routes are static (○)
+npm run build          # production build; shows which routes are static (○). Needs `npx supabase start` (pages read the DB)
 npm run lint           # ESLint (next + full jsx-a11y recommended)
 npm run typecheck      # next typegen && tsc --noEmit (typegen creates LayoutProps/PageProps globals)
 npm run format         # Prettier (with Tailwind class sorting)

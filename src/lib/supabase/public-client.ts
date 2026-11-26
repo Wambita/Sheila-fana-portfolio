@@ -6,6 +6,14 @@ import { getPublicSupabaseEnv } from "./env";
 export type PublicClient = SupabaseClient<Database>;
 
 /**
+ * Bypasses Next.js's fetch Data Cache. Caching belongs to the repositories' `"use cache"`
+ * scopes, which are per deployment and invalidated by tag. Left on, the Data Cache would
+ * persist Supabase responses across builds and deployments and serve stale content.
+ */
+export const uncachedFetch: typeof fetch = (input, init) =>
+  fetch(input, { ...init, cache: "no-store" });
+
+/**
  * Anon client: every read goes through RLS, so it can only ever see published content.
  * Only `src/lib/content/` repositories should import this (ADR-005).
  */
@@ -17,5 +25,6 @@ export function createPublicClient(): PublicClient {
       autoRefreshToken: false,
       detectSessionInUrl: false,
     },
+    global: { fetch: uncachedFetch },
   });
 }

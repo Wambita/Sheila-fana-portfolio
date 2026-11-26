@@ -18,15 +18,15 @@ const COVER =
   "cover:media_assets!content_items_cover_media_id_fkey(storage_path, alt_text, width, height)";
 const DISCIPLINES =
   "disciplines:item_disciplines(is_primary, sort_order, discipline:disciplines(slug, name))";
+const SKILLS = "skills:item_skills(skill:skills(slug, name))";
 
 const SUMMARY_COLUMNS = `slug, title, summary, featured, sort_date, ${COVER},
-  project:projects(role, project_status, started_on, ended_on), ${DISCIPLINES}`;
+  project:projects(role, project_status, started_on, ended_on), ${DISCIPLINES}, ${SKILLS}`;
 
 const DETAIL_COLUMNS = `slug, title, summary, body, seo, featured, sort_date, ${COVER},
   project:projects(role, project_status, started_on, ended_on, repo_url, demo_url,
     context, problem, process, decisions, implementation, outcomes),
-  ${DISCIPLINES},
-  skills:item_skills(skill:skills(slug, name)),
+  ${DISCIPLINES}, ${SKILLS},
   highlights:item_highlights(text, sort_order)`;
 
 /** Published projects: featured first, then newest. */
