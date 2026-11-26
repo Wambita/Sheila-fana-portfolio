@@ -22,7 +22,12 @@ npx vitest run src/lib/theme.test.ts      # one file;  add -t "name" to filter b
 npm run test:e2e       # Playwright + axe against `next start` on :3100; run `npm run build` first
 npx playwright test e2e/shell.spec.ts --project=desktop   # one spec / one viewport
 npm run check          # lint + typecheck + format:check + brand + unit tests
+npx supabase start     # local Supabase (Docker Desktop must be running); Studio on :54323
+npx supabase db reset  # rebuild local DB from supabase/migrations
+npx supabase test db   # pgTAP RLS + constraint tests (supabase/tests/database)
 ```
+
+Database conventions are in `supabase/CLAUDE.md`.
 
 Node 26 LTS (`.nvmrc`); `engines` requires 22.12 or newer. On Node 20, Vitest's native binding isn't installed and unit tests can't run. If Playwright's browser download fails, set `PLAYWRIGHT_CHANNEL=msedge` to use the installed Edge. The Supabase CLI isn't installed, so use `npx supabase`. Local Supabase requires Docker.
 
