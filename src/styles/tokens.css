@@ -12,6 +12,8 @@
   --surface: #fafafa; /* sections, form fields */
   --surface-2: #f1f1f1; /* secondary surface, hover fills */
   --surface-3: #ffffff; /* elevated surface */
+  --tile: #f4f4f4; /* gallery tiles: tone instead of hairlines (ADR-020) */
+  --tile-hover: #ededed;
 
   /* Text */
   --fg: #111111; /* primary text */
@@ -31,7 +33,7 @@
   --focus: #111111;
 
   /* Glass and overlays (sidebar, top bar, menus, floating controls) */
-  --glass: rgba(255, 255, 255, 0.72);
+  --glass: rgba(246, 246, 246, 0.78);
   --glass-border: rgba(17, 17, 17, 0.08);
   --overlay: rgba(0, 0, 0, 0.32);
 
@@ -44,6 +46,8 @@
   --surface: #0d0d0d;
   --surface-2: #151515;
   --surface-3: #1c1c1c;
+  --tile: #111111;
+  --tile-hover: #1a1a1a;
   --fg: #ffffff;
   --fg-muted: #a3a3a3;
   --fg-subtle: #8a8a8a; /* brief suggested #737373: 4.3:1, fails AA */
@@ -68,6 +72,8 @@
     --surface: #0d0d0d;
     --surface-2: #151515;
     --surface-3: #1c1c1c;
+    --tile: #111111;
+    --tile-hover: #1a1a1a;
     --fg: #ffffff;
     --fg-muted: #a3a3a3;
     --fg-subtle: #8a8a8a;

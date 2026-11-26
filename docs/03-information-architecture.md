@@ -7,8 +7,8 @@
 ```
 /                           Home (recruiter-useful first screen)
 /about                      About + personal interests
-/disciplines                Discipline index (published disciplines only)
-/disciplines/[slug]         Discipline portfolio (standalone and shareable; one template, per-discipline section order)
+/disciplines/[slug]         Discipline page (standalone and shareable; one template, own section order; its Portfolio = its projects)
+/disciplines, /portfolio    Redirect to / (/portfolio/[slug] → /disciplines/[slug])
 /projects                   Projects index (filterable)
 /projects/[slug]            Project detail (evidence structure)
 /experience                 Employment, volunteering, community impact
@@ -25,9 +25,11 @@
 ```
 
 **Navigation:** a persistent left sidebar on desktop and a top-bar menu on mobile (brand guide §5).
-The navbar (ADR-019, refined 2026-11-27) is **Portfolios**, the published disciplines in their sort order (from the database), followed by **About** and **Contact**. Each portfolio already contains its own experience, publications, writing and credentials, so those are not repeated in the navbar; the current page's sections are listed under its item instead.
+The navbar has two levels (ADR-022). **Main navigation:** **Disciplines** (the published disciplines in their sort order), then **About** and **Contact**. **Discipline navigation:** on a discipline's page the sidebar zooms into it: an "All disciplines" back button, the discipline's name, its own sections in its chosen order (for example Capabilities, Portfolio, Skills, Experience, Education, Publications, Writing), then About and Contact as a vertical list. "All disciplines" zooms back out without leaving the page; opening another discipline opens its navigation. The current item is larger and brighter; the others are duller.
 
-The **full record** pages (Experience, Education at `/credentials`, Publications, Writing, All projects at `/projects`) list everything across disciplines, including work linked to no portfolio. They are reached from the footer and the homepage, not the navbar. Data is entered once: an item linked to a discipline appears in that portfolio and in the full record; an unlinked item appears only in the full record. **About** is the shared story (who Sheila is, how she works, background, interests, links) that every portfolio points to, rather than a copy in each. `/disciplines` (an index of portfolios) exists but isn't in the navbar.
+The **full record** pages (Experience, Education at `/credentials`, Publications, Writing, All projects at `/projects`) list everything across disciplines, including work linked to no portfolio. They are reached from the footer and the homepage, not the navbar. Data is entered once: an item linked to a discipline appears in that portfolio and in the full record; an unlinked item appears only in the full record. **About** is the shared story (who Sheila is, how she works, background, interests, links) that every portfolio points to, rather than a copy in each. There is no separate portfolio index: the homepage and the navbar list them.
+
+**Naming (ADR-024):** visitors navigate by **discipline** (UI/UX & Product Design, Full-stack Development, Cybersecurity, Frontend Engineering, Community & Volunteering…), at `/disciplines/<slug>`. A discipline's **Portfolio** is its projects: one section with case studies first, then the other projects. The rest of the page is the shared content (experience, education, publications, writing) filtered to that discipline.
 
 **Page roles:** the homepage summarises the whole portfolio; each discipline page is a focused, self-contained portfolio; shared pages hold supporting information across disciplines; project pages are the detailed case studies.
 
@@ -35,7 +37,7 @@ The **full record** pages (Experience, Education at `/credentials`, Publications
 
 There are no per-recruiter links. Sheila shares:
 
-1. **A discipline page**, for example `/disciplines/cybersecurity`, which is already tailored by data.
+1. **A portfolio**, for example `/disciplines/cybersecurity`, which is already tailored by data.
 2. **A focus view**, for example `/for/frontend-roles`, created once and reused. It holds an intro note, a hand-picked ordered selection of items and a link to its CV variant.
 3. **A CV link**, for example `/cv/cybersecurity.pdf`.
 

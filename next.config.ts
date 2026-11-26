@@ -52,6 +52,19 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  // Discipline pages live at /disciplines/<slug> (ADR-024); the short-lived
+  // /portfolio/<slug> addresses redirect there, and neither has an index page.
+  async redirects() {
+    return [
+      { source: "/disciplines", destination: "/", permanent: true },
+      { source: "/portfolio", destination: "/", permanent: true },
+      {
+        source: "/portfolio/:slug",
+        destination: "/disciplines/:slug",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
   },

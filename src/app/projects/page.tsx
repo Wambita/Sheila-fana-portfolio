@@ -17,7 +17,8 @@ export default async function Page() {
     <>
       <PageIntro title="Work">
         <p>
-          Projects across disciplines, each with its context, role and evidence.
+          Projects across all disciplines, each with its context, role and
+          evidence.
         </p>
       </PageIntro>
       {/* The full list is the static fallback; filters hydrate on top of it. */}

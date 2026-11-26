@@ -4,10 +4,12 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 import { Prose } from "@/components/content/Prose";
+import { ArrowUpRight } from "@/components/icons";
 import { Loading } from "@/components/layout/Loading";
 import { Section } from "@/components/layout/Section";
 import { getProject, listProjects, type EvidenceSection } from "@/lib/content";
 import { formatDateRange } from "@/lib/format";
+import { disciplineHref } from "@/lib/navigation";
 import { placeholderParam } from "@/lib/static-params";
 
 const evidenceHeadings: Record<EvidenceSection, string> = {
@@ -84,7 +86,7 @@ async function ProjectContent({
 
       {/* Key facts: a quiet index, spreading into columns on wider screens. */}
       {facts.length > 0 || project.disciplines.length > 0 ? (
-        <dl className="mt-12 grid gap-x-10 gap-y-6 border-t border-border pt-6 text-sm sm:grid-cols-2 xl:grid-cols-4">
+        <dl className="mt-12 grid gap-x-10 gap-y-6 rounded-xl bg-tile p-6 text-sm sm:grid-cols-2 md:p-8 xl:grid-cols-4">
           {facts.map(({ term, value }) => (
             <div key={term}>
               <dt className="font-mono text-xs text-fg-subtle">{term}</dt>
@@ -98,7 +100,7 @@ async function ProjectContent({
                 {project.disciplines.map((d, index) => (
                   <span key={d.slug}>
                     {index > 0 ? ", " : null}
-                    <Link href={`/disciplines/${d.slug}`}>{d.name}</Link>
+                    <Link href={disciplineHref(d.slug)}>{d.name}</Link>
                   </span>
                 ))}
               </dd>
@@ -113,9 +115,10 @@ async function ProjectContent({
             <li>
               <a
                 href={project.repoUrl}
-                className="inline-flex min-h-11 items-center rounded-md border border-control px-4 no-underline hover:bg-surface-2 hover:text-fg"
+                className="inline-flex min-h-11 items-center gap-2 rounded-full bg-tile px-5 no-underline hover:bg-tile-hover hover:text-fg"
               >
                 Source code
+                <ArrowUpRight />
               </a>
             </li>
           ) : null}
@@ -123,9 +126,10 @@ async function ProjectContent({
             <li>
               <a
                 href={project.demoUrl}
-                className="inline-flex min-h-11 items-center rounded-md bg-accent px-4 text-on-accent no-underline hover:bg-accent-hover hover:text-on-accent"
+                className="inline-flex min-h-11 items-center gap-2 rounded-full bg-accent px-5 text-on-accent no-underline hover:bg-accent-hover hover:text-on-accent"
               >
                 Live demo
+                <ArrowUpRight />
               </a>
             </li>
           ) : null}

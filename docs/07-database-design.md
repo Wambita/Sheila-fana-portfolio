@@ -63,10 +63,13 @@ Disciplines have no colour field, because the brand guide requires one shared id
 
 ## Discipline portfolios (ADR-019)
 
+One `disciplines` row is one discipline page at `/disciplines/<slug>` (ADR-024). Its **Portfolio** section is its projects.
+
 Each discipline is a standalone portfolio rendered by one template:
 
 - `disciplines.sections` lists the sections it shows, in order, from `capabilities`, `case_studies`, `projects`, `skills`, `experience`, `publications`, `writing`, `credentials` (CHECKs: known keys only, no duplicates). Omitting a key hides that section. Empty sections are hidden anyway.
 - `disciplines.capabilities` holds short owner-written capability statements.
+- `case_studies` and `projects` in `sections` both feed the single **Portfolio** section (case studies first, then other projects), placed where either first appears.
 - `item_disciplines.featured` makes a project a case study in that portfolio only (it can be a plain project in another).
 - `discipline_skills` lists the skills relevant to the discipline in priority order; `skills.kind` groups them as technical skills, tools or professional competencies.
 - The homepage overview uses `skill_categories` (optionally linked to a portfolio) and shows only `skills.highlighted`.

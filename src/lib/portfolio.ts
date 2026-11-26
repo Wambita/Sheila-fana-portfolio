@@ -8,15 +8,20 @@ import type {
 } from "@/lib/content/schemas";
 
 /**
- * Discipline portfolios (ADR-019): one template, but each discipline chooses which
- * sections appear and in what order. Everything is filtered from shared data via
- * item_disciplines, so a portfolio is complete on its own for a recruiter.
+ * A discipline's page (ADR-019, ADR-024): one template, but each discipline chooses
+ * which sections appear and in what order. Its **Portfolio** is its projects (case
+ * studies first, then the rest); the other sections are the shared content filtered to
+ * this discipline. Everything comes from shared data via item_disciplines, so the page
+ * is complete on its own for a recruiter.
  */
 
-export const sectionTitles: Record<PortfolioSection, string> = {
+/** Rendered blocks. `case_studies` and `projects` in the data both feed `portfolio`. */
+export type BlockKey =
+  Exclude<PortfolioSection, "case_studies" | "projects"> | "portfolio";
+
+export const sectionTitles: Record<BlockKey, string> = {
   capabilities: "Capabilities",
-  case_studies: "Case studies",
-  projects: "Projects",
+  portfolio: "Portfolio",
   skills: "Skills",
   experience: "Experience",
   publications: "Publications",
@@ -25,8 +30,8 @@ export const sectionTitles: Record<PortfolioSection, string> = {
 };
 
 /** Shorter labels for the sidebar's section links. */
-export const sectionNavLabels: Partial<Record<PortfolioSection, string>> = {
-  credentials: "Credentials",
+export const sectionNavLabels: Partial<Record<BlockKey, string>> = {
+  credentials: "Education",
 };
 
 export const skillKindTitles: Record<SkillKind, string> = {
@@ -41,7 +46,13 @@ export type PortfolioBlock =
   | { key: "capabilities"; capabilities: string[] }
   | { key: "skills"; groups: SkillGroup[] }
   | {
-      key: Exclude<PortfolioSection, "capabilities" | "skills">;
+      key: "portfolio";
+      /** Shown large, first (projects featured for this discipline). */
+      caseStudies: ItemSummary[];
+      projects: ItemSummary[];
+    }
+  | {
+      key: Exclude<BlockKey, "capabilities" | "skills" | "portfolio">;
       items: ItemSummary[];
     };
 
@@ -59,8 +70,10 @@ export function groupSkills(skills: DisciplineSkill[]): SkillGroup[] {
 }
 
 /**
- * The portfolio's sections in the discipline's order, each with its content. Sections
- * with nothing published are dropped (doc 03: empty groups are hidden).
+ * The discipline's sections in its own order, each with its content. The Portfolio
+ * appears where `case_studies` or `projects` first appears in `sections`; featured
+ * projects are case studies only when `case_studies` is listed. Sections with nothing
+ * published are dropped (doc 03: empty groups are hidden).
  */
 export function buildPortfolio(
   discipline: Pick<Discipline, "sections" | "capabilities">,
@@ -70,24 +83,31 @@ export function buildPortfolio(
   const ofTypes = (...types: ItemSummary["type"][]) =>
     items.filter((item) => types.includes(item.type));
   const projects = ofTypes("project");
-  // Case studies only split off when the portfolio shows that section.
   const showsCaseStudies = discipline.sections.includes("case_studies");
   const caseStudies = showsCaseStudies
     ? projects.filter((p) => p.featuredHere)
     : [];
 
-  const blocks = discipline.sections.map((key): PortfolioBlock => {
+  const keys: BlockKey[] = [];
+  for (const section of discipline.sections) {
+    const key: BlockKey =
+      section === "case_studies" || section === "projects"
+        ? "portfolio"
+        : section;
+    if (!keys.includes(key)) keys.push(key);
+  }
+
+  const blocks = keys.map((key): PortfolioBlock => {
     switch (key) {
       case "capabilities":
         return { key, capabilities: discipline.capabilities };
       case "skills":
         return { key, groups: groupSkills(skills) };
-      case "case_studies":
-        return { key, items: caseStudies };
-      case "projects":
+      case "portfolio":
         return {
           key,
-          items: projects.filter((p) => !caseStudies.includes(p)),
+          caseStudies,
+          projects: projects.filter((p) => !caseStudies.includes(p)),
         };
       case "experience":
         return {
@@ -106,13 +126,18 @@ export function buildPortfolio(
     }
   });
 
-  return blocks.filter((block) =>
-    "capabilities" in block
-      ? block.capabilities.length > 0
-      : "groups" in block
-        ? block.groups.length > 0
-        : block.items.length > 0,
-  );
+  return blocks.filter((block) => {
+    switch (block.key) {
+      case "capabilities":
+        return block.capabilities.length > 0;
+      case "skills":
+        return block.groups.length > 0;
+      case "portfolio":
+        return block.caseStudies.length + block.projects.length > 0;
+      default:
+        return block.items.length > 0;
+    }
+  });
 }
 
 /**

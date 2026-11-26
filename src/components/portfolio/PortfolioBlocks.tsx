@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { ArrowRight } from "@/components/icons";
 import { Section } from "@/components/layout/Section";
 import type { ItemSummary } from "@/lib/content/schemas";
 import { formatDateRange } from "@/lib/format";
@@ -13,12 +14,12 @@ import {
 
 import { ItemList } from "./ItemRow";
 
-/** Renders a discipline portfolio's sections in the order the discipline chose. */
+/** Renders a discipline's sections in the order the discipline chose. */
 export function PortfolioBlocks({ blocks }: { blocks: PortfolioBlock[] }) {
   return blocks.map((block) => (
     <Section
       key={block.key}
-      id={block.key.replace("_", "-")}
+      id={block.key}
       title={sectionTitles[block.key]}
       navLabel={sectionNavLabels[block.key] ?? sectionTitles[block.key]}
     >
@@ -26,8 +27,15 @@ export function PortfolioBlocks({ blocks }: { blocks: PortfolioBlock[] }) {
         <Capabilities capabilities={block.capabilities} />
       ) : block.key === "skills" ? (
         <Skills groups={block.groups} />
-      ) : block.key === "case_studies" ? (
-        <CaseStudies items={block.items} />
+      ) : block.key === "portfolio" ? (
+        <div className="flex flex-col gap-3">
+          {block.caseStudies.length > 0 ? (
+            <CaseStudies items={block.caseStudies} />
+          ) : null}
+          {block.projects.length > 0 ? (
+            <ItemList items={block.projects} />
+          ) : null}
+        </div>
       ) : (
         <ItemList items={block.items} />
       )}
@@ -37,9 +45,9 @@ export function PortfolioBlocks({ blocks }: { blocks: PortfolioBlock[] }) {
 
 function Capabilities({ capabilities }: { capabilities: string[] }) {
   return (
-    <ol className="grid gap-x-10 border-b border-border md:grid-cols-2">
+    <ol className="grid gap-3 md:grid-cols-2">
       {capabilities.map((capability, index) => (
-        <li key={index} className="flex gap-6 border-t border-border py-4">
+        <li key={index} className="flex gap-6 rounded-xl bg-tile p-6">
           <span
             aria-hidden="true"
             className="pt-1 font-mono text-xs text-fg-subtle"
@@ -56,17 +64,15 @@ function Capabilities({ capabilities }: { capabilities: string[] }) {
 /** Grouped by kind as plain lists, not badges (brand guide §6). */
 function Skills({ groups }: { groups: SkillGroup[] }) {
   return (
-    <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-3">
+    <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
       {groups.map(({ kind, skills }) => (
-        <div key={kind}>
+        <div key={kind} className="rounded-xl bg-tile p-6">
           <h3 className="font-mono text-xs font-normal text-fg-subtle">
             {skillKindTitles[kind]}
           </h3>
-          <ul className="mt-3 border-b border-border">
+          <ul className="mt-4 flex flex-col gap-2.5">
             {skills.map((skill) => (
-              <li key={skill.slug} className="border-t border-border py-2.5">
-                {skill.name}
-              </li>
+              <li key={skill.slug}>{skill.name}</li>
             ))}
           </ul>
         </div>
@@ -78,14 +84,14 @@ function Skills({ groups }: { groups: SkillGroup[] }) {
 /** Featured projects for this portfolio, given more room than the plain list. */
 function CaseStudies({ items }: { items: ItemSummary[] }) {
   return (
-    <ol className="border-b border-border">
+    <ol className="flex flex-col gap-3">
       {items.map((item, index) => {
         const dates = formatDateRange(item.startedOn, item.endedOn);
         const meta = [item.role, dates].filter(Boolean).join(" · ");
         return (
           <li
             key={item.slug}
-            className="grid gap-x-8 gap-y-3 border-t border-border py-10 md:grid-cols-[2.5rem_minmax(0,1fr)]"
+            className="group relative grid gap-x-8 gap-y-3 rounded-2xl bg-tile p-7 transition-colors hover:bg-tile-hover md:grid-cols-[2.5rem_minmax(0,1fr)] md:p-10 xl:p-12"
           >
             <span
               aria-hidden="true"
@@ -97,7 +103,7 @@ function CaseStudies({ items }: { items: ItemSummary[] }) {
               <h3 className="text-[clamp(1.6rem,1.3rem+1vw,2.25rem)] leading-tight">
                 <Link
                   href={`/projects/${item.slug}`}
-                  className="decoration-fg-subtle hover:decoration-current"
+                  className="no-underline after:absolute after:inset-0 after:rounded-2xl hover:text-fg"
                 >
                   {item.title}
                 </Link>
@@ -110,11 +116,13 @@ function CaseStudies({ items }: { items: ItemSummary[] }) {
                   {item.emphasisNote ?? item.summary}
                 </p>
               ) : null}
-              <p className="mt-5 text-sm">
-                <Link href={`/projects/${item.slug}`}>
-                  Read the case study
-                  <span className="sr-only">: {item.title}</span>
-                </Link>
+              {/* Visual cue only: the whole tile is the title link. */}
+              <p
+                aria-hidden="true"
+                className="mt-6 inline-flex items-center gap-1.5 text-sm text-fg-muted transition-colors group-hover:text-fg"
+              >
+                Read the case study
+                <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
               </p>
             </div>
           </li>

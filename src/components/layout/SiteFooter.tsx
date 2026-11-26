@@ -9,7 +9,7 @@ import { site } from "@/lib/site";
  */
 export function SiteFooter() {
   return (
-    <footer className="mt-24 border-t border-border px-5 py-10 text-sm sm:px-8 md:px-10 lg:px-16 xl:px-24">
+    <footer className="mx-5 mt-28 mb-5 rounded-2xl bg-tile px-6 py-8 text-sm sm:mx-8 md:mx-10 md:px-8 lg:mx-16 xl:mx-24">
       <nav aria-label="Full record">
         <p className="font-mono text-xs text-fg-subtle">Full record</p>
         <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-2">

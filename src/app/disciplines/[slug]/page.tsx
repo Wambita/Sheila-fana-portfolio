@@ -33,22 +33,21 @@ export async function generateMetadata({
 /**
  * A standalone, shareable portfolio for one discipline (ADR-019). One template for every
  * discipline (FR-03), but each discipline's data decides which sections appear and in
- * what order, so the page can follow the nature of the field. The back link is the
- * instant static shell; slug-dependent content streams in behind Suspense.
+ * what order, so the page can follow the nature of the field. The sidebar switches to
+ * the portfolio's own navigation (ADR-022); slug-dependent content streams in behind
+ * Suspense.
  */
 export default function Page({ params }: PageProps<"/disciplines/[slug]">) {
   return (
     <>
-      {/* No link away from the portfolio: a shared link should stand on its own. */}
-      <p className="mb-5 font-mono text-xs text-fg-subtle">Portfolio</p>
       <Suspense fallback={<Loading />}>
-        <DisciplineContent params={params} />
+        <PortfolioContent params={params} />
       </Suspense>
     </>
   );
 }
 
-async function DisciplineContent({
+async function PortfolioContent({
   params,
 }: Pick<PageProps<"/disciplines/[slug]">, "params">) {
   const { slug } = await params;
@@ -61,8 +60,9 @@ async function DisciplineContent({
 
   const blocks = buildPortfolio(discipline, items, skills);
 
+  // key: replay the entering zoom when moving between portfolios.
   return (
-    <>
+    <div key={slug} className="animate-portfolio-enter">
       <header className="max-w-[68ch]">
         <h1 className="text-[clamp(2.25rem,1.6rem+2.6vw,3.75rem)] leading-[1.08]">
           {discipline.name}
@@ -84,6 +84,6 @@ async function DisciplineContent({
       ) : (
         <PortfolioBlocks blocks={blocks} />
       )}
-    </>
+    </div>
   );
 }

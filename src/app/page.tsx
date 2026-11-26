@@ -1,9 +1,11 @@
 import Link from "next/link";
 
 import { Prose } from "@/components/content/Prose";
+import { ArrowRight } from "@/components/icons";
 import { ProjectList } from "@/components/content/ProjectCard";
 import { Section } from "@/components/layout/Section";
 import { ItemList } from "@/components/portfolio/ItemRow";
+import { PortfolioList } from "@/components/portfolio/PortfolioList";
 import {
   getProfile,
   listDisciplines,
@@ -11,7 +13,7 @@ import {
   listProjects,
   listSkillOverview,
 } from "@/lib/content";
-import { recordPages } from "@/lib/navigation";
+import { disciplineHref, recordPages } from "@/lib/navigation";
 import { pickAcrossDisciplines } from "@/lib/portfolio";
 import { site } from "@/lib/site";
 
@@ -51,35 +53,8 @@ export default async function Home() {
       ) : null}
 
       {disciplines.length > 0 ? (
-        <Section id="portfolios" title="Portfolios">
-          <ol className="border-b border-border">
-            {disciplines.map((discipline, index) => (
-              <li
-                key={discipline.slug}
-                className="grid gap-x-8 gap-y-2 border-t border-border py-6 md:grid-cols-[2.5rem_minmax(0,1fr)] xl:grid-cols-[2.5rem_minmax(0,1fr)_minmax(0,1fr)]"
-              >
-                <span
-                  aria-hidden="true"
-                  className="font-mono text-xs text-fg-subtle md:pt-2"
-                >
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <h3 className="text-2xl">
-                  <Link
-                    href={`/disciplines/${discipline.slug}`}
-                    className="decoration-fg-subtle hover:decoration-current"
-                  >
-                    {discipline.name}
-                  </Link>
-                </h3>
-                {discipline.tagline ? (
-                  <p className="text-fg-muted md:col-start-2 xl:col-start-3 xl:pt-1.5">
-                    {discipline.tagline}
-                  </p>
-                ) : null}
-              </li>
-            ))}
-          </ol>
+        <Section id="disciplines" title="Disciplines">
+          <PortfolioList disciplines={disciplines} />
         </Section>
       ) : null}
 
@@ -94,17 +69,24 @@ export default async function Home() {
 
       {skillOverview.length > 0 ? (
         <Section id="skills" title="Skills">
-          <div className="grid gap-x-10 gap-y-8 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
             {skillOverview.map((category) => (
-              <div key={category.slug} className="border-t border-border pt-4">
+              <div
+                key={category.slug}
+                className="flex flex-col rounded-xl bg-tile p-6"
+              >
                 <h3 className="text-xl">{category.name}</h3>
                 <p className="mt-2 text-fg-muted">
                   {category.skills.map((s) => s.name).join(", ")}
                 </p>
                 {category.discipline ? (
-                  <p className="mt-3 text-sm">
-                    <Link href={`/disciplines/${category.discipline.slug}`}>
-                      {category.discipline.name} portfolio
+                  <p className="mt-auto pt-4 text-sm">
+                    <Link
+                      href={disciplineHref(category.discipline.slug)}
+                      className="inline-flex items-center gap-1.5"
+                    >
+                      Explore {category.discipline.name}
+                      <ArrowRight className="size-3.5" />
                     </Link>
                   </p>
                 ) : null}
@@ -125,7 +107,8 @@ export default async function Home() {
 
       <Section id="full-record" title="Full record">
         <p className="max-w-[60ch] text-fg-muted">
-          Everything across disciplines, including work outside the portfolios.
+          Everything across all disciplines, including work that sits outside
+          them.
         </p>
         <ul className="mt-5 flex flex-wrap gap-x-8 gap-y-3">
           {recordPages.map((page) => (

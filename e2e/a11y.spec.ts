@@ -10,6 +10,13 @@ for (const colorScheme of ["light", "dark"] as const) {
     for (const route of [...routes, "/does-not-exist"]) {
       test(`${route} has no axe violations`, async ({ page }) => {
         await page.goto(route);
+        // Measure the settled page: entrance animations (e.g. a portfolio's zoom-in)
+        // briefly blend text with the background while they run.
+        await page.waitForFunction(() =>
+          document
+            .getAnimations()
+            .every((animation) => animation.playState !== "running"),
+        );
         const results = await new AxeBuilder({ page })
           .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
           .analyze();

@@ -6,7 +6,6 @@ export const routes = [
   "/",
   "/projects",
   "/projects/sample-project-one",
-  "/disciplines",
   "/disciplines/sample-discipline-a",
   "/disciplines/sample-discipline-b",
   "/publications",

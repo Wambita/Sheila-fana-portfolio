@@ -6,7 +6,9 @@
 
 This document is the authoritative visual reference for the Wambita Sheila Fana portfolio. All design, frontend and content implementation must follow it. Do not introduce a competing visual direction, trendy AI aesthetic or unapproved colour system.
 
-> **Change log:** 2026-11-27: the owner approved the positioning "Full-stack developer working at the intersection of design, code and security, building user-centred, secure systems." (full-stack as the primary identity; see doc 02 O7).
+> **Change log:** 2026-11-27 (later): tonal gallery (ADR-020): white hairlines removed in favour of tile shades (`--tile`, `--tile-hover`), and a small set of functional line icons (external link, continue, theme, menu). Decorative icons remain out of scope.
+>
+> 2026-11-27: the owner approved the positioning "Full-stack developer working at the intersection of design, code and security, building user-centred, secure systems." (full-stack as the primary identity; see doc 02 O7).
 >
 > 2026-11-26 (later): the owner approved a **strict monochrome colour system** and **restrained glass** for navigation surfaces, replacing the Warm Paper / Ink / Research Teal palette and the blanket no-glassmorphism rule (ADR-018). §2, §3, §6, §11 and §12 are updated; the earlier palette and adjustments A1–A4 are kept in doc 05 for history.
 >
@@ -20,7 +22,7 @@ This document is the authoritative visual reference for the Wambita Sheila Fana 
 | Brand idea | The Researcher |
 | Positioning | Full-stack developer working at the intersection of design, code and security, building user-centred, secure systems. (owner-approved 2026-11-27; the live wording is `profile.headline`, editable in Studio) |
 | Personality | Curious, thoughtful, credible, inventive, precise and quietly confident. |
-| Visual character | A minimalist, editorial digital gallery: monochrome, considered typography, generous negative space, thin dividers, structured layouts and subtle technical details. |
+| Visual character | A minimalist, editorial digital gallery: monochrome, considered typography, generous negative space, layered tonal shades instead of lines, structured layouts and subtle technical details. |
 | Primary audience | Recruiters, hiring managers, collaborators, research teams and potential clients. |
 
 The portfolio should feel like a carefully edited body of work—not a generic technology landing page, AI-generated template or collection of unrelated personal websites. It should communicate range while making each discipline easy to understand.
@@ -32,6 +34,7 @@ These rules take priority over generic design trends, generated design suggestio
 - **No AI aesthetic.** The website must not look like an AI product, AI startup landing page or AI-generated template.
 - **No purple or violet.** Do not introduce purple, lavender, indigo, magenta or blue-purple gradients as accents, backgrounds, glows or decorative details.
 - **No exaggerated gradients.** Do not use oversized, multicolour, radial, mesh, aurora or glowing gradients. Prefer solid colours and restrained tonal variation.
+- **Icons are functional only** (ADR-020): a small set of thin line icons that mark an action or destination (external link, continue, theme, menu), always beside a text label.
 - **No generic AI decorations.** Do not add sparkles, stars, magic-wand motifs, glowing orbs, floating blobs, neural-network patterns, circuit-board wallpaper, abstract AI swirls or decorative "intelligence" icons.
 - **No AI-style tag overload.** Avoid rows of unnecessary pills, badges, chips, floating labels and keyword clouds. Use tags only when they communicate useful information, such as project technologies or content categories.
 - **Glass only where it earns its place.** Restrained glass (neutral tint, backdrop blur, hairline neutral border) is allowed for the sidebar, the mobile top bar and menu, and floating controls such as the theme switcher. Never on content cards or page sections, never coloured or glowing, and always readable without the blur (an opaque fallback is required).
@@ -105,7 +108,7 @@ Typography rules:
 - Present projects as evidence: context, problem, role, process, decisions, implementation and verified outcomes.
 - Keep navigation and important actions predictable across all discipline pages.
 - Desktop and tablet: the sidebar stays in place while the page scrolls and lists the current page's sections, marking the one being read. The page background is static. Mobile: a sticky top bar shows the current page and section, with a menu; normal page scrolling, no nested scroll areas.
-- Present work as a gallery of editorial rows and modules with thin dividers, not identical cards.
+- Present work as a gallery of softly rounded tonal tiles, a shade off the page (near-black on black, soft grey on white), separated by space rather than lines (ADR-020). Vary their scale: case studies get larger tiles than list items.
 - Prefer simple rectangular or softly rounded surfaces.
 - Avoid excessive nested cards, floating panels and decorative containers.
 - Prioritise clarity, scanning and fast access to relevant work.
