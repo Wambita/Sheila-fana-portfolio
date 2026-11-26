@@ -65,7 +65,7 @@ Fields are name, email, subject and message, plus a hidden honeypot field and a 
 3. inserts into `contact_messages` (anon has no table access; the insert uses the server-only client), and
 4. sends a notification to Sheila's private inbox through Resend, with `reply-to` set to the sender.
 
-The page also shows a plain `mailto:` link as an alternative. Messages are deleted after the retention period agreed in O4.
+The page also shows a plain `mailto:` link as an alternative. Messages are deleted after **3 months** by a daily cleanup in the sync cron job. The recipient comes from `CONTACT_TO_EMAIL`.
 
 ## CV generation (ATS standard)
 
@@ -77,7 +77,7 @@ Industry practice for ATS-safe CVs, which the generator applies:
 - **Text-based PDF:** real selectable text with an embedded font (DM Sans), never an image. File name `Sheila-Fana-CV.pdf`. Aim for 1–2 pages.
 - Skills listed as plain comma-separated text, taken only from real content.
 
-The CV is built with `@react-pdf/renderer` in a route handler (`/cv/[slug].pdf`), from the same repository data as `/cv/[slug]`. A CI test extracts the PDF text and checks that the headings and their order are preserved. A `.docx` export (O7) can be added with the `docx` library if wanted.
+The CV is built with `@react-pdf/renderer` in a route handler (`/cv/[slug].pdf`), from the same repository data as `/cv/[slug]`. A CI test extracts the PDF text and checks that the headings and their order are preserved. A `.docx` export (`/cv/[slug].docx`) is generated with the `docx` library from the same data, with the same single-column structure (owner decision O6).
 
 ## Security standards
 
@@ -103,3 +103,4 @@ The CV is built with `@react-pdf/renderer` in a route handler (`/cv/[slug].pdf`)
 | ADR-008 | 2026-11-26 | ATS-safe, text-based PDF CV generated from content data | Accepted (owner) |
 | ADR-009 | 2026-11-26 | Brand style guide is the visual source of truth | Accepted (owner) |
 | ADR-010 | 2026-11-26 | Default branch renamed `master` → `main` | Accepted (owner) |
+| ADR-011 | 2026-11-26 | Palette contrast adjustments A1–A4 | Accepted (owner) |

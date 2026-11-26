@@ -13,7 +13,7 @@ Sheila Fana is the owner and approves all content.
 
 ## Disciplines
 
-Disciplines are addable through data. The initial labels come from the brand guide: Product and UI/UX Design, Frontend Engineering, Full-stack Development, Cybersecurity, Research and Innovation, Robotics and IoT. Each is published only when it has enough genuine work behind it.
+Disciplines are addable through data. The initial labels come from the brand guide: Product and UI/UX Design, Frontend Engineering, Full-stack Development, Cybersecurity, Research and Innovation, Robotics and IoT. Each is published only when it has enough genuine work behind it. **At launch:** Product & UI/UX Design, Frontend Development, Cybersecurity, Full-stack Development.
 
 ## Scope summary
 
@@ -26,7 +26,7 @@ Disciplines are addable through data. The initial labels come from the brand gui
 | Stable shareable URLs + reusable focus views | ✅ | |
 | Writing synced from Medium and dev.to | ✅ | |
 | Contact form + email link | ✅ | |
-| ATS-safe CV (web + PDF) | ✅ (Phase 5) | .docx (optional) |
+| ATS-safe CV (web + PDF + .docx) | ✅ (Phase 5) | |
 | Secure admin dashboard | | ✅ (Phase 8) |
 | Dark and light themes | ✅ | |
 

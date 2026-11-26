@@ -12,14 +12,17 @@ Tokens are semantic CSS variables in `src/styles/tokens.css`, exposed through Ta
 | `--color-bg` | `#F5F3ED` | `#172426` | Page background |
 | `--color-surface` | `#FFFFFF` | `#243638` | Surface / card |
 | `--color-fg` | `#202D2B` | `#F2F1EA` | Primary text |
-| `--color-fg-muted` | `#687875` ⚠ | `#A8B7B2` | Secondary text |
-| `--color-accent` | `#47796F` ⚠ | `#A9BDB2` | Primary accent |
+| `--color-fg-muted` | `#62716E` (on paper; `#687875` allowed on white) | `#A8B7B2` | Secondary text |
+| `--color-accent` | `#47796F` | `#A9BDB2` | Accent fills (buttons with white / ink text) |
+| `--color-link` | `#45756C` | `#A9BDB2` | Accent text and links |
+| `--color-control-border` | `#62716E` | `#A8B7B2` | Form-control borders (≥3:1) |
+| `--color-on-accent` | `#FFFFFF` | `#172426` | Text on accent buttons |
 | `--color-accent-hover` | `#35645B` | `#C0D0C7` | Accent hover |
 | `--color-border` | `#E2E4DD` | `#354648` | Border (decorative dividers) |
 | `--color-highlight` | `#A9BDB2` (Soft Sage) | — | Subtle highlight |
 | `--color-marker` | `#B98259` (Muted Copper) | `#B98259` | Rare editorial markers only |
 
-⚠ = see the accessibility findings below.
+Values reflect adjustments A1–A4, approved by the owner on 2026-11-26.
 
 ## Accessibility findings on the approved palette
 
@@ -39,11 +42,11 @@ I measured these WCAG 2.x contrast ratios in Phase 0. AA requires 4.5:1 for norm
 | Copper on paper | 2.96 | Decorative markers only, never text |
 | Border Light on paper / Border Dark on ink | 1.16 / 1.61 | OK for decorative dividers. **Not enough for input borders** |
 
-**Proposed adjustments.** These change nothing until the owner approves them, per brand guide §11.
+**Adjustments: approved by the owner on 2026-11-26 and applied to the brand guide.**
 - **A1:** For secondary text on Warm Paper, use `#62716E` (4.61:1). It is visually almost identical to Body Muted. Alternatively, keep `#687875` only on white surfaces.
 - **A2:** For teal links and text on Warm Paper, use `#45756C` (4.71:1), or reuse the approved Accent Hover `#35645B` (6.06:1) as the resting link colour on paper. Teal buttons are unaffected: they use white text.
 - **A3:** For form-control borders, use the secondary-text colour (light 4.6:1 at A1, dark `#A8B7B2`) instead of the Border tokens. This meets the 3:1 requirement for UI components. Border tokens stay for dividers only.
-- **A4:** Focus ring: a 2px solid accent outline with a 2px offset. This needs re-checking against both backgrounds once A2 is decided.
+- **A4:** Focus ring: a 2px solid link-colour outline with a 2px offset (`#45756C` light, `#A9BDB2` dark). It meets 3:1 against both backgrounds.
 
 ## Typography
 

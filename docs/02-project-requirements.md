@@ -28,7 +28,7 @@
 - FR-12 MUST NOT (v1): per-recruiter tokens, expiry or view tracking.
 
 ### CV
-- FR-14 MUST: An ATS-safe CV, generated from the same content, available as a web page (`/cv`) and a downloadable text-based PDF.
+- FR-14 MUST: An ATS-safe CV, generated from the same content, available as a web page (`/cv`), a downloadable text-based PDF, and a .docx file.
 - FR-15 SHOULD: A CV variant per focus view or discipline (for example a cybersecurity CV), with the same layout and different selection and ordering.
 - FR-16 MUST: The CV follows the ATS rules in doc 06 §CV, and CI checks that the PDF's text extracts in the right reading order.
 
@@ -70,15 +70,14 @@
 | Q10 | Disciplines | Addable by data. Initial labels from brand guide §8 |
 | D1–D3 | Brand | Brand guide supplied and approved |
 | Q12 | Branch | Rename `master` to `main` |
+| O1 | Palette | Adjustments A1–A4 approved |
+| O2 | Writing sources | Medium `@wambitafana`, dev.to `wambita_sheila_fana` |
+| O3 | Contact | Sheila's Gmail address receives form messages and is shown in the `mailto:` link. It is configured with the `CONTACT_TO_EMAIL` environment variable and the `profile.links` data, not hard-coded |
+| O4 | Retention | Contact messages kept for **3 months** (tentative; easy to change) |
+| O5 | Articles | Full text on the site for dev.to; excerpts linking to Medium |
+| O6 | DOCX CV | Yes. Offer a .docx export alongside the PDF |
+| O7 | Launch disciplines | Product & UI/UX Design, Frontend Development, Cybersecurity, Full-stack Development. Research & Innovation and Robotics & IoT start as drafts |
 
 ## 4. Open questions
 
-| # | Question | Needed by |
-|---|---|---|
-| O1 | Approve palette adjustments A1–A4 (doc 05)? | Phase 1 |
-| O2 | Medium and dev.to usernames? | Phase 3 |
-| O3 | Which email address should receive contact form messages (it doesn't have to be public)? Should the `mailto:` link show the same address? | Phase 3 |
-| O4 | Contact message retention period (proposal: 12 months)? | Phase 3 |
-| O5 | Full article text on the site, or excerpts that link out? (Recommendation: full text for dev.to, excerpts for Medium; see doc 06) | Phase 3 |
-| O6 | Which of the six suggested disciplines have enough work to publish at launch? | Phase 6 |
-| O7 | Do you also want a .docx CV? Some recruiters and job portals ask for Word files. | Phase 5 |
+None blocking. New questions will be added here as they arise.
