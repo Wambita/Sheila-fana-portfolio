@@ -16,7 +16,7 @@
 
 ## Key journeys
 
-**J1 — Recruiter via shared link (P1).** Sheila sends a reusable link, such as a discipline page (`/disciplines/cybersecurity`) or a focus view (`/for/security-roles`). The page opens with a tailored intro and the relevant work, and the recruiter downloads the matching ATS-safe CV. Success means the recruiter reaches the CV in no more than two interactions.
+**J1 — Recruiter via shared link (P1).** Sheila sends a reusable link, such as a discipline page (`/portfolio/cybersecurity`) or a focus view (`/for/security-roles`). The page opens with a tailored intro and the relevant work, and the recruiter downloads the matching ATS-safe CV. Success means the recruiter reaches the CV in no more than two interactions.
 
 **J2 — Discipline exploration (P2, P3).** Home, then a discipline, then a project, then a related publication or project. Success means related items are always linked and there are no dead ends.
 

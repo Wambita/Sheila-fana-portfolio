@@ -13,7 +13,7 @@ import {
   listProjects,
   listSkillOverview,
 } from "@/lib/content";
-import { recordPages } from "@/lib/navigation";
+import { portfolioHref, recordPages } from "@/lib/navigation";
 import { pickAcrossDisciplines } from "@/lib/portfolio";
 import { site } from "@/lib/site";
 
@@ -82,7 +82,7 @@ export default async function Home() {
                 {category.discipline ? (
                   <p className="mt-auto pt-4 text-sm">
                     <Link
-                      href={`/disciplines/${category.discipline.slug}`}
+                      href={portfolioHref(category.discipline.slug)}
                       className="inline-flex items-center gap-1.5"
                     >
                       {category.discipline.name} portfolio
@@ -107,7 +107,8 @@ export default async function Home() {
 
       <Section id="full-record" title="Full record">
         <p className="max-w-[60ch] text-fg-muted">
-          Everything across disciplines, including work outside the portfolios.
+          Everything across all portfolios, including work that sits outside
+          them.
         </p>
         <ul className="mt-5 flex flex-wrap gap-x-8 gap-y-3">
           {recordPages.map((page) => (

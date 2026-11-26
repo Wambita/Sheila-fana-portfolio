@@ -22,11 +22,19 @@ export const recordPages: readonly NavItem[] = [
   { href: "/projects", label: "All projects" },
 ];
 
+/**
+ * Public address of a portfolio. Visitors only ever see "portfolio"; "discipline" is
+ * the internal name (the `disciplines` table) for the same thing (ADR-021).
+ */
+export function portfolioHref(slug: string): string {
+  return `/portfolio/${slug}`;
+}
+
 export function portfolioNav(
   disciplines: ReadonlyArray<{ slug: string; name: string }>,
 ): NavItem[] {
   return disciplines.map(({ slug, name }) => ({
-    href: `/disciplines/${slug}`,
+    href: portfolioHref(slug),
     label: name,
   }));
 }

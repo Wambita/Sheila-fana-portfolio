@@ -26,7 +26,8 @@ export function RecordPage({
     <>
       <PageIntro title={title} eyebrow="Full record">
         <p>
-          Everything across disciplines, including work outside the portfolios.
+          Everything across all portfolios, including work that sits outside
+          them.
         </p>
       </PageIntro>
       {visible.length === 1 && groups.length === 1 ? (

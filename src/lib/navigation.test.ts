@@ -29,8 +29,8 @@ describe("portfolioNav", () => {
         { slug: "a", name: "A" },
       ]),
     ).toEqual([
-      { href: "/disciplines/b", label: "B" },
-      { href: "/disciplines/a", label: "A" },
+      { href: "/portfolio/b", label: "B" },
+      { href: "/portfolio/a", label: "A" },
     ]);
   });
 });

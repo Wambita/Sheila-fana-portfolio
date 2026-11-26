@@ -63,6 +63,8 @@ Disciplines have no colour field, because the brand guide requires one shared id
 
 ## Discipline portfolios (ADR-019)
 
+One `disciplines` row is one **portfolio** on the site (ADR-021): visitors see "portfolio" and `/portfolio/<slug>`; "discipline" is only the internal name.
+
 Each discipline is a standalone portfolio rendered by one template:
 
 - `disciplines.sections` lists the sections it shows, in order, from `capabilities`, `case_studies`, `projects`, `skills`, `experience`, `publications`, `writing`, `credentials` (CHECKs: known keys only, no duplicates). Omitting a key hides that section. Empty sections are hidden anyway.

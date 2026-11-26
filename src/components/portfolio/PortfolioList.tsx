@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { ArrowRight } from "@/components/icons";
 import type { Discipline } from "@/lib/content/schemas";
+import { portfolioHref } from "@/lib/navigation";
 
 /**
  * The discipline portfolios as a gallery of tiles (ADR-019, ADR-020). Each tile is one
@@ -27,7 +28,7 @@ export function PortfolioList({
           </span>
           <Heading className="mt-6 text-2xl md:text-[1.75rem]">
             <Link
-              href={`/disciplines/${discipline.slug}`}
+              href={portfolioHref(discipline.slug)}
               className="no-underline after:absolute after:inset-0 after:rounded-xl hover:text-fg"
             >
               {discipline.name}

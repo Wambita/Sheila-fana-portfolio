@@ -52,6 +52,18 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  // "Portfolio" is the public name (ADR-021); keep any old discipline links working.
+  async redirects() {
+    return [
+      { source: "/disciplines", destination: "/", permanent: true },
+      { source: "/portfolio", destination: "/", permanent: true },
+      {
+        source: "/disciplines/:slug",
+        destination: "/portfolio/:slug",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
   },

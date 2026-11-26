@@ -25,7 +25,7 @@ test("J2: home → discipline → project, with no dead ends", async ({ page }) 
     .getByRole("main")
     .getByRole("link", { name: "[Sample] Discipline A" })
     .click();
-  await expect(page).toHaveURL(/\/disciplines\/sample-discipline-a$/);
+  await expect(page).toHaveURL(/\/portfolio\/sample-discipline-a$/);
 });
 
 test("project page shows only evidence sections with content", async ({
@@ -52,7 +52,7 @@ test("drafts are never published", async ({ page }) => {
     page.getByRole("heading", { level: 1, name: "Page not found" }),
   ).toBeVisible();
 
-  await page.goto("/disciplines/sample-draft-discipline");
+  await page.goto("/portfolio/sample-draft-discipline");
   await expect(
     page.getByRole("heading", { level: 1, name: "Page not found" }),
   ).toBeVisible();
@@ -175,7 +175,7 @@ test.describe("discipline portfolios (ADR-019)", () => {
     ).toBeVisible();
 
     for (const slug of ["sample-discipline-a", "sample-discipline-b"]) {
-      await page.goto(`/disciplines/${slug}`);
+      await page.goto(`/portfolio/${slug}`);
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
       await expect(
         page.getByRole("main").getByText("[Sample] Unlinked publication"),
@@ -205,7 +205,7 @@ test.describe("discipline portfolios (ADR-019)", () => {
     const headings = () =>
       page.getByRole("main").getByRole("heading", { level: 2 }).allInnerTexts();
 
-    await page.goto("/disciplines/sample-discipline-a");
+    await page.goto("/portfolio/sample-discipline-a");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     expect(await headings()).toEqual([
       "Capabilities",
@@ -216,7 +216,7 @@ test.describe("discipline portfolios (ADR-019)", () => {
       "Writing",
     ]);
 
-    await page.goto("/disciplines/sample-discipline-b");
+    await page.goto("/portfolio/sample-discipline-b");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     expect(await headings()).toEqual([
       "Skills",
@@ -229,7 +229,7 @@ test.describe("discipline portfolios (ADR-019)", () => {
   test("a portfolio stands alone: skills by kind, experience and evidence", async ({
     page,
   }) => {
-    await page.goto("/disciplines/sample-discipline-b");
+    await page.goto("/portfolio/sample-discipline-b");
     const main = page.getByRole("main");
     await expect(
       main.getByRole("heading", { name: "Technical skills" }),

@@ -9,6 +9,7 @@ import { Loading } from "@/components/layout/Loading";
 import { Section } from "@/components/layout/Section";
 import { getProject, listProjects, type EvidenceSection } from "@/lib/content";
 import { formatDateRange } from "@/lib/format";
+import { portfolioHref } from "@/lib/navigation";
 import { placeholderParam } from "@/lib/static-params";
 
 const evidenceHeadings: Record<EvidenceSection, string> = {
@@ -94,12 +95,12 @@ async function ProjectContent({
           ))}
           {project.disciplines.length > 0 ? (
             <div>
-              <dt className="font-mono text-xs text-fg-subtle">Disciplines</dt>
+              <dt className="font-mono text-xs text-fg-subtle">Portfolios</dt>
               <dd className="mt-1.5">
                 {project.disciplines.map((d, index) => (
                   <span key={d.slug}>
                     {index > 0 ? ", " : null}
-                    <Link href={`/disciplines/${d.slug}`}>{d.name}</Link>
+                    <Link href={portfolioHref(d.slug)}>{d.name}</Link>
                   </span>
                 ))}
               </dd>

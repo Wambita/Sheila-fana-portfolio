@@ -21,7 +21,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
-}: PageProps<"/disciplines/[slug]">): Promise<Metadata> {
+}: PageProps<"/portfolio/[slug]">): Promise<Metadata> {
   const discipline = await getDiscipline((await params).slug);
   if (!discipline) return { title: "Page not found" };
   return {
@@ -36,21 +36,21 @@ export async function generateMetadata({
  * what order, so the page can follow the nature of the field. The back link is the
  * instant static shell; slug-dependent content streams in behind Suspense.
  */
-export default function Page({ params }: PageProps<"/disciplines/[slug]">) {
+export default function Page({ params }: PageProps<"/portfolio/[slug]">) {
   return (
     <>
       {/* No link away from the portfolio: a shared link should stand on its own. */}
       <p className="mb-5 font-mono text-xs text-fg-subtle">Portfolio</p>
       <Suspense fallback={<Loading />}>
-        <DisciplineContent params={params} />
+        <PortfolioContent params={params} />
       </Suspense>
     </>
   );
 }
 
-async function DisciplineContent({
+async function PortfolioContent({
   params,
-}: Pick<PageProps<"/disciplines/[slug]">, "params">) {
+}: Pick<PageProps<"/portfolio/[slug]">, "params">) {
   const { slug } = await params;
   const [discipline, items, skills] = await Promise.all([
     getDiscipline(slug),
@@ -79,7 +79,7 @@ async function DisciplineContent({
 
       {blocks.length === 0 ? (
         <p className="mt-16 max-w-[68ch]">
-          Work for this discipline will appear here once it has been reviewed.
+          Work for this portfolio will appear here once it has been reviewed.
         </p>
       ) : (
         <PortfolioBlocks blocks={blocks} />

@@ -8,7 +8,7 @@
 
 - FR-01 MUST: The home page is the **overall portfolio summary** (owner direction 2026-11-27, ADR-019): name and introduction, a short multidisciplinary overview (`profile.overview`), the discipline portfolios with links, selected projects across disciplines, a concise skills overview by category (highlighted skills only, each category linked to its portfolio), key experience, links to the shared pages, and a CV download once the CV exists (Phase 5). It summarises without duplicating the portfolios.
 - FR-02 MUST: About page with biography and approach, plus personal interests.
-- FR-03 MUST: **Discipline portfolios** (ADR-019). Each discipline is a **standalone, shareable portfolio**: a recruiter given one link sees everything relevant to that field (intro, capabilities, case studies, projects, skills, experience, publications, writing, education and credentials), filtered from the shared data, without needing other pages. Still one data-driven template (`/disciplines/[slug]`), but each discipline chooses which sections appear and in what order (`disciplines.sections`), so the page follows the nature of the field. Adding, renaming, reordering or unpublishing a portfolio is a data change only, and the navbar lists the published portfolios. A portfolio is published only when it has enough genuine work behind it.
+- FR-03 MUST: **Discipline portfolios** (ADR-019). Each discipline is a **standalone, shareable portfolio**: a recruiter given one link sees everything relevant to that field (intro, capabilities, case studies, projects, skills, experience, publications, writing, education and credentials), filtered from the shared data, without needing other pages. Still one data-driven template (`/portfolio/[slug]`), but each discipline chooses which sections appear and in what order (`disciplines.sections`), so the page follows the nature of the field. Adding, renaming, reordering or unpublishing a portfolio is a data change only, and the navbar lists the published portfolios. A portfolio is published only when it has enough genuine work behind it.
 - FR-03a MUST: **Skills are organised** (ADR-019): categories for the homepage overview, a kind per skill (technical skill, tool, professional competency), and an ordered list of relevant skills per discipline. Only skills actually documented by the owner are entered; categories are never padded.
 - FR-04 MUST: Projects index with filters (discipline, technology, year) and project detail pages structured as evidence: context, problem, role, process, decisions, implementation and verified outcomes.
 - FR-05 MUST: Experience timeline covering employment, volunteering and community impact, filterable by kind.
@@ -30,7 +30,7 @@
 
 ### Sharing for recruiters (no per-recruiter link generation)
 
-- FR-10 MUST: Every page has a stable, shareable URL. Discipline pages double as recruiter-ready views (for example `/disciplines/cybersecurity`).
+- FR-10 MUST: Every page has a stable, shareable URL. Discipline pages double as recruiter-ready views (for example `/portfolio/cybersecurity`).
 - FR-11 SHOULD: A small set of standing **focus views** (for example `/for/security-roles`) that Sheila defines once and reuses for every recruiter. Each is an ordered selection of items with an intro and a matching CV.
 - FR-12 MUST NOT (v1): per-recruiter tokens, expiry or view tracking.
 

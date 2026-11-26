@@ -98,3 +98,23 @@ test.describe("navigation", () => {
     ).toBeVisible();
   });
 });
+
+test.describe("portfolio addresses (ADR-021)", () => {
+  test("old discipline links redirect to the portfolio", async ({ page }) => {
+    await page.goto("/disciplines/sample-discipline-a");
+    await expect(page).toHaveURL(/\/portfolio\/sample-discipline-a$/);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      "[Sample] Discipline A",
+    );
+  });
+
+  test("the old index and a bare /portfolio go to the homepage", async ({
+    request,
+  }) => {
+    for (const path of ["/disciplines", "/portfolio"]) {
+      const response = await request.get(path, { maxRedirects: 0 });
+      expect(response.status()).toBe(308);
+      expect(response.headers()["location"]).toBe("/");
+    }
+  });
+});
