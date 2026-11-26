@@ -25,7 +25,7 @@ test("J2: home → discipline → project, with no dead ends", async ({ page }) 
     .getByRole("main")
     .getByRole("link", { name: "[Sample] Discipline A" })
     .click();
-  await expect(page).toHaveURL(/\/portfolio\/sample-discipline-a$/);
+  await expect(page).toHaveURL(/\/disciplines\/sample-discipline-a$/);
 });
 
 test("project page shows only evidence sections with content", async ({
@@ -52,7 +52,7 @@ test("drafts are never published", async ({ page }) => {
     page.getByRole("heading", { level: 1, name: "Page not found" }),
   ).toBeVisible();
 
-  await page.goto("/portfolio/sample-draft-discipline");
+  await page.goto("/disciplines/sample-draft-discipline");
   await expect(
     page.getByRole("heading", { level: 1, name: "Page not found" }),
   ).toBeVisible();
@@ -175,7 +175,7 @@ test.describe("discipline portfolios (ADR-019)", () => {
     ).toBeVisible();
 
     for (const slug of ["sample-discipline-a", "sample-discipline-b"]) {
-      await page.goto(`/portfolio/${slug}`);
+      await page.goto(`/disciplines/${slug}`);
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
       await expect(
         page.getByRole("main").getByText("[Sample] Unlinked publication"),
@@ -205,31 +205,31 @@ test.describe("discipline portfolios (ADR-019)", () => {
     const headings = () =>
       page.getByRole("main").getByRole("heading", { level: 2 }).allInnerTexts();
 
-    await page.goto("/portfolio/sample-discipline-a");
+    await page.goto("/disciplines/sample-discipline-a");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     expect(await headings()).toEqual([
       "Capabilities",
-      "Case studies",
+      "Portfolio",
       "Skills",
       "Experience",
       "Publications",
       "Writing",
     ]);
 
-    await page.goto("/portfolio/sample-discipline-b");
+    await page.goto("/disciplines/sample-discipline-b");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     expect(await headings()).toEqual([
       "Skills",
       "Education and credentials",
       "Experience",
-      "Projects",
+      "Portfolio",
     ]);
   });
 
   test("a portfolio stands alone: skills by kind, experience and evidence", async ({
     page,
   }) => {
-    await page.goto("/portfolio/sample-discipline-b");
+    await page.goto("/disciplines/sample-discipline-b");
     const main = page.getByRole("main");
     await expect(
       main.getByRole("heading", { name: "Technical skills" }),
@@ -271,7 +271,7 @@ test.describe("discipline portfolios (ADR-019)", () => {
     await expect(main.getByText("[Sample] Skill one")).toBeVisible();
     await expect(main.getByText("[Sample] Skill two")).toHaveCount(0);
     await expect(
-      main.getByRole("link", { name: "[Sample] Discipline B portfolio" }),
+      main.getByRole("link", { name: "Explore [Sample] Discipline B" }),
     ).toBeVisible();
   });
 });
@@ -281,7 +281,7 @@ test.describe("portfolio navigation (ADR-022)", () => {
     page,
     isMobile,
   }) => {
-    await page.goto("/portfolio/sample-discipline-a");
+    await page.goto("/disciplines/sample-discipline-a");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     if (isMobile) await page.getByRole("button", { name: "Menu" }).click();
     const nav = page.getByRole("navigation", { name: "Primary" });
@@ -293,7 +293,7 @@ test.describe("portfolio navigation (ADR-022)", () => {
         .getByRole("link"),
     ).toHaveText([
       "Capabilities",
-      "Case studies",
+      "Portfolio",
       "Skills",
       "Experience",
       "Publications",
@@ -334,13 +334,13 @@ test.describe("portfolio navigation (ADR-022)", () => {
       .getByRole("navigation", { name: "Primary" })
       .getByRole("link", { name: "[Sample] Discipline B" })
       .click();
-    await expect(page).toHaveURL(/\/portfolio\/sample-discipline-b$/);
+    await expect(page).toHaveURL(/\/disciplines\/sample-discipline-b$/);
     if (isMobile) await page.getByRole("button", { name: "Menu" }).click();
     await expect(
       page
         .getByRole("navigation", { name: "Primary" })
         .getByRole("list", { name: "[Sample] Discipline B: sections" })
         .getByRole("link"),
-    ).toHaveText(["Skills", "Credentials", "Experience", "Projects"]);
+    ).toHaveText(["Skills", "Education", "Experience", "Portfolio"]);
   });
 });

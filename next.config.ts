@@ -52,14 +52,15 @@ const nextConfig: NextConfig = {
       },
     },
   },
-  // "Portfolio" is the public name (ADR-021); keep any old discipline links working.
+  // Discipline pages live at /disciplines/<slug> (ADR-024); the short-lived
+  // /portfolio/<slug> addresses redirect there, and neither has an index page.
   async redirects() {
     return [
       { source: "/disciplines", destination: "/", permanent: true },
       { source: "/portfolio", destination: "/", permanent: true },
       {
-        source: "/disciplines/:slug",
-        destination: "/portfolio/:slug",
+        source: "/portfolio/:slug",
+        destination: "/disciplines/:slug",
         permanent: true,
       },
     ];

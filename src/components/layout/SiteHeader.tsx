@@ -233,10 +233,7 @@ export function SiteHeader({ portfolios }: { portfolios: NavItem[] }) {
                 <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-0.5" />
                 All disciplines
               </button>
-              <p className="mt-6 px-1 font-mono text-xs text-fg-subtle">
-                Portfolio
-              </p>
-              <p className="mt-1 px-1 font-serif text-2xl leading-tight text-fg">
+              <p className="mt-6 px-1 font-serif text-2xl leading-tight text-fg">
                 {portfolio.label}
               </p>
               {sections.length > 0 ? (
@@ -248,19 +245,15 @@ export function SiteHeader({ portfolios }: { portfolios: NavItem[] }) {
                   prominent
                 />
               ) : null}
-              <ul
-                aria-label="Pages"
-                className="mt-6 flex flex-wrap gap-x-4 gap-y-1 px-1 text-sm"
-              >
+              {/* Shared pages, as a vertical list like the main navigation. */}
+              <ul aria-label="Pages" className="mt-6 flex flex-col gap-0.5">
                 {siteNav.map((item) => (
                   <li key={item.href}>
-                    <Link
-                      href={item.href}
+                    <NavLink
+                      item={item}
+                      pathname={pathname}
                       onNavigate={() => setOpen(false)}
-                      className="inline-flex min-h-11 items-center text-fg-muted no-underline hover:text-fg md:min-h-9"
-                    >
-                      {item.label}
-                    </Link>
+                    />
                   </li>
                 ))}
               </ul>

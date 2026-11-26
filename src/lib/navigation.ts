@@ -23,18 +23,18 @@ export const recordPages: readonly NavItem[] = [
 ];
 
 /**
- * Public address of a portfolio. Visitors only ever see "portfolio"; "discipline" is
- * the internal name (the `disciplines` table) for the same thing (ADR-021).
+ * Public address of a discipline's page (ADR-024). A discipline's "Portfolio" is the
+ * projects section on that page.
  */
-export function portfolioHref(slug: string): string {
-  return `/portfolio/${slug}`;
+export function disciplineHref(slug: string): string {
+  return `/disciplines/${slug}`;
 }
 
 export function portfolioNav(
   disciplines: ReadonlyArray<{ slug: string; name: string }>,
 ): NavItem[] {
   return disciplines.map(({ slug, name }) => ({
-    href: portfolioHref(slug),
+    href: disciplineHref(slug),
     label: name,
   }));
 }

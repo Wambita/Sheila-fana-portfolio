@@ -65,36 +65,47 @@ describe("buildPortfolio", () => {
       items,
       skills,
     );
+    // Case studies and projects form one Portfolio section, where they first appear.
     expect(blocks.map((b) => b.key)).toEqual([
       "skills",
       "experience",
-      "case_studies",
-      "projects",
+      "portfolio",
     ]);
   });
 
-  it("splits case studies from other projects", () => {
-    const blocks = buildPortfolio(
+  it("puts case studies first in the Portfolio, then the other projects", () => {
+    const [portfolio] = buildPortfolio(
       { sections: ["case_studies", "projects"], capabilities: [] },
       items,
       [],
     );
-    const slugs = blocks.map((b) =>
-      "items" in b ? b.items.map((i) => i.slug) : [],
-    );
-    expect(slugs).toEqual([["case"], ["plain"]]);
+    expect(portfolio.key).toBe("portfolio");
+    if (portfolio.key !== "portfolio") return;
+    expect(portfolio.caseStudies.map((i) => i.slug)).toEqual(["case"]);
+    expect(portfolio.projects.map((i) => i.slug)).toEqual(["plain"]);
   });
 
-  it("keeps featured projects in Projects when there is no case-study section", () => {
-    const [projects] = buildPortfolio(
+  it("places the Portfolio wherever projects first appear in the order", () => {
+    const blocks = buildPortfolio(
+      {
+        sections: ["projects", "experience", "case_studies"],
+        capabilities: [],
+      },
+      items,
+      [],
+    );
+    expect(blocks.map((b) => b.key)).toEqual(["portfolio", "experience"]);
+  });
+
+  it("lists featured projects as plain projects without a case-study section", () => {
+    const [portfolio] = buildPortfolio(
       { sections: ["projects"], capabilities: [] },
       items,
       [],
     );
-    expect("items" in projects && projects.items.map((i) => i.slug)).toEqual([
-      "case",
-      "plain",
-    ]);
+    if (portfolio.key !== "portfolio") throw new Error("expected portfolio");
+    expect(portfolio.caseStudies).toEqual([]);
+    expect(portfolio.projects.map((i) => i.slug)).toEqual(["case", "plain"]);
   });
 
   it("combines roles and engagements, and education and certifications, newest first", () => {

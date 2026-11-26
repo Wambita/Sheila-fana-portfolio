@@ -9,7 +9,7 @@ import { Loading } from "@/components/layout/Loading";
 import { Section } from "@/components/layout/Section";
 import { getProject, listProjects, type EvidenceSection } from "@/lib/content";
 import { formatDateRange } from "@/lib/format";
-import { portfolioHref } from "@/lib/navigation";
+import { disciplineHref } from "@/lib/navigation";
 import { placeholderParam } from "@/lib/static-params";
 
 const evidenceHeadings: Record<EvidenceSection, string> = {
@@ -100,7 +100,7 @@ async function ProjectContent({
                 {project.disciplines.map((d, index) => (
                   <span key={d.slug}>
                     {index > 0 ? ", " : null}
-                    <Link href={portfolioHref(d.slug)}>{d.name}</Link>
+                    <Link href={disciplineHref(d.slug)}>{d.name}</Link>
                   </span>
                 ))}
               </dd>

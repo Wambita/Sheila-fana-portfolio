@@ -2,11 +2,11 @@ import Link from "next/link";
 
 import { ArrowRight } from "@/components/icons";
 import type { Discipline } from "@/lib/content/schemas";
-import { portfolioHref } from "@/lib/navigation";
+import { disciplineHref } from "@/lib/navigation";
 
 /**
- * The discipline portfolios as a gallery of tiles (ADR-019, ADR-020). Each tile is one
- * link (the stretched name) to a standalone portfolio.
+ * The disciplines as a gallery of tiles (ADR-020, ADR-024). Each tile is one link (the
+ * stretched name) to a discipline's standalone page.
  */
 export function PortfolioList({
   disciplines,
@@ -28,7 +28,7 @@ export function PortfolioList({
           </span>
           <Heading className="mt-6 text-2xl md:text-[1.75rem]">
             <Link
-              href={portfolioHref(discipline.slug)}
+              href={disciplineHref(discipline.slug)}
               className="no-underline after:absolute after:inset-0 after:rounded-xl hover:text-fg"
             >
               {discipline.name}
@@ -41,7 +41,7 @@ export function PortfolioList({
             aria-hidden="true"
             className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm text-fg-muted transition-colors group-hover:text-fg"
           >
-            View portfolio
+            Explore
             <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
           </span>
         </li>

@@ -14,12 +14,12 @@ import {
 
 import { ItemList } from "./ItemRow";
 
-/** Renders a discipline portfolio's sections in the order the discipline chose. */
+/** Renders a discipline's sections in the order the discipline chose. */
 export function PortfolioBlocks({ blocks }: { blocks: PortfolioBlock[] }) {
   return blocks.map((block) => (
     <Section
       key={block.key}
-      id={block.key.replace("_", "-")}
+      id={block.key}
       title={sectionTitles[block.key]}
       navLabel={sectionNavLabels[block.key] ?? sectionTitles[block.key]}
     >
@@ -27,8 +27,15 @@ export function PortfolioBlocks({ blocks }: { blocks: PortfolioBlock[] }) {
         <Capabilities capabilities={block.capabilities} />
       ) : block.key === "skills" ? (
         <Skills groups={block.groups} />
-      ) : block.key === "case_studies" ? (
-        <CaseStudies items={block.items} />
+      ) : block.key === "portfolio" ? (
+        <div className="flex flex-col gap-3">
+          {block.caseStudies.length > 0 ? (
+            <CaseStudies items={block.caseStudies} />
+          ) : null}
+          {block.projects.length > 0 ? (
+            <ItemList items={block.projects} />
+          ) : null}
+        </div>
       ) : (
         <ItemList items={block.items} />
       )}

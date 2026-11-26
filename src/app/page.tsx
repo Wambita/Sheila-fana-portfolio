@@ -13,7 +13,7 @@ import {
   listProjects,
   listSkillOverview,
 } from "@/lib/content";
-import { portfolioHref, recordPages } from "@/lib/navigation";
+import { disciplineHref, recordPages } from "@/lib/navigation";
 import { pickAcrossDisciplines } from "@/lib/portfolio";
 import { site } from "@/lib/site";
 
@@ -82,10 +82,10 @@ export default async function Home() {
                 {category.discipline ? (
                   <p className="mt-auto pt-4 text-sm">
                     <Link
-                      href={portfolioHref(category.discipline.slug)}
+                      href={disciplineHref(category.discipline.slug)}
                       className="inline-flex items-center gap-1.5"
                     >
-                      {category.discipline.name} portfolio
+                      Explore {category.discipline.name}
                       <ArrowRight className="size-3.5" />
                     </Link>
                   </p>

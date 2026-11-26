@@ -21,7 +21,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
-}: PageProps<"/portfolio/[slug]">): Promise<Metadata> {
+}: PageProps<"/disciplines/[slug]">): Promise<Metadata> {
   const discipline = await getDiscipline((await params).slug);
   if (!discipline) return { title: "Page not found" };
   return {
@@ -37,7 +37,7 @@ export async function generateMetadata({
  * the portfolio's own navigation (ADR-022); slug-dependent content streams in behind
  * Suspense.
  */
-export default function Page({ params }: PageProps<"/portfolio/[slug]">) {
+export default function Page({ params }: PageProps<"/disciplines/[slug]">) {
   return (
     <>
       <Suspense fallback={<Loading />}>
@@ -49,7 +49,7 @@ export default function Page({ params }: PageProps<"/portfolio/[slug]">) {
 
 async function PortfolioContent({
   params,
-}: Pick<PageProps<"/portfolio/[slug]">, "params">) {
+}: Pick<PageProps<"/disciplines/[slug]">, "params">) {
   const { slug } = await params;
   const [discipline, items, skills] = await Promise.all([
     getDiscipline(slug),
