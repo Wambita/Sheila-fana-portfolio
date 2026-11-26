@@ -9,9 +9,12 @@
 ## Entities
 
 ```
-profile (singleton)         id, full_name, headline, bio, location, avatar_media_id, links jsonb
-disciplines                 id, slug UNIQUE, name, tagline, intro, sort_order, status (draft|published)
-skills                      id, slug, name, skill_group
+profile (singleton)         id, full_name, headline, overview, bio, location, avatar_media_id, links jsonb
+disciplines                 id, slug UNIQUE, name, tagline, intro, capabilities text[], sections text[],
+                            sort_order, status (draft|published)
+skill_categories            id, slug UNIQUE, name, sort_order, discipline_id NULL     -- homepage overview groups
+discipline_skills           discipline_id, skill_id, sort_order  PK(discipline_id, skill_id)
+skills                      id, slug, name, category_id NULL, kind (technical|tool|competency), highlighted
 media_assets                id, storage_path, alt_text NOT NULL, width, height, credit
 
 content_items               id, type (enum), slug, title, summary, body, status (draft|published),
@@ -32,7 +35,8 @@ content_items               id, type (enum), slug, title, summary, body, status 
   │                         reach_count int NULL, reach_label NULL, reach_confirmed bool DEFAULT false
   └─ interests              item_id
 
-item_disciplines            item_id, discipline_id, is_primary, emphasis_note, sort_order  PK(item_id, discipline_id)
+item_disciplines            item_id, discipline_id, is_primary, featured, emphasis_note, sort_order
+                            PK(item_id, discipline_id)   -- featured = case study in this portfolio
 item_skills                 item_id, skill_id                                               PK(item_id, skill_id)
 item_relations              from_item_id, to_item_id, relation (about|derived_from|part_of|related), CHECK(from <> to)
 item_media                  item_id, media_id, caption, sort_order
@@ -56,6 +60,19 @@ audit_log (Phase 8)         id, actor, action, table_name, row_id, diff jsonb, a
 ```
 
 Disciplines have no colour field, because the brand guide requires one shared identity.
+
+## Discipline portfolios (ADR-019)
+
+Each discipline is a standalone portfolio rendered by one template:
+
+- `disciplines.sections` lists the sections it shows, in order, from `capabilities`, `case_studies`, `projects`, `skills`, `experience`, `publications`, `writing`, `credentials` (CHECKs: known keys only, no duplicates). Omitting a key hides that section. Empty sections are hidden anyway.
+- `disciplines.capabilities` holds short owner-written capability statements.
+- `item_disciplines.featured` makes a project a case study in that portfolio only (it can be a plain project in another).
+- `discipline_skills` lists the skills relevant to the discipline in priority order; `skills.kind` groups them as technical skills, tools or professional competencies.
+- The homepage overview uses `skill_categories` (optionally linked to a portfolio) and shows only `skills.highlighted`.
+- `profile.overview` is the short homepage summary; `bio` stays on About.
+
+RLS: `skill_categories` is a public taxonomy like `skills`; `discipline_skills` is readable only for published disciplines.
 
 ## Framing one item differently per CV
 

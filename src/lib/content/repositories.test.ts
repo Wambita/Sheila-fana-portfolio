@@ -150,6 +150,8 @@ describe("disciplines", () => {
     tagline: null,
     intro: "Intro",
     sort_order: 1,
+    capabilities: ["  One  ", "", "Two"],
+    sections: ["skills", "projects"],
   };
 
   it("lists disciplines in order", async () => {
@@ -162,6 +164,9 @@ describe("disciplines", () => {
         tagline: null,
         intro: "Intro",
         sortOrder: 1,
+        // Trimmed, blanks dropped; the discipline's own section order is kept.
+        capabilities: ["One", "Two"],
+        sections: ["skills", "projects"],
       },
     ]);
     expect(query.calls).toContainEqual(["order", "sort_order"]);

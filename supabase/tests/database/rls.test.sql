@@ -3,7 +3,7 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 
-select plan(22);
+select plan(24);
 
 -- ---------------------------------------------------------------------------
 -- Every public table has RLS on
@@ -81,7 +81,26 @@ insert into public.sync_runs (source) values ('devto');
 -- ---------------------------------------------------------------------------
 -- As anon
 -- ---------------------------------------------------------------------------
+-- Discipline skill lists (ADR-019).
+insert into public.skills (id, slug, name) values
+  ('00000000-0000-0000-0000-0000000000c9', 'test-skill', 'Test skill');
+insert into public.discipline_skills (discipline_id, skill_id) values
+  ('00000000-0000-0000-0000-0000000000d1', '00000000-0000-0000-0000-0000000000c9'),
+  ('00000000-0000-0000-0000-0000000000d2', '00000000-0000-0000-0000-0000000000c9');
+
 set local role anon;
+
+select results_eq(
+  $$ select discipline_id from public.discipline_skills $$,
+  $$ values ('00000000-0000-0000-0000-0000000000d1'::uuid) $$,
+  'anon sees skill lists of published disciplines only'
+);
+
+select throws_ok(
+  $$ insert into public.skill_categories (slug, name) values ('x', 'x') $$,
+  '42501', null,
+  'anon cannot write skill categories'
+);
 
 select results_eq(
   $$ select slug from public.content_items $$,

@@ -4,7 +4,7 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 
-select plan(17);
+select plan(21);
 
 -- Start from empty tables so seed.sql rows don't affect the results; rollback restores them.
 truncate public.content_items, public.disciplines, public.skills, public.media_assets,
@@ -141,6 +141,33 @@ select is_empty(
 select is_empty(
   $$ select 1 from public.cv_section_items where item_id = '00000000-0000-0000-0000-000000000001' $$,
   'deleting an item removes it from CVs'
+);
+
+-- Discipline portfolio sections (ADR-019) ---------------------------------------
+select throws_ok(
+  $$ update public.disciplines set sections = array['skills', 'testimonials'] where slug = 'test-discipline-two' $$,
+  '23514', null,
+  'a portfolio can only use known section keys'
+);
+
+select throws_ok(
+  $$ update public.disciplines set sections = array['skills', 'skills'] where slug = 'test-discipline-two' $$,
+  '23514', null,
+  'a portfolio section appears at most once'
+);
+
+select lives_ok(
+  $$ update public.disciplines set sections = array['skills', 'credentials'] where slug = 'test-discipline-two' $$,
+  'a portfolio can choose and reorder its sections'
+);
+
+insert into public.skills (id, slug, name) values ('00000000-0000-0000-0000-0000000000c9', 'test-skill', 'Test skill');
+insert into public.discipline_skills (discipline_id, skill_id)
+  values ('00000000-0000-0000-0000-0000000000d2', '00000000-0000-0000-0000-0000000000c9');
+select throws_ok(
+  $$ delete from public.skills where id = '00000000-0000-0000-0000-0000000000c9' $$,
+  '23503', null,
+  'a skill listed in a portfolio cannot be deleted'
 );
 
 select * from finish();

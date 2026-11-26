@@ -1,14 +1,29 @@
 export type NavItem = { href: string; label: string };
 
-/** Primary navigation (doc 03). Order to be validated with the owner in Phase 3. */
-export const primaryNav: readonly NavItem[] = [
-  { href: "/projects", label: "Work" },
-  { href: "/disciplines", label: "Disciplines" },
-  { href: "/experience", label: "Experience" },
-  { href: "/writing", label: "Writing" },
+/**
+ * Site navigation (ADR-019). The first group is the discipline portfolios, which come
+ * from the database (published disciplines, in their sort order), so adding or
+ * reordering a portfolio is a data change. The second group is the shared pages that
+ * support every portfolio.
+ */
+export const sharedNav: readonly NavItem[] = [
   { href: "/about", label: "About" },
+  { href: "/experience", label: "Experience" },
+  { href: "/credentials", label: "Education" },
+  { href: "/publications", label: "Publications" },
+  { href: "/writing", label: "Writing" },
+  { href: "/projects", label: "All projects" },
   { href: "/contact", label: "Contact" },
 ];
+
+export function portfolioNav(
+  disciplines: ReadonlyArray<{ slug: string; name: string }>,
+): NavItem[] {
+  return disciplines.map(({ slug, name }) => ({
+    href: `/disciplines/${slug}`,
+    label: name,
+  }));
+}
 
 /** True when `pathname` is the item's page or one of its children. */
 export function isActive(href: string, pathname: string | null): boolean {

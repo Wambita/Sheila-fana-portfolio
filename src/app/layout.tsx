@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Sans, JetBrains_Mono, Lora } from "next/font/google";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { listDisciplines } from "@/lib/content";
+import { portfolioNav } from "@/lib/navigation";
 import { site } from "@/lib/site";
 import { themeInitScript } from "@/lib/theme";
 import "@/styles/globals.css";
@@ -27,7 +29,9 @@ export const metadata: Metadata = {
   description: site.positioning,
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  // Published discipline portfolios drive the navbar (ADR-019); cached like any read.
+  const portfolios = portfolioNav(await listDisciplines());
   return (
     <html
       lang="en"
@@ -48,7 +52,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* The page background is static; only the main column scrolls past the sticky
             sidebar (document scrolling, no nested scroll container). */}
         <div className="min-h-dvh md:grid md:grid-cols-[13.5rem_minmax(0,1fr)] lg:grid-cols-[16rem_minmax(0,1fr)] xl:grid-cols-[18rem_minmax(0,1fr)]">
-          <SiteHeader />
+          <SiteHeader portfolios={portfolios} />
           <main
             id="main"
             tabIndex={-1}

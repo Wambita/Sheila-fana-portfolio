@@ -10,6 +10,7 @@ export const contentTags = {
   all: "content",
   profile: "content:profile",
   disciplines: "content:disciplines",
+  skills: "content:skills",
   discipline: (slug: string) => `content:discipline:${slug}`,
   type: (type: ContentType) => `content:type:${type}`,
   item: (type: ContentType, slug: string) => `content:item:${type}:${slug}`,

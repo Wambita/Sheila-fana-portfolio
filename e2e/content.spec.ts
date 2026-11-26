@@ -6,19 +6,25 @@ test("J2: home → discipline → project, with no dead ends", async ({ page }) 
   await page.goto("/");
   await page
     .getByRole("main")
-    .getByRole("link", { name: "[Sample] Discipline A" })
+    .getByRole("link", { name: "[Sample] Discipline A", exact: true })
     .click();
   await expect(
     page.getByRole("heading", { level: 1, name: "[Sample] Discipline A" }),
   ).toBeVisible();
 
-  await page.getByRole("link", { name: "[Sample] Project one" }).click();
+  await page
+    .getByRole("main")
+    .getByRole("link", { name: "[Sample] Project one", exact: true })
+    .click();
   await expect(
     page.getByRole("heading", { level: 1, name: "[Sample] Project one" }),
   ).toBeVisible();
 
   // Back to the discipline from the project's own metadata.
-  await page.getByRole("link", { name: "[Sample] Discipline A" }).click();
+  await page
+    .getByRole("main")
+    .getByRole("link", { name: "[Sample] Discipline A" })
+    .click();
   await expect(page).toHaveURL(/\/disciplines\/sample-discipline-a$/);
 });
 
@@ -100,7 +106,9 @@ test.describe("section navigation", () => {
     await expect(page).toHaveURL(/#problem$/);
     if (isMobile) {
       // The menu closes and the top bar says where you are.
-      await expect(page.getByRole("banner")).toContainText("Work / Problem");
+      await expect(page.getByRole("banner")).toContainText(
+        "All projects / Problem",
+      );
     } else {
       await expect(
         sections.getByRole("link", { name: "Problem" }),
@@ -121,5 +129,104 @@ test.describe("section navigation", () => {
       .toBeGreaterThan(0);
     const box = await page.getByRole("banner").boundingBox();
     expect(Math.abs(Math.round(box?.y ?? -1))).toBe(0);
+  });
+});
+
+test.describe("discipline portfolios (ADR-019)", () => {
+  test("the navbar lists the published portfolios and the shared pages", async ({
+    page,
+    isMobile,
+  }) => {
+    await page.goto("/");
+    if (isMobile) await page.getByRole("button", { name: "Menu" }).click();
+    const nav = page.getByRole("navigation", { name: "Primary" });
+    await expect(
+      nav.getByRole("list", { name: "Portfolios" }).getByRole("link"),
+    ).toHaveText(["[Sample] Discipline A", "[Sample] Discipline B"]);
+    await expect(
+      nav.getByRole("list", { name: "More" }).getByRole("link"),
+    ).toHaveText([
+      "About",
+      "Experience",
+      "Education",
+      "Publications",
+      "Writing",
+      "All projects",
+      "Contact",
+    ]);
+  });
+
+  test("each portfolio follows its own section order", async ({ page }) => {
+    const headings = () =>
+      page.getByRole("main").getByRole("heading", { level: 2 }).allInnerTexts();
+
+    await page.goto("/disciplines/sample-discipline-a");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    expect(await headings()).toEqual([
+      "Capabilities",
+      "Case studies",
+      "Skills",
+      "Experience",
+      "Publications",
+      "Writing",
+    ]);
+
+    await page.goto("/disciplines/sample-discipline-b");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    expect(await headings()).toEqual([
+      "Skills",
+      "Education and credentials",
+      "Experience",
+      "Projects",
+    ]);
+  });
+
+  test("a portfolio stands alone: skills by kind, experience and evidence", async ({
+    page,
+  }) => {
+    await page.goto("/disciplines/sample-discipline-b");
+    const main = page.getByRole("main");
+    await expect(
+      main.getByRole("heading", { name: "Technical skills" }),
+    ).toBeVisible();
+    await expect(
+      main.getByRole("heading", { name: "Professional competencies" }),
+    ).toBeVisible();
+    await expect(
+      main.getByText("[Sample] Facilitator · [Sample] Host"),
+    ).toBeVisible();
+    await expect(main.getByText("[Sample] Issuer")).toBeVisible();
+    // Project one is a case study in A but a plain project here.
+    await expect(
+      main.getByRole("link", { name: "[Sample] Project one", exact: true }),
+    ).toBeVisible();
+    await expect(main.getByText("Read the case study")).toHaveCount(0);
+  });
+
+  test("the homepage summarises everything without repeating the portfolios", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const main = page.getByRole("main");
+    expect(
+      await main.getByRole("heading", { level: 2 }).allInnerTexts(),
+    ).toEqual([
+      "Portfolios",
+      "Selected work",
+      "Skills",
+      "Key experience",
+      "Explore",
+    ]);
+    await expect(
+      main.getByText(
+        "[Sample] Overview placeholder: a short multidisciplinary summary for the homepage.",
+      ),
+    ).toBeVisible();
+    // Highlighted skills only, linked to their portfolio.
+    await expect(main.getByText("[Sample] Skill one")).toBeVisible();
+    await expect(main.getByText("[Sample] Skill two")).toHaveCount(0);
+    await expect(
+      main.getByRole("link", { name: "[Sample] Discipline B portfolio" }),
+    ).toBeVisible();
   });
 });
