@@ -17,34 +17,34 @@ Disciplines are addable through data. The initial labels come from the brand gui
 
 ## Scope summary
 
-| Area | In v1 | Later |
-|---|---|---|
-| Home, About, personal interests | ✅ | |
-| Data-driven discipline pages | ✅ | |
-| Projects, experience, volunteering, community impact | ✅ | |
-| Publications, education, certifications | ✅ | |
-| Stable shareable URLs + reusable focus views | ✅ | |
-| Writing synced from Medium and dev.to | ✅ | |
-| Contact form + email link | ✅ | |
-| ATS-safe CV (web + PDF + .docx) | ✅ (Phase 5) | |
-| Secure admin dashboard | | ✅ (Phase 8) |
-| Dark and light themes | ✅ | |
+| Area                                                 | In v1        | Later        |
+| ---------------------------------------------------- | ------------ | ------------ |
+| Home, About, personal interests                      | ✅           |              |
+| Data-driven discipline pages                         | ✅           |              |
+| Projects, experience, volunteering, community impact | ✅           |              |
+| Publications, education, certifications              | ✅           |              |
+| Stable shareable URLs + reusable focus views         | ✅           |              |
+| Writing synced from Medium and dev.to                | ✅           |              |
+| Contact form + email link                            | ✅           |              |
+| ATS-safe CV (web + PDF + .docx)                      | ✅ (Phase 5) |              |
+| Secure admin dashboard                               |              | ✅ (Phase 8) |
+| Dark and light themes                                | ✅           |              |
 
 ## Document map
 
-| Doc | Contents |
-|---|---|
-| 01 | Problem statement and goals |
-| 02 | Product requirements (PRD), including gaps and open questions |
-| 03 | Information architecture, routes and content model |
-| 04 | Personas and user journeys |
-| brand-style-guide | **Approved brand and visual source of truth** |
-| 05 | Design system (tokens and components derived from the brand guide; contrast findings) |
-| 06 | Technical architecture, security standards and the decision log |
-| 07 | Database design |
-| 08 | Development roadmap, milestones and Git workflow |
-| 09 | Testing, QA, accessibility and documentation standards |
-| 10 | Retrospective, filled in as the project progresses |
+| Doc               | Contents                                                                              |
+| ----------------- | ------------------------------------------------------------------------------------- |
+| 01                | Problem statement and goals                                                           |
+| 02                | Product requirements (PRD), including gaps and open questions                         |
+| 03                | Information architecture, routes and content model                                    |
+| 04                | Personas and user journeys                                                            |
+| brand-style-guide | **Approved brand and visual source of truth**                                         |
+| 05                | Design system (tokens and components derived from the brand guide; contrast findings) |
+| 06                | Technical architecture, security standards and the decision log                       |
+| 07                | Database design                                                                       |
+| 08                | Development roadmap, milestones and Git workflow                                      |
+| 09                | Testing, QA, accessibility and documentation standards                                |
+| 10                | Retrospective, filled in as the project progresses                                    |
 
 ## Ground rules
 

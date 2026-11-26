@@ -60,12 +60,12 @@ Disciplines have no colour field, because the brand guide requires one shared id
 
 ## RLS summary
 
-| Table group | anon | server-only (service role) | admin (Phase 8) |
-|---|---|---|---|
-| content, taxonomies, joins, media, profile, focus views, CVs | SELECT published (or where the parent is published) | — | ALL |
-| contact_messages, rate_limits | none | INSERT / UPDATE | SELECT, UPDATE, DELETE |
-| sync_runs | none | INSERT / UPDATE | SELECT |
-| admins, audit_log | none | — | SELECT (audit) |
+| Table group                                                  | anon                                                | server-only (service role) | admin (Phase 8)        |
+| ------------------------------------------------------------ | --------------------------------------------------- | -------------------------- | ---------------------- |
+| content, taxonomies, joins, media, profile, focus views, CVs | SELECT published (or where the parent is published) | —                          | ALL                    |
+| contact_messages, rate_limits                                | none                                                | INSERT / UPDATE            | SELECT, UPDATE, DELETE |
+| sync_runs                                                    | none                                                | INSERT / UPDATE            | SELECT                 |
+| admins, audit_log                                            | none                                                | —                          | SELECT (audit)         |
 
 pgTAP tests cover each policy (doc 09).
 
