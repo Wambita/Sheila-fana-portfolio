@@ -24,7 +24,9 @@ npx playwright test e2e/shell.spec.ts --project=desktop   # one spec / one viewp
 npm run check          # lint + typecheck + format:check + brand + unit tests
 npx supabase start     # local Supabase (Docker Desktop must be running); Studio on :54323
 npx supabase db reset  # rebuild local DB from supabase/migrations
-npx supabase test db   # pgTAP RLS + constraint tests (supabase/tests/database)
+npx supabase test db   # pgTAP RLS + constraint tests (supabase/tests/database); also `npm run test:db`
+npm run test:integration  # repositories against the local stack + fake seed data (not in `npm test`)
+npm run db:types       # regenerate src/lib/supabase/database.types.ts after a schema change
 ```
 
 Database conventions are in `supabase/CLAUDE.md`.

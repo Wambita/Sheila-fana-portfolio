@@ -31,4 +31,4 @@ Studio runs at http://127.0.0.1:54323. `.env.local` holds the local URL and keys
 
 - Every policy and integrity rule gets a pgTAP test. Tests run in a transaction and roll back.
 - Test fixtures and any `seed.sql` content must be **obviously fake** ("Test project", "Fake bullet"). Never put real or plausible portfolio content in the database from code; Sheila loads real content herself.
-- After a schema change, run `db reset`, `test db` and `db lint`, then regenerate TypeScript types (once the repository layer exists).
+- After a schema change, run `db reset`, `test db` and `db lint`, then `npm run db:types` and `npm run test:integration`. Update the Zod schemas in `src/lib/content/schemas.ts` if selected columns changed.

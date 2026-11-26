@@ -95,6 +95,10 @@ Details of the "published" rule as implemented:
 
 pgTAP tests cover each policy and integrity rule (`supabase/tests/database/`, doc 09).
 
+## Seed data
+
+`supabase/seed.sql` loads local-only rows for development, every one labelled `[Sample]` or using a `sample-` slug, including a draft project, a draft discipline and a draft highlight so the "published only" paths are exercised. It runs on `npx supabase db reset` and is never pushed to the hosted project. Real content is entered by Sheila in Studio.
+
 ## Indexes
 
 `content_items(status, type, sort_date desc)`, `item_disciplines(discipline_id)`, `item_skills(skill_id)`, `articles(source, published_at desc)`, `contact_messages(created_at)`, plus reverse-lookup indexes on every join table's second key and `sync_runs(source, started_at desc)`.

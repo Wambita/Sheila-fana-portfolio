@@ -39,8 +39,9 @@ Contact form ── server action ──► Supabase (contact_messages) + Resend
 ```
 
 - **Rendering:** Next.js 16 **Cache Components** model (ADR-013). Data fetching is dynamic by default, so repository functions opt into caching with `"use cache"` plus `cacheTag(...)`. That lets public pages prerender as static shells. The sync job calls `revalidateTag`, and admin saves (Phase 8) call `updateTag`. Routes stay mounted in React `<Activity>` across navigations, so transient UI state (menus, dialogs, form success messages) must reset itself; see `SiteHeader`.
-- **Data layer:** `src/lib/content/*` repositories are the only code that talks to Supabase. They return Zod-validated domain types. Database types are generated with `supabase gen types`.
-- **Supabase clients:** a public anon client (reads under RLS) and a service-role client restricted to `server-only` modules (sync job and contact inserts). An admin session client arrives in Phase 8.
+- **Data layer:** `src/lib/content/*` repositories are the only code that talks to Supabase (import from `@/lib/content`). They are `server-only`, validate every row with Zod and return camelCase domain types (`schemas.ts`); query errors and schema mismatches throw rather than render empty pages. Empty text is normalised to `null`, and a project's `evidence` contains only sections with text, so the UI hides the rest. Database types are generated into `src/lib/supabase/database.types.ts` with `npm run db:types`.
+- **Cache lifetime:** every repository read uses `cacheLife("hours")` and tags from `src/lib/content/tags.ts` (`content` for everything, plus per-type, per-item, `content:profile` and `content:disciplines` tags). Until the admin dashboard exists, content is edited in Supabase Studio, which can't call `revalidateTag`, so edits appear on the site within about an hour. The sync job and later admin saves invalidate by tag immediately.
+- **Supabase clients:** `src/lib/supabase/public-client.ts` (anon, reads under RLS) and `service-client.ts`, a service-role client restricted to `server-only` modules (sync job and contact inserts). Settings are validated by `env.ts`, which fails with a readable message when they are missing. An admin session client arrives in Phase 8.
 
 ## Articles from Medium and dev.to
 
