@@ -19,7 +19,7 @@ Updated at the end of each phase.
 
 **Pending:** the GitHub default-branch switch to `main` (done by the owner in GitHub settings).
 
-## Phase 1 — Foundations (in review, 2026-11-26)
+## Phase 1 — Foundations (merged, 2026-11-26)
 
 **Done:**
 
