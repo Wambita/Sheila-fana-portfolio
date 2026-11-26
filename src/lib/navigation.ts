@@ -1,14 +1,35 @@
 export type NavItem = { href: string; label: string };
 
-/** Primary navigation (doc 03). Order to be validated with the owner in Phase 3. */
-export const primaryNav: readonly NavItem[] = [
-  { href: "/projects", label: "Work" },
-  { href: "/disciplines", label: "Disciplines" },
-  { href: "/experience", label: "Experience" },
-  { href: "/writing", label: "Writing" },
+/**
+ * Site navigation (ADR-019, refined 2026-11-27).
+ *
+ * - The navbar is the discipline portfolios (published disciplines, from the database)
+ *   plus About and Contact. Each portfolio already contains its own experience,
+ *   publications, writing and credentials, so those are not repeated in the navbar.
+ * - The "full record" pages list everything across disciplines, including work that
+ *   fits no portfolio. They are reached from the footer and the homepage, not the navbar.
+ */
+export const siteNav: readonly NavItem[] = [
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
+
+export const recordPages: readonly NavItem[] = [
+  { href: "/experience", label: "Experience" },
+  { href: "/credentials", label: "Education" },
+  { href: "/publications", label: "Publications" },
+  { href: "/writing", label: "Writing" },
+  { href: "/projects", label: "All projects" },
+];
+
+export function portfolioNav(
+  disciplines: ReadonlyArray<{ slug: string; name: string }>,
+): NavItem[] {
+  return disciplines.map(({ slug, name }) => ({
+    href: `/disciplines/${slug}`,
+    label: name,
+  }));
+}
 
 /** True when `pathname` is the item's page or one of its children. */
 export function isActive(href: string, pathname: string | null): boolean {

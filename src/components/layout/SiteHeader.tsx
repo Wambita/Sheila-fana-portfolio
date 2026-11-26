@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
-import { isActive, primaryNav } from "@/lib/navigation";
+import { isActive, recordPages, siteNav, type NavItem } from "@/lib/navigation";
+import type { PageSection } from "@/lib/sections";
 import { site } from "@/lib/site";
 
 import { useSectionNav } from "./useSectionNav";
@@ -13,10 +14,12 @@ import { useSectionNav } from "./useSectionNav";
 /**
  * Tablet and desktop: a persistent glass sidebar that stays put while the page scrolls.
  * Mobile: a sticky glass top bar showing where you are, with a disclosure menu.
- * One <nav> landmark serves both. The current page's sections are listed under its
- * nav item and the one being read is marked with aria-current="location".
+ * One <nav> landmark holds the discipline portfolios (from the database) and then About
+ * and Contact. Full-record pages are in the footer (ADR-019). The current page's
+ * sections are listed under its nav item (or under "On this page" for pages without
+ * one) and the one being read is marked with aria-current="location".
  */
-export function SiteHeader() {
+export function SiteHeader({ portfolios }: { portfolios: NavItem[] }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -42,9 +45,22 @@ export function SiteHeader() {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
-  const current = primaryNav.find((item) => isActive(item.href, pathname));
+  const navItems = [...portfolios, ...siteNav];
+  const inNav = navItems.some((item) => isActive(item.href, pathname));
+  // For the mobile "where you are" label, full-record pages count too.
+  const current = [...navItems, ...recordPages].find((item) =>
+    isActive(item.href, pathname),
+  );
   const activeSection = sections.find((s) => s.id === activeId);
   const collapsed = open ? "" : "hidden md:block";
+
+  const groupProps = {
+    pathname,
+    sections,
+    activeId,
+    onNavigate: () => setOpen(false),
+    onSection: goToSection,
+  };
 
   return (
     <header className="sticky top-0 z-30 md:flex md:h-dvh md:flex-col md:border-r md:border-glass-border md:glass">
@@ -94,40 +110,26 @@ export function SiteHeader() {
         <nav
           id="site-nav"
           aria-label="Primary"
-          className="px-4 py-4 sm:px-6 md:px-6 md:py-0 lg:px-8"
+          className="flex flex-col gap-6 px-4 py-4 sm:px-6 md:px-6 md:py-0 lg:px-8"
         >
-          <ul className="flex flex-col gap-0.5">
-            {primaryNav.map((item) => {
-              const active = isActive(item.href, pathname);
-              const exact = pathname === item.href;
-              return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    aria-current={exact ? "page" : active ? "true" : undefined}
-                    onNavigate={() => setOpen(false)}
-                    className={`flex min-h-11 items-center border-l-2 pl-3 no-underline transition-colors ${
-                      active
-                        ? "border-fg font-medium text-fg"
-                        : "border-transparent text-fg-muted hover:border-border hover:text-fg"
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                  {active && sections.length > 0 ? (
-                    <SectionLinks
-                      sections={sections}
-                      activeId={activeId}
-                      onNavigate={goToSection}
-                    />
-                  ) : null}
-                </li>
-              );
-            })}
-          </ul>
-          {!current && sections.length > 0 ? (
-            // Home has no nav item of its own: list its sections separately.
-            <div className="mt-6">
+          {portfolios.length > 0 ? (
+            <NavGroup
+              id="nav-portfolios"
+              title="Portfolios"
+              items={portfolios}
+              {...groupProps}
+            />
+          ) : null}
+          <NavGroup
+            id="nav-site"
+            title="Pages"
+            hideTitle
+            items={siteNav}
+            {...groupProps}
+          />
+          {!inNav && sections.length > 0 ? (
+            // Pages without a nav item (home, full record): list their sections here.
+            <div>
               <p
                 aria-hidden="true"
                 className="mb-1 pl-3 font-mono text-xs text-fg-subtle"
@@ -151,12 +153,77 @@ export function SiteHeader() {
   );
 }
 
+function NavGroup({
+  id,
+  title,
+  hideTitle = false,
+  items,
+  pathname,
+  sections,
+  activeId,
+  onNavigate,
+  onSection,
+}: {
+  id: string;
+  title: string;
+  /** Name the list for screen readers only (a caption would just repeat an item). */
+  hideTitle?: boolean;
+  items: readonly NavItem[];
+  pathname: string | null;
+  sections: PageSection[];
+  activeId: string | null;
+  onNavigate: () => void;
+  onSection: (id: string) => void;
+}) {
+  return (
+    <div>
+      <p
+        id={id}
+        className={
+          hideTitle ? "sr-only" : "mb-1 pl-3 font-mono text-xs text-fg-subtle"
+        }
+      >
+        {title}
+      </p>
+      <ul aria-labelledby={id} className="flex flex-col gap-0.5">
+        {items.map((item) => {
+          const active = isActive(item.href, pathname);
+          const exact = pathname === item.href;
+          return (
+            <li key={item.href}>
+              <Link
+                href={item.href}
+                aria-current={exact ? "page" : active ? "true" : undefined}
+                onNavigate={onNavigate}
+                className={`flex min-h-11 items-center border-l-2 pl-3 no-underline transition-colors md:min-h-10 ${
+                  active
+                    ? "border-fg font-medium text-fg"
+                    : "border-transparent text-fg-muted hover:border-border hover:text-fg"
+                }`}
+              >
+                {item.label}
+              </Link>
+              {active && sections.length > 0 ? (
+                <SectionLinks
+                  sections={sections}
+                  activeId={activeId}
+                  onNavigate={onSection}
+                />
+              ) : null}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
 function SectionLinks({
   sections,
   activeId,
   onNavigate,
 }: {
-  sections: { id: string; label: string }[];
+  sections: PageSection[];
   activeId: string | null;
   onNavigate: (id: string) => void;
 }) {

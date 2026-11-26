@@ -362,12 +362,48 @@ export type Database = {
         };
         Relationships: [];
       };
+      discipline_skills: {
+        Row: {
+          discipline_id: string;
+          skill_id: string;
+          sort_order: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          discipline_id: string;
+          skill_id: string;
+          sort_order?: number;
+        };
+        Update: {
+          discipline_id?: string;
+          skill_id?: string;
+          sort_order?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "discipline_skills_discipline_id_fkey";
+            columns: ["discipline_id"];
+            isOneToOne: false;
+            referencedRelation: "disciplines";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "discipline_skills_skill_id_fkey";
+            columns: ["skill_id"];
+            isOneToOne: false;
+            referencedRelation: "skills";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       disciplines: {
         Row: {
+          capabilities: string[];
           created_at: string;
           id: string;
           intro: string | null;
           name: string;
+          sections: string[];
           slug: string;
           sort_order: number;
           status: Database["public"]["Enums"]["publish_status"];
@@ -376,10 +412,12 @@ export type Database = {
         };
         ComputedFields: never;
         Insert: {
+          capabilities?: string[];
           created_at?: string;
           id?: string;
           intro?: string | null;
           name: string;
+          sections?: string[];
           slug: string;
           sort_order?: number;
           status?: Database["public"]["Enums"]["publish_status"];
@@ -387,10 +425,12 @@ export type Database = {
           updated_at?: string;
         };
         Update: {
+          capabilities?: string[];
           created_at?: string;
           id?: string;
           intro?: string | null;
           name?: string;
+          sections?: string[];
           slug?: string;
           sort_order?: number;
           status?: Database["public"]["Enums"]["publish_status"];
@@ -685,6 +725,7 @@ export type Database = {
         Row: {
           discipline_id: string;
           emphasis_note: string | null;
+          featured: boolean;
           is_primary: boolean;
           item_id: string;
           sort_order: number;
@@ -693,6 +734,7 @@ export type Database = {
         Insert: {
           discipline_id: string;
           emphasis_note?: string | null;
+          featured?: boolean;
           is_primary?: boolean;
           item_id: string;
           sort_order?: number;
@@ -700,6 +742,7 @@ export type Database = {
         Update: {
           discipline_id?: string;
           emphasis_note?: string | null;
+          featured?: boolean;
           is_primary?: boolean;
           item_id?: string;
           sort_order?: number;
@@ -896,6 +939,7 @@ export type Database = {
           id: boolean;
           links: NonNullable<Json>;
           location: string | null;
+          overview: string | null;
           updated_at: string;
         };
         ComputedFields: never;
@@ -907,6 +951,7 @@ export type Database = {
           id?: boolean;
           links?: NonNullable<Json>;
           location?: string | null;
+          overview?: string | null;
           updated_at?: string;
         };
         Update: {
@@ -917,6 +962,7 @@ export type Database = {
           id?: boolean;
           links?: NonNullable<Json>;
           location?: string | null;
+          overview?: string | null;
           updated_at?: string;
         };
         Relationships: [
@@ -1053,30 +1099,80 @@ export type Database = {
         };
         Relationships: [];
       };
-      skills: {
+      skill_categories: {
         Row: {
           created_at: string;
+          discipline_id: string | null;
           id: string;
           name: string;
-          skill_group: string | null;
           slug: string;
+          sort_order: number;
         };
         ComputedFields: never;
         Insert: {
           created_at?: string;
+          discipline_id?: string | null;
           id?: string;
           name: string;
-          skill_group?: string | null;
           slug: string;
+          sort_order?: number;
         };
         Update: {
           created_at?: string;
+          discipline_id?: string | null;
           id?: string;
           name?: string;
-          skill_group?: string | null;
+          slug?: string;
+          sort_order?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "skill_categories_discipline_id_fkey";
+            columns: ["discipline_id"];
+            isOneToOne: false;
+            referencedRelation: "disciplines";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      skills: {
+        Row: {
+          category_id: string | null;
+          created_at: string;
+          highlighted: boolean;
+          id: string;
+          kind: Database["public"]["Enums"]["skill_kind"];
+          name: string;
+          slug: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          category_id?: string | null;
+          created_at?: string;
+          highlighted?: boolean;
+          id?: string;
+          kind?: Database["public"]["Enums"]["skill_kind"];
+          name: string;
+          slug: string;
+        };
+        Update: {
+          category_id?: string | null;
+          created_at?: string;
+          highlighted?: boolean;
+          id?: string;
+          kind?: Database["public"]["Enums"]["skill_kind"];
+          name?: string;
           slug?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "skills_category_id_fkey";
+            columns: ["category_id"];
+            isOneToOne: false;
+            referencedRelation: "skill_categories";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       sync_runs: {
         Row: {
@@ -1111,6 +1207,7 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      has_no_duplicates: { Args: { items: string[] }; Returns: boolean };
       is_published_item: { Args: { p_item_id: string }; Returns: boolean };
     };
     Enums: {
@@ -1136,6 +1233,7 @@ export type Database = {
       experience_kind: "employment" | "volunteering" | "community";
       item_relation: "about" | "derived_from" | "part_of" | "related";
       publish_status: "draft" | "published";
+      skill_kind: "technical" | "tool" | "competency";
     };
     CompositeTypes: {
       [_ in never]: never;
@@ -1290,6 +1388,7 @@ export const Constants = {
       experience_kind: ["employment", "volunteering", "community"],
       item_relation: ["about", "derived_from", "part_of", "related"],
       publish_status: ["draft", "published"],
+      skill_kind: ["technical", "tool", "competency"],
     },
   },
 } as const;

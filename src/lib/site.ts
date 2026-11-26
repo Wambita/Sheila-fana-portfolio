@@ -6,6 +6,6 @@
 export const site = {
   name: "Wambita Sheila Fana",
   positioning:
-    "A multidisciplinary technologist working across design, software, cybersecurity, research and emerging technologies.",
+    "Full-stack developer working at the intersection of design, code and security, building user-centred, secure systems.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
 } as const;

@@ -7,13 +7,15 @@ import { createPublicClient } from "@/lib/supabase/public-client";
 import { parseRow, parseRows } from "./query";
 import {
   disciplineSchema,
+  ITEM_DETAIL_COLUMNS,
   itemSummarySchema,
   type Discipline,
   type ItemSummary,
 } from "./schemas";
 import { contentTags } from "./tags";
 
-const DISCIPLINE_COLUMNS = "slug, name, tagline, intro, sort_order";
+const DISCIPLINE_COLUMNS =
+  "slug, name, tagline, intro, sort_order, capabilities, sections";
 
 /** Published disciplines in display order. */
 export async function listDisciplines(): Promise<Discipline[]> {
@@ -65,7 +67,8 @@ export async function listItemsForDiscipline(
     .from("content_items")
     .select(
       `type, slug, title, summary, featured, sort_date,
-       link:item_disciplines!inner(emphasis_note, sort_order, discipline:disciplines!inner(slug))`,
+       link:item_disciplines!inner(emphasis_note, sort_order, featured, discipline:disciplines!inner(slug)),
+       ${ITEM_DETAIL_COLUMNS}`,
     )
     .eq("link.discipline.slug", slug)
     .neq("type", "interest")
